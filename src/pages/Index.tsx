@@ -10,9 +10,12 @@ import RetroTaskbar from "@/components/ui/retro-taskbar";
 
 const Index = () => {
   return (
-    <div className="min-h-screen bg-background">
+    <div className="min-h-screen bg-background crt-screen crt-flicker crt-rgb-shift">
+      {/* CRT Scanlines Overlay */}
+      <div className="crt-scanlines" aria-hidden="true" />
+      
       <Navbar />
-      <main>
+      <main className="crt-phosphor">
         <Hero />
         <About />
         <Skills />
