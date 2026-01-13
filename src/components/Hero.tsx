@@ -28,7 +28,7 @@ const Hero = () => {
           and build AI systems that hold up under compliance, security, and real-world pressure.
         </p>
 
-        <div className="animate-fade-up opacity-0 delay-300 flex items-center gap-3 mb-6">
+        <div className="animate-fade-up opacity-0 delay-300 gap-3 mb-6 flex items-start justify-start">
           <a href="https://www.linkedin.com/in/ik11/" target="_blank" rel="noopener noreferrer" className="p-2 border border-border text-muted-foreground hover:text-foreground hover:border-accent transition-colors bg-fuchsia-700 rounded-sm">
             <Linkedin className="w-4 h-4 text-slate-50" />
           </a>
