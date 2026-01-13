@@ -31,30 +31,7 @@ const Navbar = () => {
     setOpen(false);
   };
   return <header className={`fixed top-0 left-0 right-0 z-40 transition-all duration-300 ${scrolled ? "bg-background/90 backdrop-blur-md shadow-md" : "bg-transparent"}`}>
-      <nav className="container mx-auto px-4 py-4 flex items-center justify-between">
-        <a href="#" className="text-xl font-bold text-primary">
-          Portfolio
-        </a>
-
-        {/* Desktop Navigation */}
-        
-
-        {/* Mobile Navigation */}
-        <Sheet open={open} onOpenChange={setOpen}>
-          <SheetTrigger asChild className="md:hidden">
-            <button aria-label="Open menu">
-              <Menu className="w-6 h-6" />
-            </button>
-          </SheetTrigger>
-          <SheetContent side="right" className="w-64">
-            <div className="flex flex-col gap-4 mt-8">
-              {navLinks.map(link => <a key={link.href} href={link.href} onClick={handleLinkClick} className="text-lg text-foreground/80 hover:text-primary transition-colors">
-                  {link.label}
-                </a>)}
-            </div>
-          </SheetContent>
-        </Sheet>
-      </nav>
+      
     </header>;
 };
 export default Navbar;

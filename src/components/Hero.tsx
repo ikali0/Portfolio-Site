@@ -29,10 +29,10 @@ const Hero = () => {
         </p>
 
         <div className="animate-fade-up opacity-0 delay-300 flex items-center gap-3 mb-6">
-          <a href="https://www.linkedin.com/in/ik11/" target="_blank" rel="noopener noreferrer" className="p-2 border border-border rounded-full text-muted-foreground hover:text-foreground hover:border-accent transition-colors bg-fuchsia-700">
+          <a href="https://www.linkedin.com/in/ik11/" target="_blank" rel="noopener noreferrer" className="p-2 border border-border text-muted-foreground hover:text-foreground hover:border-accent transition-colors bg-fuchsia-700 rounded-sm">
             <Linkedin className="w-4 h-4 text-slate-50" />
           </a>
-          <a href="mailto:altruisticxai@gmail.com" className="p-2 border border-border rounded-full text-muted-foreground hover:text-foreground hover:border-accent transition-colors bg-orange-400">
+          <a href="mailto:altruisticxai@gmail.com" className="p-2 border border-border text-muted-foreground hover:text-foreground hover:border-accent transition-colors bg-orange-400 rounded-sm">
             <Mail className="w-4 h-4 text-slate-50" />
           </a>
         </div>

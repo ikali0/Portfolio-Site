@@ -8,17 +8,9 @@
  */
 import { Mail, Linkedin, Download, ExternalLink } from "lucide-react";
 import ContactForm from "./ContactForm";
-
 const Contact = () => {
-  const services = [
-    "Full-stack web development",
-    "AI/ML integration & consulting",
-    "Technical architecture & code review",
-    "UI/UX design implementation",
-  ];
-
-  return (
-    <section id="contact" className="py-24 px-4 bg-card pb-32">
+  const services = ["Full-stack web development", "AI/ML integration & consulting", "Technical architecture & code review", "UI/UX design implementation"];
+  return <section id="contact" className="py-24 px-4 pb-32 bg-slate-50">
       <div className="container mx-auto max-w-5xl">
         <p className="text-sm uppercase tracking-widest text-accent font-medium mb-3 text-center">
           Get In Touch
@@ -55,15 +47,10 @@ const Contact = () => {
               </div>
               <div className="p-4">
                 <ul className="space-y-2">
-                  {services.map((service, index) => (
-                    <li
-                      key={index}
-                      className="flex items-start gap-3 text-foreground"
-                    >
+                  {services.map((service, index) => <li key={index} className="flex items-start gap-3 text-foreground">
                       <span className="text-accent font-medium">→</span>
                       <span className="text-sm">{service}</span>
-                    </li>
-                  ))}
+                    </li>)}
                 </ul>
               </div>
             </div>
@@ -74,28 +61,17 @@ const Contact = () => {
                 <span className="font-bold text-sm">Quick Links</span>
               </div>
               <div className="p-4 space-y-3">
-                <a
-                  href="mailto:altruisticxai@gmail.com"
-                  className="retro-link-button"
-                >
+                <a href="mailto:altruisticxai@gmail.com" className="retro-link-button">
                   <Mail className="w-4 h-4" />
                   <span>altruisticxai@gmail.com</span>
                   <ExternalLink className="w-3 h-3 ml-auto opacity-50" />
                 </a>
-                <a
-                  href="https://www.linkedin.com/in/ik11/"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="retro-link-button"
-                >
+                <a href="https://www.linkedin.com/in/ik11/" target="_blank" rel="noopener noreferrer" className="retro-link-button">
                   <Linkedin className="w-4 h-4" />
                   <span>LinkedIn Profile</span>
                   <ExternalLink className="w-3 h-3 ml-auto opacity-50" />
                 </a>
-                <a
-                  href="#"
-                  className="retro-link-button"
-                >
+                <a href="#" className="retro-link-button">
                   <Download className="w-4 h-4" />
                   <span>Download Resume</span>
                   <ExternalLink className="w-3 h-3 ml-auto opacity-50" />
@@ -105,8 +81,6 @@ const Contact = () => {
           </div>
         </div>
       </div>
-    </section>
-  );
+    </section>;
 };
-
 export default Contact;
