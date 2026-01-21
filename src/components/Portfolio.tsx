@@ -99,16 +99,16 @@ function ProjectCardBack({
 }) {
   return <div className="flex flex-col h-full w-full rounded-md bg-card relative overflow-hidden">
       {/* Notebook spiral binding effect */}
-      <div className="absolute left-0 top-0 bottom-0 w-3 md:w-4 bg-muted/60 border-r border-border flex flex-col justify-around py-2 z-10">
+      <div className="absolute left-0 top-0 bottom-0 w-3 md:w-4 bg-muted/60 border-r border-border flex flex-col justify-around z-10 py-[6px] mx-[4px]">
         {[...Array(5)].map((_, i) => <div key={i} className="w-1.5 h-1.5 md:w-2 md:h-2 rounded-full bg-border mx-auto" />)}
       </div>
       
       {/* Content */}
-      <div className="ml-3 md:ml-4 flex-1 p-2 md:p-3 flex flex-col justify-center items-center text-center" style={{
+      <div className="ml-3 md:ml-4 flex-1 p-2 md:p-3 flex flex-col justify-center items-center text-center py-[14px] px-[14px] mx-[12px] my-[6px]" style={{
       backgroundImage: 'repeating-linear-gradient(transparent, transparent 11px, hsl(var(--border) / 0.3) 11px, hsl(var(--border) / 0.3) 12px)',
       backgroundSize: '100% 12px'
     }}>
-        <p className="text-[7px] md:text-[9px] leading-relaxed line-clamp-5 mb-2 text-black">
+        <p className="text-[7px] leading-relaxed line-clamp-5 mb-2 text-black md:text-sm">
           {project.description}
         </p>
         {project.live && <a href={project.live} target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-1 bg-primary text-primary-foreground px-2 py-0.5 rounded text-[7px] md:text-[8px] hover:bg-primary/90 transition-colors shadow-sm">

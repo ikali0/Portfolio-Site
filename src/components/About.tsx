@@ -45,8 +45,8 @@ function CardBack({
 }: {
   data: HighlightData;
 }) {
-  return <div className="flex flex-col items-center justify-center h-full w-full p-2 sm:p-3 text-center bg-secondary/80 rounded-md">
-      <p className="text-[8px] sm:text-[10px] leading-snug text-secondary-foreground">
+  return <div className="flex flex-col items-center justify-center h-full w-full p-2 sm:p-3 text-center rounded-md bg-pink-300">
+      <p className="text-[8px] sm:text-[10px] leading-snug text-black">
         {data.backDescription}
       </p>
     </div>;
