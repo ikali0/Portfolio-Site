@@ -11,12 +11,12 @@
  * - VITE_EMAILJS_PUBLIC_KEY: Your EmailJS public key (safe for client-side)
  * - VITE_EMAILJS_SERVICE_ID: Your EmailJS service ID (safe for client-side)
  */
-import { useState } from "react";
+import { useState, useCallback } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
 import emailjs from "@emailjs/browser";
-import { Send, Loader2, CheckCircle, AlertCircle } from "lucide-react";
+import { Send, Loader2, CheckCircle, AlertCircle, Clock } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
@@ -25,6 +25,65 @@ import { useToast } from "@/hooks/use-toast";
 
 // EmailJS template ID
 const EMAILJS_TEMPLATE_ID = "portfolio_form11";
+
+// Rate limiting configuration
+const RATE_LIMIT_KEY = "contact_form_submissions";
+const MAX_SUBMISSIONS = 3; // Max submissions allowed
+const RATE_LIMIT_WINDOW_MS = 60 * 60 * 1000; // 1 hour window
+
+/**
+ * Checks if the user has exceeded the rate limit
+ * @returns Object with isLimited flag and remainingTime in seconds
+ */
+const checkRateLimit = (): { isLimited: boolean; remainingTime: number } => {
+  try {
+    const stored = localStorage.getItem(RATE_LIMIT_KEY);
+    if (!stored) return { isLimited: false, remainingTime: 0 };
+
+    const submissions: number[] = JSON.parse(stored);
+    const now = Date.now();
+    
+    // Filter out expired submissions
+    const validSubmissions = submissions.filter(
+      (timestamp) => now - timestamp < RATE_LIMIT_WINDOW_MS
+    );
+
+    if (validSubmissions.length >= MAX_SUBMISSIONS) {
+      const oldestSubmission = Math.min(...validSubmissions);
+      const resetTime = oldestSubmission + RATE_LIMIT_WINDOW_MS;
+      const remainingMs = resetTime - now;
+      return { 
+        isLimited: true, 
+        remainingTime: Math.ceil(remainingMs / 1000) 
+      };
+    }
+
+    return { isLimited: false, remainingTime: 0 };
+  } catch {
+    return { isLimited: false, remainingTime: 0 };
+  }
+};
+
+/**
+ * Records a new submission timestamp
+ */
+const recordSubmission = (): void => {
+  try {
+    const stored = localStorage.getItem(RATE_LIMIT_KEY);
+    const submissions: number[] = stored ? JSON.parse(stored) : [];
+    const now = Date.now();
+    
+    // Filter expired and add new
+    const validSubmissions = submissions.filter(
+      (timestamp) => now - timestamp < RATE_LIMIT_WINDOW_MS
+    );
+    validSubmissions.push(now);
+    
+    localStorage.setItem(RATE_LIMIT_KEY, JSON.stringify(validSubmissions));
+  } catch {
+    // Silently fail if localStorage is unavailable
+  }
+};
 
 /**
  * Validation schema for contact form
@@ -55,7 +114,7 @@ export const contactFormSchema = z.object({
 
 export type ContactFormData = z.infer<typeof contactFormSchema>;
 
-type FormStatus = "idle" | "sending" | "success" | "error";
+type FormStatus = "idle" | "sending" | "success" | "error" | "rate_limited";
 
 interface ContactFormProps {
   className?: string;
@@ -64,6 +123,7 @@ interface ContactFormProps {
 const ContactForm = ({ className }: ContactFormProps) => {
   const [status, setStatus] = useState<FormStatus>("idle");
   const [errorMessage, setErrorMessage] = useState<string>("");
+  const [rateLimitTime, setRateLimitTime] = useState<number>(0);
   const { toast } = useToast();
 
   const {
@@ -77,9 +137,31 @@ const ContactForm = ({ className }: ContactFormProps) => {
   });
 
   /**
+   * Formats remaining time for display
+   */
+  const formatRemainingTime = useCallback((seconds: number): string => {
+    if (seconds < 60) return `${seconds} seconds`;
+    const minutes = Math.ceil(seconds / 60);
+    return `${minutes} minute${minutes > 1 ? 's' : ''}`;
+  }, []);
+
+  /**
    * Handles form submission and sends email via EmailJS browser SDK
    */
   const onSubmit = async (data: ContactFormData) => {
+    // Check rate limit before proceeding
+    const { isLimited, remainingTime } = checkRateLimit();
+    if (isLimited) {
+      setStatus("rate_limited");
+      setRateLimitTime(remainingTime);
+      toast({
+        title: "Too Many Requests",
+        description: `Please wait ${formatRemainingTime(remainingTime)} before sending another message.`,
+        variant: "destructive",
+      });
+      return;
+    }
+
     setStatus("sending");
     setErrorMessage("");
 
@@ -103,6 +185,9 @@ const ContactForm = ({ className }: ContactFormProps) => {
         },
         { publicKey }
       );
+
+      // Record successful submission for rate limiting
+      recordSubmission();
 
       setStatus("success");
       reset();
@@ -132,6 +217,7 @@ const ContactForm = ({ className }: ContactFormProps) => {
   };
 
   const isSending = status === "sending";
+  const isRateLimited = status === "rate_limited";
 
   return (
     <div className={className}>
@@ -222,10 +308,19 @@ const ContactForm = ({ className }: ContactFormProps) => {
           </div>
         )}
 
+        {status === "rate_limited" && (
+          <div className="flex items-center gap-2 p-3 rounded-md bg-accent/20 text-accent-foreground border border-accent/50">
+            <Clock className="w-5 h-5" />
+            <span className="text-sm">
+              Too many requests. Please wait {formatRemainingTime(rateLimitTime)} before trying again.
+            </span>
+          </div>
+        )}
+
         {/* Submit Button */}
         <Button
           type="submit"
-          disabled={isSending || !isValid}
+          disabled={isSending || isRateLimited || !isValid}
           className="retro-button w-full"
         >
           {isSending ? (
