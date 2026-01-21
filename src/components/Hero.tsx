@@ -16,7 +16,7 @@ const Hero = () => {
         </div>
 
         <h1 className="animate-fade-up opacity-0 delay-100 font-display text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-medium text-foreground mb-5 sm:mb-4 text-balance leading-tight">
-          Inga Kaltak
+          Inga K. 
         </h1>
 
         <p className="animate-fade-up opacity-0 delay-200 text-base sm:text-lg md:text-xl font-light mb-8 sm:mb-6 max-w-xl mx-auto sm:mx-0 leading-relaxed text-slate-950">
