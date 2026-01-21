@@ -1,202 +1,142 @@
-import React, { useState } from "react";
 import { ExternalLink } from "lucide-react";
 import { FlippingCard } from "@/components/ui/flipping-card";
-import { motion, AnimatePresence } from "framer-motion";
-import EntropyBackground from "@/components/EntropyBackground";
-import { cn } from "@/lib/utils";
 
-/** * Interface for Project Data
- */
+// Import generated images
+import ethicsDashboard from "@/assets/portfolio-ethics-dashboard.jpg";
+import governance from "@/assets/portfolio-governance.jpg";
+import stakeholder from "@/assets/portfolio-stakeholder.jpg";
+import biasDetection from "@/assets/portfolio-bias-detection.jpg";
+import decisionFramework from "@/assets/portfolio-decision-framework.jpg";
+import tutoring from "@/assets/portfolio-tutoring.jpg";
 interface ProjectData {
   title: string;
   description: string;
   image: string;
   tags: string[];
+  github?: string;
   live?: string;
-  category: string;
 }
-
-const CATEGORIES = ["All", "AI Ethics", "Governance", "Security", "Services"];
-
-// CSS Variable fallback for the notebook lines
-const LINE_HEIGHT_CSS = "clamp(18px, 4vw, 24px)";
-const NOTEBOOK_BG = `repeating-linear-gradient(transparent, transparent calc(${LINE_HEIGHT_CSS} - 1px), hsl(var(--border) / 0.3) calc(${LINE_HEIGHT_CSS} - 1px), hsl(var(--border) / 0.3) ${LINE_HEIGHT_CSS})`;
-
-const projects: ProjectData[] = [
-  {
-    title: "Tutoring & Applied Services",
-    description: "AI-driven academic support platform providing personalized learning experiences and pedagogical alignment.",
-    image: "https://images.unsplash.com/photo-1517842645767-c639042777db?auto=format&fit=crop&q=80&w=800", 
-    tags: ["React", "AI"],
-    live: "https://studii.lovable.app",
-    category: "Services"
-  },
-  {
-    title: "Red-Team Llama Engine",
-    description: "Security auditing suite for open-source LLMs. Includes automated prompt injection and jailbreak detection tests.",
-    image: "https://images.unsplash.com/photo-1550751827-4bd374c3f58b?auto=format&fit=crop&q=80&w=800",
-    tags: ["Llama-3", "Security"],
-    category: "Security"
-  },
-  {
-    title: "NIST RMF Dashboard",
-    description: "Governance tool for mapping AI outputs to NIST Risk Management Framework standards for enterprise compliance.",
-    image: "https://images.unsplash.com/photo-1454165833772-d996d49513d2?auto=format&fit=crop&q=80&w=800",
-    tags: ["Next.js", "Policy"],
-    category: "Governance"
-  },
-  {
-    title: "Bias Detection API",
-    description: "High-performance API designed to monitor real-time decision chains for systemic bias and logic drift.",
-    image: "https://images.unsplash.com/photo-1504868584819-f8e90526354c?auto=format&fit=crop&q=80&w=800",
-    tags: ["Python", "FastAPI"],
-    category: "AI Ethics"
-  }
-];
-
-function ProjectCardFront({ project }: { project: ProjectData }) {
-  return (
-    <div className="flex flex-col h-full w-full overflow-hidden rounded-sm bg-[#fffdfa] border border-slate-300 shadow-sm relative group">
-      {/* Spiral Binding */}
-      <div className="absolute left-0 top-0 bottom-0 w-[12%] max-w-[32px] bg-slate-200/50 border-r border-slate-300 flex flex-col justify-around py-4 z-20">
-        {[...Array(6)].map((_, i) => (
-          <div key={i} className="w-[40%] aspect-square rounded-full bg-slate-400/40 shadow-inner mx-auto" />
-        ))}
+const projects: ProjectData[] = [{
+  title: "AI Ethics Dashboard",
+  description: "Interactive platform for monitoring and auditing AI systems for fairness, transparency, and accountability metrics.",
+  image: ethicsDashboard,
+  tags: ["React", "Python"],
+  github: "https://github.com",
+  live: "https://example.com"
+}, {
+  title: "Governance Framework",
+  description: "Tool for organizations to create and implement AI governance policies with automated compliance checking.",
+  image: governance,
+  tags: ["Next.js", "TypeScript"],
+  github: "https://github.com",
+  live: "https://example.com"
+}, {
+  title: "Stakeholder Mapping",
+  description: "Visual tool for mapping stakeholder interests, power dynamics, and potential conflicts in tech deployment.",
+  image: stakeholder,
+  tags: ["React", "Force Graph"],
+  github: "https://github.com"
+}, {
+  title: "Bias Detection API",
+  description: "RESTful API service for detecting and measuring various types of bias in datasets and model outputs.",
+  image: biasDetection,
+  tags: ["Python", "FastAPI"],
+  github: "https://github.com",
+  live: "https://example.com"
+}, {
+  title: "Decision Framework",
+  description: "Mobile-first application helping teams make ethical decisions under time pressure with structured frameworks.",
+  image: decisionFramework,
+  tags: ["React Native", "Firebase"],
+  github: "https://github.com"
+}, {
+  title: "Tutoring & Applied Services",
+  description: "AI-powered tutoring platform providing personalized learning experiences and academic support services.",
+  image: tutoring,
+  tags: ["React", "AI"],
+  github: "https://github.com",
+  live: "https://studii.lovable.app"
+}];
+function ProjectCardFront({
+  project
+}: {
+  project: ProjectData;
+}) {
+  return <div className="flex flex-col h-full w-full overflow-hidden rounded-md bg-card">
+      {/* Notebook spiral binding effect */}
+      <div className="absolute left-0 top-0 bottom-0 w-3 md:w-4 bg-muted/60 border-r border-border flex flex-col justify-around py-2">
+        {[...Array(5)].map((_, i) => <div key={i} className="w-1.5 h-1.5 md:w-2 md:h-2 rounded-full bg-border mx-auto" />)}
       </div>
       
-      <div className="ml-[12%] md:ml-8 flex flex-col h-full relative">
-        {/* Washi Tape Effect */}
-        <div className="absolute top-2 left-1/2 -translate-x-1/2 w-12 h-4 bg-fuchsia-500/10 backdrop-blur-[2px] -rotate-2 z-30 border-x border-white/20" />
-        
-        <div className="aspect-[16/11] overflow-hidden border-b border-slate-200">
-          <img 
-            src={project.image} 
-            alt={project.title} 
-            className="w-full h-full object-cover grayscale-[20%] group-hover:grayscale-0 transition-all duration-700 ease-in-out" 
-          />
+      {/* Content with notebook margin */}
+      <div className="ml-3 md:ml-4 flex flex-col h-full">
+        {/* Image */}
+        <div className="aspect-[16/10] overflow-hidden border-b border-border/50">
+          <img src={project.image} alt={project.title} className="w-full h-full object-cover" />
         </div>
         
-        <div className="flex-1 p-2 md:p-3" style={{ backgroundImage: NOTEBOOK_BG, backgroundSize: `100% ${LINE_HEIGHT_CSS}` }}>
-          <h3 className="text-[min(3vw,13px)] md:text-sm font-bold text-slate-900 uppercase tracking-tight truncate">
+        {/* Notebook lines effect */}
+        <div className="flex-1 p-1.5 md:p-2 relative" style={{
+        backgroundImage: 'repeating-linear-gradient(transparent, transparent 11px, hsl(var(--border) / 0.3) 11px, hsl(var(--border) / 0.3) 12px)',
+        backgroundSize: '100% 12px'
+      }}>
+          <h3 className="text-[9px] md:text-[11px] font-medium text-foreground leading-tight line-clamp-1">
             {project.title}
           </h3>
-          <div className="flex flex-wrap gap-1 mt-1">
-            {project.tags.slice(0, 2).map(tag => (
-              <span key={tag} className="text-[min(2.5vw,9px)] font-mono text-fuchsia-600 bg-fuchsia-50 px-1 border border-fuchsia-100 uppercase">
+          <div className="flex flex-wrap gap-0.5 mt-1">
+            {project.tags.map(tag => <span key={tag} className="text-[6px] md:text-[8px] text-primary bg-primary/10 px-1 py-0.5 rounded border border-primary/20">
                 {tag}
-              </span>
-            ))}
+              </span>)}
           </div>
         </div>
       </div>
-    </div>
-  );
+    </div>;
 }
-
-function ProjectCardBack({ project }: { project: ProjectData }) {
-  return (
-    <div className="flex flex-col h-full w-full rounded-sm bg-[#fffdfa] border border-slate-300 shadow-md relative overflow-hidden">
-      <div className="absolute left-0 top-0 bottom-0 w-[12%] max-w-[32px] bg-slate-200/50 border-r border-slate-300 flex flex-col justify-around py-4 z-20">
-        {[...Array(6)].map((_, i) => (
-          <div key={i} className="w-[40%] aspect-square rounded-full bg-slate-400/40 shadow-inner mx-auto" />
-        ))}
+function ProjectCardBack({
+  project
+}: {
+  project: ProjectData;
+}) {
+  return <div className="flex-col h-full w-full rounded-md bg-card relative overflow-hidden flex items-center justify-start gap-[11px] px-[11px] py-[6px]">
+      {/* Notebook spiral binding effect */}
+      <div className="absolute left-0 top-0 bottom-0 w-3 md:w-4 bg-muted/60 border-r border-border flex flex-col justify-around z-10 py-[6px] mx-[4px]">
+        {[...Array(5)].map((_, i) => <div key={i} className="w-1.5 h-1.5 md:w-2 md:h-2 rounded-full bg-border mx-auto" />)}
       </div>
       
-      <div 
-        className="ml-[12%] md:ml-8 flex-1 p-3 md:p-4 border-l border-red-200/60" 
-        style={{ backgroundImage: NOTEBOOK_BG, backgroundSize: `100% ${LINE_HEIGHT_CSS}` }}
-      >
-        <p className="text-[min(2.8vw,11px)] md:text-xs text-slate-700 font-medium italic leading-[1.6] line-clamp-6">
+      {/* Content */}
+      <div className="ml-3 md:ml-4 flex-1 p-2 md:p-3 flex flex-col justify-center items-center text-center py-[14px] px-[14px] mx-[12px] my-[6px]" style={{
+      backgroundImage: 'repeating-linear-gradient(transparent, transparent 11px, hsl(var(--border) / 0.3) 11px, hsl(var(--border) / 0.3) 12px)',
+      backgroundSize: '100% 12px'
+    }}>
+        <p className="text-[7px] leading-relaxed line-clamp-5 mb-2 text-black text-center mx-[8px] my-[10px] px-[8px] py-[10px] md:text-sm">
           {project.description}
         </p>
-        <div className="absolute bottom-2 right-2 md:bottom-4 md:right-4 z-30">
-          {project.live && (
-            <a 
-              href={project.live} 
-              target="_blank" 
-              rel="noopener noreferrer" 
-              className="inline-flex items-center gap-1 bg-slate-900 text-white px-2 py-1 md:px-3 md:py-1.5 rounded-sm text-[9px] md:text-[10px] hover:bg-fuchsia-600 transition-colors shadow-lg active:scale-95"
-            >
-              Launch <ExternalLink className="w-3 h-3 md:w-4 md:h-4" />
-            </a>
-          )}
-        </div>
+        {project.live && <a href={project.live} target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-1 bg-primary text-primary-foreground px-2 py-0.5 rounded text-[7px] md:text-[8px] hover:bg-primary/90 transition-colors shadow-sm">
+            View <ExternalLink className="w-2 h-2" />
+          </a>}
       </div>
-    </div>
-  );
+    </div>;
 }
-
-const Portfolio: React.FC = () => {
-  const [filter, setFilter] = useState<string>("All");
-
-  const filteredProjects = projects.filter(p =>
-    filter === "All" ? true : p.category === filter
-  );
-
-  return (
-    <section id="portfolio" className="relative py-12 md:py-24 px-4 overflow-hidden min-h-screen flex flex-col items-center">
-      {/* Background layer */}
-      <div className="absolute inset-0 z-0 pointer-events-none">
-        <EntropyBackground category={filter} />
-      </div>
-
-      <div className="container relative z-10 mx-auto max-w-6xl">
-        <div className="flex flex-col md:flex-row md:items-end justify-between mb-10 md:mb-16 gap-6">
-          <motion.div 
-            initial={{ opacity: 0, y: 20 }} 
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-          >
-            <span className="text-[10px] uppercase tracking-[0.4em] font-bold text-fuchsia-600">The Archive</span>
-            <h2 className="text-3xl md:text-5xl font-display font-bold text-slate-900 mt-2">Portfolio</h2>
-          </motion.div>
-
-          {/* Filter Tabs */}
-          <div className="flex flex-wrap gap-2 md:gap-3">
-            {CATEGORIES.map((cat) => (
-              <button
-                key={cat}
-                onClick={() => setFilter(cat)}
-                className={cn(
-                  "px-3 py-1 md:px-5 md:py-2 text-[9px] md:text-[11px] uppercase tracking-wider font-bold border-2 transition-all duration-300",
-                  filter === cat
-                    ? "bg-fuchsia-600 border-fuchsia-600 text-white translate-y-[-2px] shadow-[0_4px_0_0_rgba(162,28,175,0.2)]"
-                    : "bg-white/80 backdrop-blur-sm border-slate-200 text-slate-500 hover:border-fuchsia-300 hover:text-fuchsia-600"
-                )}
-              >
-                {cat}
-              </button>
-            ))}
-          </div>
+const Portfolio = () => {
+  return <section id="portfolio" className="py-10 md:py-16 px-3 md:px-4 bg-slate-50">
+      <div className="container mx-auto max-w-3xl">
+        <div className="mb-5 md:mb-8 text-center">
+          <p className="text-[9px] md:text-xs uppercase tracking-widest font-medium mb-1.5 text-primary">
+            Selected Work
+          </p>
+          <h2 className="font-display text-lg md:text-2xl font-medium text-foreground mb-1.5">
+            Portfolio
+          </h2>
+          <p className="text-[10px] md:text-sm text-muted-foreground max-w-sm mx-auto">
+            A selection of projects I've designed and built.
+          </p>
         </div>
 
-        <motion.div 
-          layout 
-          className="grid grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 md:gap-8"
-        >
-          <AnimatePresence mode="popLayout">
-            {filteredProjects.map((project) => (
-              <motion.div
-                key={project.title}
-                layout
-                initial={{ opacity: 0, scale: 0.9 }}
-                animate={{ opacity: 1, scale: 1 }}
-                exit={{ opacity: 0, scale: 0.9 }}
-                transition={{ duration: 0.3 }}
-                className="w-full flex justify-center perspective-1000 h-[280px] md:h-[320px]"
-              >
-                <FlippingCard
-                  className="w-full h-full"
-                  frontContent={<ProjectCardFront project={project} />}
-                  backContent={<ProjectCardBack project={project} />}
-                />
-              </motion.div>
-            ))}
-          </AnimatePresence>
-        </motion.div>
+        {/* Mobile: 2 columns, Desktop: 3 columns */}
+        <div className="grid grid-cols-2 large:grid-cols-4 gap-2 md:gap-6 justify-items-center px-[12px] py-[12px] my-[11px] mx-[11px]">
+          {projects.map(project => <FlippingCard key={project.title} width={140} height={150} className="w-full max-w-[140px] md:max-w-[170px] md:!w-[170px] md:!h-[175px]" frontContent={<ProjectCardFront project={project} />} backContent={<ProjectCardBack project={project} />} />)}
+        </div>
       </div>
-    </section>
-  );
+    </section>;
 };
-
 export default Portfolio;
