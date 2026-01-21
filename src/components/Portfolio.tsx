@@ -97,7 +97,7 @@ function ProjectCardBack({
 }: {
   project: ProjectData;
 }) {
-  return <div className="flex flex-col h-full w-full rounded-md bg-card relative overflow-hidden">
+  return <div className="flex-col h-full w-full rounded-md bg-card relative overflow-hidden flex items-center justify-start gap-[11px] px-[11px] py-[6px]">
       {/* Notebook spiral binding effect */}
       <div className="absolute left-0 top-0 bottom-0 w-3 md:w-4 bg-muted/60 border-r border-border flex flex-col justify-around z-10 py-[6px] mx-[4px]">
         {[...Array(5)].map((_, i) => <div key={i} className="w-1.5 h-1.5 md:w-2 md:h-2 rounded-full bg-border mx-auto" />)}
@@ -108,7 +108,7 @@ function ProjectCardBack({
       backgroundImage: 'repeating-linear-gradient(transparent, transparent 11px, hsl(var(--border) / 0.3) 11px, hsl(var(--border) / 0.3) 12px)',
       backgroundSize: '100% 12px'
     }}>
-        <p className="text-[7px] leading-relaxed line-clamp-5 mb-2 text-black md:text-sm">
+        <p className="text-[7px] leading-relaxed line-clamp-5 mb-2 text-black md:text-sm px-[12px] py-[6px] my-[8px] mx-[24px]">
           {project.description}
         </p>
         {project.live && <a href={project.live} target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-1 bg-primary text-primary-foreground px-2 py-0.5 rounded text-[7px] md:text-[8px] hover:bg-primary/90 transition-colors shadow-sm">
