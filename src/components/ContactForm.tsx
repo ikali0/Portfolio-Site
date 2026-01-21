@@ -12,7 +12,6 @@ import { useToast } from "@/hooks/use-toast";
 
 /**
  * Validation schema for contact form
- * Ensures all fields are properly validated before submission
  */
 export const contactFormSchema = z.object({
   name: z
@@ -40,53 +39,43 @@ export const contactFormSchema = z.object({
 export type ContactFormData = z.infer<typeof contactFormSchema>;
 
 /**
- * EmailJS environment-aware constants.
- * These read from Vite's import.meta.env at module load time.
+ * EMAILJS CONFIGURATION
+ * Keys are hardcoded here as requested.
  */
-export const EMAILJS_SERVICE_ID =
-  import.meta.env.VITE_EMAILJS_SERVICE_ID as string | undefined;
-export const EMAILJS_TEMPLATE_ID =
-  (import.meta.env.VITE_EMAILJS_TEMPLATE_ID as string) || "portfolio_form11";
-export const EMAILJS_PUBLIC_KEY =
-  import.meta.env.VITE_EMAILJS_PUBLIC_KEY as string | undefined;
+export const EMAILJS_SERVICE_ID = "altruisticxai_1994";
+export const EMAILJS_TEMPLATE_ID = "portfolio_form11";
+export const EMAILJS_PUBLIC_KEY = "ef4gt_YB35_O5nFin";
 
 /**
- * Small runtime helper to verify EmailJS configuration.
- * - Returns { ok, missing } where missing is an array of env var names that are not set.
- * - Logs a structured debug entry to console.debug (useful during development).
- *
- * Usage:
- *   import { verifyEmailJSEnv } from "@/components/ContactForm";
- *   const { ok, missing } = verifyEmailJSEnv();
+ * Helper to verify EmailJS configuration.
  */
 export function verifyEmailJSEnv() {
   const missing: string[] = [];
-  if (!EMAILJS_PUBLIC_KEY) missing.push("VITE_EMAILJS_PUBLIC_KEY");
-  if (!EMAILJS_SERVICE_ID) missing.push("VITE_EMAILJS_SERVICE_ID");
-  if (!EMAILJS_TEMPLATE_ID) missing.push("VITE_EMAILJS_TEMPLATE_ID");
+  if (!EMAILJS_PUBLIC_KEY) missing.push("EMAILJS_PUBLIC_KEY");
+  if (!EMAILJS_SERVICE_ID) missing.push("EMAILJS_SERVICE_ID");
+  if (!EMAILJS_TEMPLATE_ID) missing.push("EMAILJS_TEMPLATE_ID");
 
   const ok = missing.length === 0;
 
-  // Do not print secret values; just indicate presence/absence.
-  // This output is safe to read in browser console during development.
   // eslint-disable-next-line no-console
-  console.debug("[ContactForm] EmailJS env check", {
+  console.debug("[ContactForm] Config check", {
     ok,
     missing,
-    SERVICE_ID_PRESENT: !!EMAILJS_SERVICE_ID,
-    TEMPLATE_ID_PRESENT: !!EMAILJS_TEMPLATE_ID,
-    PUBLIC_KEY_PRESENT: !!EMAILJS_PUBLIC_KEY,
+    SERVICE_ID: EMAILJS_SERVICE_ID,
+    TEMPLATE_ID: EMAILJS_TEMPLATE_ID,
+    // Don't log the full public key for security best practices, even if client-side
+    PUBLIC_KEY_SET: !!EMAILJS_PUBLIC_KEY,
   });
 
   return { ok, missing };
 }
 
 /**
- * Rate limiting configuration (client-side friendly)
+ * Rate limiting configuration
  */
 const RATE_LIMIT_KEY = "contact_form_submissions";
-const MAX_SUBMISSIONS = 3; // Max submissions allowed in window
-const RATE_LIMIT_WINDOW_MS = 60 * 60 * 1000; // 1 hour window
+const MAX_SUBMISSIONS = 3; 
+const RATE_LIMIT_WINDOW_MS = 60 * 60 * 1000; // 1 hour
 
 const formatRemainingTime = (ms: number) => {
   const s = Math.ceil(ms / 1000);
@@ -103,7 +92,6 @@ const checkRateLimit = (): { isLimited: boolean; remainingTime: number } => {
     const submissions: number[] = JSON.parse(stored);
     const now = Date.now();
 
-    // Filter out expired submissions
     const validSubmissions = submissions.filter(
       (timestamp) => now - timestamp < RATE_LIMIT_WINDOW_MS
     );
@@ -116,7 +104,6 @@ const checkRateLimit = (): { isLimited: boolean; remainingTime: number } => {
 
     return { isLimited: false, remainingTime: 0 };
   } catch (err) {
-    // If localStorage is malformed, reset it
     localStorage.removeItem(RATE_LIMIT_KEY);
     return { isLimited: false, remainingTime: 0 };
   }
@@ -126,9 +113,10 @@ const recordSubmission = () => {
   try {
     const stored = localStorage.getItem(RATE_LIMIT_KEY);
     const submissions: number[] = stored ? JSON.parse(stored) : [];
-    submissions.push(Date.now());
-    // keep only recent submissions within the window to prevent unbounded growth
+    
     const now = Date.now();
+    submissions.push(now);
+    
     const cleaned = submissions.filter(
       (ts) => now - ts < RATE_LIMIT_WINDOW_MS
     );
@@ -163,31 +151,22 @@ const ContactForm = ({ className }: ContactFormProps) => {
 
   const isSending = status === "sending" || isSubmitting;
 
-  // Initialize EmailJS SDK with public key (client-side)
   useEffect(() => {
+    // Initialize EmailJS with the hardcoded key
     if (EMAILJS_PUBLIC_KEY) {
       try {
         emailjs.init(EMAILJS_PUBLIC_KEY);
-        // eslint-disable-next-line no-console
-        console.debug("[ContactForm] Initialized EmailJS with public key.");
       } catch (err) {
-        // eslint-disable-next-line no-console
         console.warn("[ContactForm] Failed to init EmailJS:", err);
       }
     } else {
-      // eslint-disable-next-line no-console
-      console.warn(
-        "[ContactForm] VITE_EMAILJS_PUBLIC_KEY not set. EmailJS not initialized."
-      );
+      console.warn("[ContactForm] Public Key missing.");
     }
-
-    // Also perform a quick env check to help debugging
-    verifyEmailJSEnv();
   }, []);
 
   const onSubmit = useCallback(
     async (data: ContactFormData) => {
-      // Client-side rate limiting
+      // 1. Check Rate Limit
       const { isLimited, remainingTime } = checkRateLimit();
       if (isLimited) {
         setStatus("rate_limited");
@@ -204,63 +183,41 @@ const ContactForm = ({ className }: ContactFormProps) => {
       setErrorMessage(null);
 
       try {
-        // Use module-level constants so they are stable across renders
-        const publicKey = EMAILJS_PUBLIC_KEY;
-        const serviceId = EMAILJS_SERVICE_ID;
-        const templateId = EMAILJS_TEMPLATE_ID;
-
-        // Robust config validation with informative error for devs
-        if (!serviceId || !templateId) {
-          throw new Error(
-            `Email service is not configured. Missing: ${
-              !serviceId ? "VITE_EMAILJS_SERVICE_ID " : ""
-            }${!templateId ? "VITE_EMAILJS_TEMPLATE_ID" : ""}`.trim()
-          );
+        // 2. Validate Config
+        if (!EMAILJS_SERVICE_ID || !EMAILJS_TEMPLATE_ID || !EMAILJS_PUBLIC_KEY) {
+          throw new Error("Email service configuration is missing.");
         }
 
         const templateParams = {
           from_name: data.name,
-          reply_to: data.email, // matches README/template examples
+          reply_to: data.email,
           subject: data.subject,
           message: data.message,
         };
 
-        // Send email via EmailJS browser SDK.
-        // Passing publicKey as the 4th param is harmless and works even if init wasn't called.
-        // If publicKey is undefined, emailjs will use previously-initialized key (if any).
-        // Option chosen here: pass publicKey explicitly when available for clarity.
-        const sendArgs: Parameters<typeof emailjs.send> = [
-          serviceId,
-          templateId,
-          templateParams,
-        ];
+        // 3. Send Email
+        await emailjs.send(
+          EMAILJS_SERVICE_ID, 
+          EMAILJS_TEMPLATE_ID, 
+          templateParams, 
+          EMAILJS_PUBLIC_KEY
+        );
 
-        // Add public key param explicitly if present
-        const sendResult = publicKey
-          ? await emailjs.send(
-              sendArgs[0],
-              sendArgs[1],
-              sendArgs[2],
-              publicKey
-            )
-          : await emailjs.send(sendArgs[0], sendArgs[1], sendArgs[2]);
-
-        // success path
+        // 4. Handle Success
         setStatus("success");
         recordSubmission();
         reset();
+        
         toast({
           title: "Message sent",
           description: "Thanks — I'll reply as soon as I can.",
           variant: "default",
         });
 
-        // eslint-disable-next-line no-console
-        console.debug("[ContactForm] EmailJS send result:", sendResult);
       } catch (err: any) {
+        // 5. Handle Error
         setStatus("error");
-        const message =
-          err?.text || err?.message || "An unexpected error occurred.";
+        const message = err?.text || err?.message || "An unexpected error occurred.";
         setErrorMessage(message);
 
         toast({
@@ -268,9 +225,7 @@ const ContactForm = ({ className }: ContactFormProps) => {
           description: message,
           variant: "destructive",
         });
-
-        // eslint-disable-next-line no-console
-        console.error("[ContactForm] Email send error:", err);
+        console.error("[ContactForm] Error:", err);
       }
     },
     [reset, toast]
@@ -280,14 +235,10 @@ const ContactForm = ({ className }: ContactFormProps) => {
     <form onSubmit={handleSubmit(onSubmit)} className={className}>
       {/* Name Field */}
       <div className="space-y-2">
-        <Label htmlFor="name" className="text-sm font-medium text-foreground">
-          Name
-        </Label>
+        <Label htmlFor="name">Name</Label>
         <Input
           id="name"
-          type="text"
           placeholder="Your name"
-          className="retro-input"
           disabled={isSending}
           {...register("name")}
         />
@@ -298,14 +249,11 @@ const ContactForm = ({ className }: ContactFormProps) => {
 
       {/* Email Field */}
       <div className="space-y-2 mt-3">
-        <Label htmlFor="email" className="text-sm font-medium text-foreground">
-          Email
-        </Label>
+        <Label htmlFor="email">Email</Label>
         <Input
           id="email"
           type="email"
           placeholder="your.email@example.com"
-          className="retro-input"
           disabled={isSending}
           {...register("email")}
         />
@@ -316,14 +264,10 @@ const ContactForm = ({ className }: ContactFormProps) => {
 
       {/* Subject Field */}
       <div className="space-y-2 mt-3">
-        <Label htmlFor="subject" className="text-sm font-medium text-foreground">
-          Subject
-        </Label>
+        <Label htmlFor="subject">Subject</Label>
         <Input
           id="subject"
-          type="text"
           placeholder="What's this about?"
-          className="retro-input"
           disabled={isSending}
           {...register("subject")}
         />
@@ -334,13 +278,11 @@ const ContactForm = ({ className }: ContactFormProps) => {
 
       {/* Message Field */}
       <div className="space-y-2 mt-3">
-        <Label htmlFor="message" className="text-sm font-medium text-foreground">
-          Message
-        </Label>
+        <Label htmlFor="message">Message</Label>
         <Textarea
           id="message"
           placeholder="Tell me about your project or inquiry..."
-          className="retro-input min-h-[120px] resize-none"
+          className="min-h-[120px] resize-none"
           disabled={isSending}
           {...register("message")}
         />
@@ -349,7 +291,7 @@ const ContactForm = ({ className }: ContactFormProps) => {
         )}
       </div>
 
-      {/* Status & Actions */}
+      {/* Buttons & Status */}
       <div className="flex items-center gap-3 mt-4">
         <Button type="submit" disabled={isSending}>
           {isSending ? (
@@ -366,7 +308,7 @@ const ContactForm = ({ className }: ContactFormProps) => {
         </Button>
 
         {status === "success" && (
-          <div className="flex items-center text-success text-sm">
+          <div className="flex items-center text-green-600 text-sm">
             <CheckCircle className="mr-1 h-4 w-4" /> Sent
           </div>
         )}
@@ -381,7 +323,7 @@ const ContactForm = ({ className }: ContactFormProps) => {
         {status === "rate_limited" && (
           <div className="flex items-center text-muted-foreground text-sm">
             <Clock className="mr-1 h-4 w-4" />
-            Please wait {formatRemainingTime(rateLimitTime)} before trying again.
+            Wait {formatRemainingTime(rateLimitTime)}
           </div>
         )}
       </div>
