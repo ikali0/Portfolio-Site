@@ -108,7 +108,7 @@ function ProjectCardBack({
       backgroundImage: 'repeating-linear-gradient(transparent, transparent 11px, hsl(var(--border) / 0.3) 11px, hsl(var(--border) / 0.3) 12px)',
       backgroundSize: '100% 12px'
     }}>
-        <p className="text-[7px] leading-relaxed line-clamp-5 mb-2 text-black mx-[24px] px-[26px] md:text-base py-[20px] my-[18px]">
+        <p className="text-[7px] leading-relaxed line-clamp-5 mb-2 text-black text-center mx-[8px] my-[10px] px-[8px] py-[10px] md:text-sm">
           {project.description}
         </p>
         {project.live && <a href={project.live} target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-1 bg-primary text-primary-foreground px-2 py-0.5 rounded text-[7px] md:text-[8px] hover:bg-primary/90 transition-colors shadow-sm">
@@ -133,7 +133,7 @@ const Portfolio = () => {
         </div>
 
         {/* Mobile: 2 columns, Desktop: 3 columns */}
-        <div className="grid grid-cols-2 md:grid-cols-3 gap-2 md:gap-3 justify-items-center">
+        <div className="grid grid-cols-2 large:grid-cols-4 gap-2 md:gap-6 justify-items-center px-[12px] py-[12px] my-[11px] mx-[11px]">
           {projects.map(project => <FlippingCard key={project.title} width={140} height={150} className="w-full max-w-[140px] md:max-w-[170px] md:!w-[170px] md:!h-[175px]" frontContent={<ProjectCardFront project={project} />} backContent={<ProjectCardBack project={project} />} />)}
         </div>
       </div>
