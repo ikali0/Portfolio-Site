@@ -1,0 +1,142 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* 1. Imports MUST come first */
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&family=Lora:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500&family=Fira+Code:wght@400;500&family=EB+Garamond&family=Inter:wght@400;500;600&family=Geist+Mono&display=swap');
+
+@layer base {
+  :root {
+    /* Color Palette */
+    --background: 321 34% 96%;
+    --foreground: 321 49% 20%;
+    --card: 78 92% 95.098%;
+    --card-foreground: 272 71.6667% 47.0588%;
+    --popover: 321 34% 96%;
+    --popover-foreground: 272 71.6667% 47.0588%;
+    --primary: 321 49% 11%;
+    --primary-foreground: 321 34% 96%;
+    --secondary: 330 81.1881% 60.3922%;
+    --secondary-foreground: 293 69.4779% 48.8235%;
+    --muted: 81 21% 93%;
+    --muted-foreground: 321 9% 37%;
+    --accent: 213 93.9024% 67.8431%;
+    --accent-foreground: 81 88.4615% 79.6078%;
+    --destructive: 0 76% 90%;
+    --destructive-foreground: 0 63% 31%;
+    --border: 333 71.4286% 50.5882%;
+    --input: 269 100% 91.7647%;
+    --ring: 141 78.9474% 85.098%;
+    --radius: 0.75rem;
+
+    /* Typography Vars */
+    --font-display: 'Lora', Georgia, serif;
+    --font-body: 'Poppins', system-ui, sans-serif;
+    --font-mono: "Geist Mono", "Fira Code", monospace;
+
+    /* Fixed Shadows */
+    --shadow-color: 326 58% 57%;
+    --shadow-sm: 0px 1px 3.5px 0px hsla(271, 91%, 65%, 0.46);
+    --shadow-soft: 3px 3px 0px 0px hsla(var(--shadow-color) / 0.5);
+    --shadow-md: 0px 1px 10.5px 0px hsla(271, 91%, 65%, 0.46);
+    --shadow-elevated: 6px 6px 0px 0px hsla(var(--shadow-color) / 0.5);
+  }
+
+  .dark {
+    --background: 321 3% 13%;
+    --foreground: 321 29% 70%;
+    --card: 321 3% 8%;
+    --primary: 321 29% 92%;
+    --primary-foreground: 321 3% 13%;
+    --border: 81 -4% 12%;
+    --shadow-color: 199 32% 27%;
+  }
+
+  * {
+    @apply border-border;
+  }
+
+  body {
+    @apply bg-background text-foreground antialiased;
+    font-family: var(--font-body);
+    /* CRT Flicker applied globally if desired, or move to specific class */
+  }
+}
+
+@layer components {
+  /* ========================================
+   * RETRO WINDOWS UI
+   * ======================================== */
+  .retro-window {
+    @apply bg-card rounded-none transition-all duration-200;
+    border: 2px solid hsl(var(--border));
+    box-shadow: 
+      inset 1px 1px 0 hsla(var(--accent) / 0.5),
+      inset -1px -1px 0 hsla(var(--muted-foreground) / 0.3),
+      var(--shadow-soft);
+  }
+
+  .retro-title-bar {
+    @apply flex items-center justify-between px-2 py-1.5 text-primary-foreground select-none;
+    background: linear-gradient(90deg, hsl(var(--primary)) 0%, hsl(var(--primary) / 0.8) 100%);
+  }
+
+  .retro-button {
+    @apply rounded-none font-medium px-4 py-2 transition-all active:scale-[0.98];
+    background: linear-gradient(180deg, hsl(var(--primary)) 0%, hsl(var(--primary) / 0.85) 100%);
+    border: 2px outset hsl(var(--primary) / 0.8);
+    box-shadow: 2px 2px 0 hsla(var(--foreground) / 0.15);
+  }
+
+  .retro-button:active {
+    border-style: inset;
+    @apply translate-x-[1px] translate-y-[1px];
+  }
+}
+
+@layer utilities {
+  /* CRT Effects Wrapper */
+  .crt-screen {
+    position: relative;
+    overflow: hidden;
+  }
+
+  /* Scanlines with improved performance */
+  .crt-scanlines {
+    @apply pointer-events-none fixed inset-0 z-[9999];
+    background: linear-gradient(
+      rgba(18, 16, 16, 0) 50%, 
+      rgba(0, 0, 0, 0.1) 50%
+    ), 
+    linear-gradient(
+      90deg, 
+      rgba(255, 0, 0, 0.03), 
+      rgba(0, 255, 0, 0.01), 
+      rgba(0, 0, 255, 0.03)
+    );
+    background-size: 100% 3px, 3px 100%;
+  }
+
+  /* CRT Disabled Override */
+  .crt-disabled {
+    filter: none !important;
+    text-shadow: none !important;
+  }
+  .crt-disabled .crt-scanlines, 
+  .crt-disabled::before, 
+  .crt-disabled::after {
+    display: none !important;
+  }
+
+  @keyframes crt-flicker {
+    0% { opacity: 0.99; }
+    5% { opacity: 0.95; }
+    10% { opacity: 0.99; }
+    15% { opacity: 0.97; }
+    100% { opacity: 1; }
+  }
+
+  .animate-crt-flicker {
+    animation: crt-flicker 0.1s infinite;
+  }
+}
