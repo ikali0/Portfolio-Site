@@ -39,7 +39,7 @@ const menuItems: StartMenuItem[] = [{
 }];
 const quickLaunchItems = [{
   href: "#portfolio",
-  icon: <Folder className="w-4 h-4" />,
+  icon: <Folder className="h-[11px] w-[11px]" />,
   label: "Portfolio"
 }, {
   href: "#contact",
@@ -163,7 +163,7 @@ export const RetroTaskbar = () => {
                   <div className="w-2 h-2 bg-accent" />
                 </div>
               </div>
-              <span className="font-bold text-sm">Start</span>
+              <span className="font-bold text-xs">Start</span>
             </button>
 
             {/* Divider */}
@@ -180,15 +180,15 @@ export const RetroTaskbar = () => {
           {/* Right side: CRT Toggle + Clock */}
           <div className="flex items-center gap-2">
             {/* CRT Toggle Button */}
-            <button onClick={() => setCrtEnabled(!crtEnabled)} className="retro-quick-launch gap-1 px-2 flex items-start justify-center" aria-label={crtEnabled ? "Disable CRT effects" : "Enable CRT effects"} title={crtEnabled ? "Disable CRT effects" : "Enable CRT effects"}>
+            <button onClick={() => setCrtEnabled(!crtEnabled)} className="retro-quick-launch px-2 flex items-center justify-center gap-[2px]" aria-label={crtEnabled ? "Disable CRT effects" : "Enable CRT effects"} title={crtEnabled ? "Disable CRT effects" : "Enable CRT effects"}>
               {crtEnabled ? <Tv className="w-4 h-4" /> : <TvMinimalPlay className="w-4 h-4" />}
-              <span className="text-[10px] hidden sm:inline">CRT</span>
+              <span className="text-[10px] hidden sm:inline text-center">CRT</span>
             </button>
 
             {/* Clock */}
             <div className="retro-clock">
               <div className="flex-col leading-tight flex items-center justify-start">
-                <span className="text-xs font-medium">{formatTime(currentTime)}</span>
+                <span className="text-xs font-medium text-center">{formatTime(currentTime)}</span>
                 <span className="text-[10px] opacity-80">{formatDate(currentTime)}</span>
               </div>
             </div>

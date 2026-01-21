@@ -38,7 +38,7 @@ const Hero = () => {
         </div>
 
         {/* Buttons - mobile-first grid layout */}
-        <div className="animate-fade-up opacity-0 delay-400 grid grid-cols-2 sm:flex sm:flex-wrap gap-3 sm:gap-2 max-w-xs sm:max-w-none mx-auto sm:mx-0">
+        <div className="animate-fade-up opacity-0 delay-400 grid-cols-2 sm:flex sm:flex-wrap sm:gap-2 max-w-xs sm:max-w-none mx-auto sm:mx-0 items-start justify-center gap-[11px] flex flex-row bg-transparent">
           <CartoonButton label="Experience" href="#experience" size="lg" />
           <CartoonButton label="Portfolio" href="#portfolio" size="lg" />
           <CartoonButton label="About" href="#about" size="lg" />
