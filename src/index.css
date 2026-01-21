@@ -43,13 +43,13 @@
     --primary: 321 49% 11%;
     --primary-foreground: 321 34% 96%;
 
-    --secondary: 81 31% 93%;
-    --secondary-foreground: 321 49% 20%;
+    --secondary: 330 81.1881% 60.3922%;
+    --secondary-foreground: 293 69.4779% 48.8235%;
 
     --muted: 81 21% 93%;
     --muted-foreground: 321 9% 37%;
 
-    --accent: 201 53% 87%;
+    --accent: 213 93.9024% 67.8431%;
     --accent-foreground: 81 88.4615% 79.6078%;
 
     --destructive: 0 76% 90%;
@@ -76,11 +76,11 @@
     --shadow-color: 326 58% 57% / 0.5;
     --shadow-2xs: 0 1px 3px 0px hsl(0 0% 0% / 0.05);
     --shadow-xs: 0 1px 3px 0px hsl(0 0% 0% / 0.05);
-    --shadow-sm: 0px 1px 1.5px 0px hsla(271, 91%, 65%, 0.46);
+    --shadow-sm: 0px 1px 3.5px 0px hsla(271, 91%, 65%, 0.46);
     --shadow-soft: 3px 3px 0px 0px hsl(var(--shadow-color));
     --shadow-card: 3px 3px 0px 0px hsl(var(--shadow-color));
-    --shadow-md: 0px 1px 4.5px 0px hsla(271, 91%, 65%, 0.46);
-    --shadow-lg: 0px 1px 7.5px 0px hsla(271, 91%, 65%, 0.46);
+    --shadow-md: 0px 1px 10.5px 0px hsla(271, 91%, 65%, 0.46);
+    --shadow-lg: 0px 1px 17.5px 0px hsla(271, 91%, 65%, 0.46);
     --shadow-elevated: 6px 6px 0px 0px hsl(var(--shadow-color));
     --shadow-xl: 0 1px 3px 0px hsl(0 0% 0% / 0.1), 0 8px 10px -1px hsl(0 0% 0% / 0.1);
     --shadow-2xl: 0 1px 3px 0px hsl(0 0% 0% / 0.25);
@@ -100,7 +100,7 @@
     --sidebar: 248 0.3% 98.4%;
     --font-sans: Inter, ui-sans-serif, system-ui, sans-serif, Apple Color Emoji, Segoe UI Emoji, Segoe UI Symbol, Noto Color Emoji;
     --font-serif: "EB Garamond", ui-serif, Georgia, Cambria, Times New Roman, Times, serif;
-    --shadow: 0px 1px 3px 0px hsla(271, 91%, 65%, 0.46);
+    --shadow: 0px 1px 7px 0px hsla(271, 91%, 65%, 0.46);
     --tracking-normal: 0em;
     --spacing: 0.25rem;
   }
@@ -144,11 +144,11 @@
     --shadow-color: 199 32% 27%;
     --shadow-2xs: 0 1px 3px 0px hsl(0 0% 0% / 0.05);
     --shadow-xs: 0 1px 3px 0px hsl(0 0% 0% / 0.05);
-    --shadow-sm: 0 1px 3px 0px hsl(0 0% 0% / 0.1), 0 1px 2px -1px hsl(0 0% 0% / 0.1);
+    --shadow-sm: 0px 1px 3.5px 0px hsla(271, 91%, 65%, 0.46);
     --shadow-soft: 0 1px 3px 0px hsl(0 0% 0% / 0.1), 0 1px 2px -1px hsl(0 0% 0% / 0.1);
     --shadow-card: 0 1px 3px 0px hsl(0 0% 0% / 0.1), 0 2px 4px -1px hsl(0 0% 0% / 0.1);
-    --shadow-md: 0 1px 3px 0px hsl(0 0% 0% / 0.1), 0 2px 4px -1px hsl(0 0% 0% / 0.1);
-    --shadow-lg: 0 1px 3px 0px hsl(0 0% 0% / 0.1), 0 4px 6px -1px hsl(0 0% 0% / 0.1);
+    --shadow-md: 0px 1px 10.5px 0px hsla(271, 91%, 65%, 0.46);
+    --shadow-lg: 0px 1px 17.5px 0px hsla(271, 91%, 65%, 0.46);
     --shadow-elevated: 0 1px 3px 0px hsl(0 0% 0% / 0.1), 0 8px 10px -1px hsl(0 0% 0% / 0.1);
     --shadow-xl: 0 1px 3px 0px hsl(0 0% 0% / 0.1), 0 8px 10px -1px hsl(0 0% 0% / 0.1);
     --shadow-2xl: 0 1px 3px 0px hsl(0 0% 0% / 0.25);
@@ -165,7 +165,7 @@
     --sidebar-border: 81 -4% 12%;
     --sidebar-ring: 81 1% 83%;
     --sidebar: 266 4% 20.8%;
-    --shadow: 0 1px 3px 0px hsl(0 0% 0% / 0.1), 0 1px 2px -1px hsl(0 0% 0% / 0.1);
+    --shadow: 0px 1px 7px 0px hsla(271, 91%, 65%, 0.46);
     --radius: 0.75rem;
   }
 }
