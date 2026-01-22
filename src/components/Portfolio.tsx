@@ -104,7 +104,7 @@ function ProjectCardBack({
       </div>
       
       {/* Content */}
-      <div className="ml-4 md:ml-5 flex-1 p-4 md:p-6 flex flex-col justify-center" style={{
+      <div className="ml-4 md:ml-5 flex-1 p-4 md:p-6 flex-col flex items-start justify-start" style={{
       backgroundImage: 'repeating-linear-gradient(transparent, transparent 15px, hsl(var(--border) / 0.3) 15px, hsl(var(--border) / 0.3) 16px)',
       backgroundSize: '100% 16px'
     }}>
