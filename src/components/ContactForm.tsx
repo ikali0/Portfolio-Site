@@ -223,28 +223,28 @@ const ContactForm = ({
   }, [reset, toast]);
   return <form onSubmit={handleSubmit(onSubmit)} className={className}>
       {/* Name Field */}
-      <div className="space-y-2 my-[10px]">
+      <div className="space-y-2 my-[10px] text-slate-950">
         <Label htmlFor="name">Name</Label>
         <Input id="name" placeholder="Your name" disabled={isSending} {...register("name")} />
         {errors.name && <p className="text-xs text-destructive">{errors.name.message}</p>}
       </div>
 
       {/* Email Field */}
-      <div className="space-y-2 mt-3 my-[10px]">
+      <div className="space-y-2 mt-3 my-[10px] text-slate-950">
         <Label htmlFor="email">Email</Label>
         <Input id="email" type="email" placeholder="your.email@example.com" disabled={isSending} {...register("email")} />
         {errors.email && <p className="text-xs text-destructive">{errors.email.message}</p>}
       </div>
 
       {/* Subject Field */}
-      <div className="space-y-2 mt-3 my-[10px]">
+      <div className="space-y-2 mt-3 my-[10px] text-slate-950">
         <Label htmlFor="subject">Subject</Label>
         <Input id="subject" placeholder="What's this about?" disabled={isSending} {...register("subject")} />
         {errors.subject && <p className="text-xs text-destructive">{errors.subject.message}</p>}
       </div>
 
       {/* Message Field */}
-      <div className="space-y-2 mt-3">
+      <div className="space-y-2 mt-3 text-slate-950">
         <Label htmlFor="message">Message</Label>
         <Textarea id="message" placeholder="Tell me about your project or inquiry..." className="min-h-[120px] resize-none" disabled={isSending} {...register("message")} />
         {errors.message && <p className="text-xs text-destructive">{errors.message.message}</p>}
