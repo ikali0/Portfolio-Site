@@ -80,7 +80,7 @@ const Experience = () => {
           <p className="text-[9px] md:text-xs uppercase tracking-widest font-medium mb-1.5 text-primary">
             Career
           </p>
-          <h2 className="font-display text-lg md:text-2xl font-medium text-foreground mb-1.5">
+          <h2 className="font-display text-lg font-medium text-foreground mb-1.5 md:text-3xl">
             Professional Experience
           </h2>
           <p className="text-[10px] md:text-sm text-muted-foreground max-w-md">

@@ -102,7 +102,7 @@ const Skills = () => {
               <div className="space-y-6">
                 {cat.skills.map(skill => <div key={skill.name} className="cursor-pointer" onClick={() => setActiveSkill(activeSkill === skill.name ? null : skill.name)}>
                     <div className="flex justify-between items-end mb-2">
-                      <span className="text-sm font-semibold text-slate-800">{skill.name}</span>
+                      <span className="font-semibold text-slate-800 text-xs">{skill.name}</span>
                       <span className="text-[10px] font-mono text-slate-800">{skill.level}%</span>
                     </div>
                     

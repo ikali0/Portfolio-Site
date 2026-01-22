@@ -23,7 +23,7 @@ const Contact = () => {
           Let's talk about how I can help bring your ideas to life.
         </p>
 
-        <div className="grid md:grid-cols-2 gap-8">
+        <div className="grid sm:grid-cols-2 gap-6">
           {/* Contact Form Window */}
           <div className="retro-window">
             <div className="retro-title-bar">
@@ -56,28 +56,7 @@ const Contact = () => {
             </div>
 
             {/* Quick Links Window */}
-            <div className="retro-window">
-              <div className="retro-title-bar">
-                <span className="font-bold text-sm">Quick Links</span>
-              </div>
-              <div className="p-4 space-y-3 py-[11px] px-[11px]">
-                <a href="mailto:altruisticxai@gmail.com" className="retro-link-button">
-                  <Mail className="w-4 h-4" />
-                  <span>altruisticxai@gmail.com</span>
-                  <ExternalLink className="w-3 h-3 ml-auto opacity-50" />
-                </a>
-                <a href="https://www.linkedin.com/in/ik11/" target="_blank" rel="noopener noreferrer" className="retro-link-button">
-                  <Linkedin className="w-4 h-4" />
-                  <span>LinkedIn Profile</span>
-                  <ExternalLink className="w-3 h-3 ml-auto opacity-50" />
-                </a>
-                <a href="#" className="retro-link-button">
-                  <Download className="w-4 h-4" />
-                  <span>Download Resume</span>
-                  <ExternalLink className="w-3 h-3 ml-auto opacity-50" />
-                </a>
-              </div>
-            </div>
+            
           </div>
         </div>
       </div>
