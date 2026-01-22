@@ -71,13 +71,11 @@ const Skills = () => {
       }} viewport={{
         once: true
       }}>
-          <span className="text-[10px] uppercase tracking-[0.3em] font-bold text-fuchsia-600">
+          <span className="uppercase tracking-[0.3em] font-bold text-fuchsia-600 text-sm">
             Technical Proficiency
           </span>
-          <h2 className="text-3xl font-display font-bold text-slate-900 mt-2 md:text-3xl">
-            Core Competencies
-          </h2>
-          <p className="text-slate-500 mt-4 max-w-xl text-sm md:text-sm">
+          
+          <p className="mt-4 max-w-xl text-sm md:text-sm text-slate-950 font-sans">
             Bridging the gap between frontier AI development and rigorous security infrastructure.
           </p>
         </motion.div>

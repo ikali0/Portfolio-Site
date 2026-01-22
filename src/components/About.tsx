@@ -60,10 +60,10 @@ const About = () => {
         </div>
         
         <div className="mb-6 sm:mb-8">
-          <p className="text-[10px] sm:text-xs uppercase tracking-widest font-medium mb-1.5 text-primary/70">
+          <p className="text-[10px] uppercase tracking-widest font-medium mb-1.5 text-popover-foreground sm:text-sm">
             About Me
           </p>
-          <h2 className="font-display text-lg sm:text-xl md:text-2xl font-medium text-foreground mb-2">
+          <h2 className="font-display text-lg sm:text-xl font-medium text-foreground mb-2 md:text-lg">
             Building with Purpose
           </h2>
         </div>

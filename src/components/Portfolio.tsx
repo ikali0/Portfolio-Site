@@ -121,11 +121,11 @@ const Portfolio = () => {
   return <section id="portfolio" className="py-12 md:py-20 px-4 bg-slate-50">
       <div className="container mx-auto max-w-5xl">
         <div className="mb-8 md:mb-12 text-center">
-          <p className="text-xs md:text-sm uppercase tracking-widest font-medium mb-2 text-primary">
+          <p className="text-xs md:text-sm uppercase tracking-widest mb-2 text-secondary-foreground font-bold">
             ​Personal projects 
           </p>
           
-          <p className="text-sm text-muted-foreground max-w-md mx-auto md:text-sm">
+          <p className="text-sm max-w-md mx-auto md:text-sm font-sans text-slate-950">
             A selection of projects I've designed and built.
           </p>
         </div>
