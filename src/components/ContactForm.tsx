@@ -44,7 +44,7 @@ export type ContactFormData = z.infer<typeof contactFormSchema>;
  * These are PUBLIC configuration values (not secrets) required for EmailJS browser SDK.
  * The public key is safe to expose client-side per EmailJS documentation.
  */
-export const EMAILJS_SERVICE_ID = import.meta.env.VITE_EMAILJS_SERVICE_ID || "altruisticxai@gmail.com";
+export const EMAILJS_SERVICE_ID = import.meta.env.VITE_EMAILJS_SERVICE_ID || "service_mst73v9";
 export const EMAILJS_TEMPLATE_ID = import.meta.env.VITE_EMAILJS_TEMPLATE_ID || "SITE_FORM";
 export const EMAILJS_PUBLIC_KEY = import.meta.env.VITE_EMAILJS_PUBLIC_KEY || "65eWYLkIKGyzzMajE";
 
