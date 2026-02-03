@@ -2,6 +2,7 @@ import { useState, useCallback } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
+import emailjs from "@emailjs/browser";
 import { Send, Loader2, CheckCircle, AlertCircle, Clock } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -68,35 +69,49 @@ const ContactForm = ({ className }: ContactFormProps) => {
       setErrorMessage(null);
 
       try {
-        // Call edge function with server-side rate limiting
-        const { data: response, error } = await supabase.functions.invoke(
-          "send-contact-email",
-          {
-            body: {
-              name: data.name,
-              email: data.email,
-              subject: data.subject,
-              message: data.message,
-            },
-          }
-        );
+        // Step 1: Check rate limit via edge function
+        const { data: rateLimitData, error: rateLimitError } = 
+          await supabase.functions.invoke("check-rate-limit");
 
-        if (error) {
-          throw error;
+        if (rateLimitError) {
+          throw new Error("Unable to verify rate limit. Please try again.");
         }
 
-        // Check for rate limit response
-        if (response?.error === "Rate limit exceeded") {
+        if (!rateLimitData?.allowed) {
           setStatus("rate_limited");
           toast({
             title: "Too Many Requests",
-            description: response.message || "Please try again later.",
+            description: `You can only send ${rateLimitData?.limit || 3} messages per hour. Please try again later.`,
             variant: "destructive",
           });
           return;
         }
 
-        // Handle success
+        // Step 2: Send email via browser SDK
+        const serviceId = import.meta.env.VITE_EMAILJS_SERVICE_ID;
+        const templateId = import.meta.env.VITE_EMAILJS_TEMPLATE_ID;
+        const publicKey = import.meta.env.VITE_EMAILJS_PUBLIC_KEY;
+
+        if (!serviceId || !templateId || !publicKey) {
+          throw new Error("Email configuration is missing.");
+        }
+
+        await emailjs.send(
+          serviceId,
+          templateId,
+          {
+            from_name: data.name,
+            reply_to: data.email,
+            subject: data.subject,
+            message: data.message,
+          },
+          publicKey
+        );
+
+        // Step 3: Record submission for rate limiting
+        await supabase.functions.invoke("record-submission");
+
+        // Success
         setStatus("success");
         reset();
 
@@ -105,10 +120,10 @@ const ContactForm = ({ className }: ContactFormProps) => {
           description: "Thanks — I'll reply as soon as I can.",
           variant: "default",
         });
-      } catch (err: any) {
+      } catch (err: unknown) {
         setStatus("error");
         const message =
-          err?.message || err?.text || "An unexpected error occurred.";
+          err instanceof Error ? err.message : "An unexpected error occurred.";
         setErrorMessage(message);
 
         toast({
