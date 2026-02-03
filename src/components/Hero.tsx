@@ -1,63 +1,91 @@
+/**
+ * Hero Section Component
+ * 
+ * The main landing section featuring:
+ * - Animated entropy background
+ * - Name and title
+ * - Social links
+ * - Scroll indicator
+ */
 import { ArrowDown, Linkedin, Mail } from "lucide-react";
 import EntropyBackground from "./ui/entropy-background";
-import { CartoonButton } from "./ui/cartoon-button";
+
 const Hero = () => {
-  return <section className="relative min-h-[100svh] w-full flex flex-col items-center justify-center overflow-hidden px-6 py-12 sm:py-20">
+  return (
+    <section className="relative min-h-[100svh] w-full flex flex-col items-center justify-center overflow-hidden px-6 py-section-sm sm:py-section">
       {/* Background Layer */}
       <div className="absolute inset-0 z-0">
         <EntropyBackground />
       </div>
-      
+
       {/* Readability Overlay */}
-      <div className="absolute inset-0 z-10 bg-gradient-to-b from-background/20 via-transparent to-background/90 pointer-events-none" />
-      
+      <div
+        className="absolute inset-0 z-10 bg-gradient-to-b from-background/20 via-transparent to-background/90 pointer-events-none"
+        aria-hidden="true"
+      />
+
       <div className="container relative z-20 mx-auto max-w-5xl flex flex-col items-center md:items-start text-center md:text-left">
-        
         {/* Badge */}
         <div className="animate-fade-up opacity-0">
-          <span className="inline-block py-1.5 mb-6 text-[10px] sm:text-xs font-bold tracking-[0.2em] uppercase bg-fuchsia-300 rounded-full shadow-sm px-[6px] text-center text-slate-950">
+          <span className="inline-block px-3 py-1.5 mb-6 text-overline uppercase bg-secondary/20 text-secondary-foreground rounded-full shadow-sm border border-secondary/30">
             Applied AI Engineer & Independent Consultant
           </span>
         </div>
 
         {/* Name */}
-        <h1 className="animate-fade-up opacity-0 [animation-delay:200ms] sm:text-7xl lg:text-9xl font-bold tracking-tight text-foreground mb-6 leading-[0.85] font-mono text-7xl">
+        <h1 className="animate-fade-up opacity-0 [animation-delay:200ms] text-display-lg sm:text-display-xl font-display text-foreground mb-6 tracking-tight">
           Inga K.
         </h1>
 
         {/* Subtext */}
-        <p className="animate-fade-up opacity-0 [animation-delay:400ms] sm:text-xl md:text-2xl font-light mb-10 max-w-2xl leading-relaxed text-balance text-xl text-slate-800">
+        <p className="animate-fade-up opacity-0 [animation-delay:400ms] text-body-lg md:text-heading font-light mb-10 max-w-2xl leading-relaxed text-balance text-foreground/80">
           I translate{" "}
           <span className="relative inline-block">
             <span className="relative z-10 font-semibold text-foreground italic">
               policy into deployable controls
             </span>
-            <span className="absolute bottom-1 left-0 w-full h-3 bg-fuchsia-400/20 -z-10" />
+            <span
+              className="absolute bottom-1 left-0 w-full h-3 bg-secondary/20 -z-10"
+              aria-hidden="true"
+            />
           </span>{" "}
-          and build AI systems that hold up under compliance, security, and real-world pressure.
+          and build AI systems that hold up under compliance, security, and
+          real-world pressure.
         </p>
 
         {/* Social Actions */}
-        <div className="animate-fade-up opacity-0 [animation-delay:600ms] md:justify-start mb-12 flex items-start justify-center gap-[10px]">
-          <a href="https://www.linkedin.com/in/ik11/" target="_blank" rel="noopener noreferrer" className="flex items-center justify-center w-12 h-12 bg-[#0077b5] hover:bg-[#005c8d] text-white transition-all hover:scale-110 active:scale-95 shadow-md rounded-sm" aria-label="LinkedIn Profile">
-            <Linkedin className="w-5 h-5 fill-current" />
+        <div className="animate-fade-up opacity-0 [animation-delay:600ms] md:justify-start mb-12 flex items-start justify-center gap-3">
+          <a
+            href="https://www.linkedin.com/in/ik11/"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="flex items-center justify-center w-12 h-12 bg-primary hover:bg-primary/90 text-primary-foreground transition-all hover:scale-105 active:scale-95 shadow-md rounded-md"
+            aria-label="LinkedIn Profile"
+          >
+            <Linkedin className="w-5 h-5" />
           </a>
-          <a href="mailto:altruisticxai@gmail.com" className="flex items-center justify-center w-12 h-12 text-white transition-all hover:scale-110 active:scale-95 shadow-md rounded-sm bg-border" aria-label="Send Email">
+          <a
+            href="mailto:altruisticxai@gmail.com"
+            className="flex items-center justify-center w-12 h-12 bg-secondary hover:bg-secondary/90 text-secondary-foreground transition-all hover:scale-105 active:scale-95 shadow-md rounded-md"
+            aria-label="Send Email"
+          >
             <Mail className="w-5 h-5" />
           </a>
         </div>
 
-        {/* CTA Buttons: Corrected Grid Implementation */}
-        
-
-        {/* Floating Scroll Indicator */}
-        <div className="animate-fade-up opacity-0 [animation-delay:1000ms] mt-20 md:mt-16 flex justify-center md:justify-start w-full">
-          <a href="#about" className="flex flex-col items-center gap-2 text-muted-foreground hover:text-foreground transition-all group">
-            <span className="text-[10px] uppercase tracking-[0.3em] font-bold text-popover-foreground">Explore</span>
-            <ArrowDown className="w-5 h-5 animate-bounce text-fuchsia-500" />
+        {/* Scroll Indicator */}
+        <div className="animate-fade-up opacity-0 [animation-delay:1000ms] mt-16 md:mt-12 flex justify-center md:justify-start w-full">
+          <a
+            href="#about"
+            className="flex flex-col items-center gap-2 text-muted-foreground hover:text-foreground transition-colors group"
+          >
+            <span className="text-overline uppercase">Explore</span>
+            <ArrowDown className="w-5 h-5 animate-bounce text-accent" />
           </a>
         </div>
       </div>
-    </section>;
+    </section>
+  );
 };
+
 export default Hero;
