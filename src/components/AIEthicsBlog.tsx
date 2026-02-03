@@ -42,7 +42,7 @@ const articles: BlogArticle[] = [
     publishDate: "Jan 2025",
     category: "Bias Detection",
     icon: faScaleBalanced,
-    url: "https://medium.com/@yourusername/building-fairness-metrics",
+    url: "https://medium.com/@altruisticxai/the-geometry-of-fairness-when-metrics-route-morality-0d78beb38661",
     platform: "medium",
   },
   {
