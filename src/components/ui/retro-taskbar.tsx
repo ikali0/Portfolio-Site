@@ -5,7 +5,7 @@
  * Provides navigation through a Start menu panel.
  */
 import { useState, useEffect } from "react";
-import { Monitor, User, Briefcase, Mail, FileText, Folder, X, Tv, TvMinimalPlay } from "lucide-react";
+import { Monitor, User, Briefcase, Mail, FileText, Folder, X, Tv, TvMinimalPlay, ArrowUp } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 interface StartMenuItem {
   label: string;
@@ -39,7 +39,7 @@ const menuItems: StartMenuItem[] = [{
 }];
 const quickLaunchItems = [{
   href: "#portfolio",
-  icon: <Folder className="h-[11px] w-[11px]" />,
+  icon: <ArrowUp className="h-[11px] w-[11px]" />,
   label: "Portfolio"
 }, {
   href: "#contact",
