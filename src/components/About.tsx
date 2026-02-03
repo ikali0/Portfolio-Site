@@ -110,9 +110,7 @@ const About = () => {
 
           {/* Writing Platform Links - Editorial Style */}
           <div className="mb-container md:mb-container-lg">
-            <p className="text-caption text-muted-foreground mb-3">
-              Read the writing
-            </p>
+            
             <TooltipProvider>
               <div className="flex flex-wrap gap-[20px]">
                 {/* Medium Button */}
