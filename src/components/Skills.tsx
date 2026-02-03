@@ -99,18 +99,19 @@ function BentoCardComponent({ card }: { card: BentoCard }) {
   
   const spanClasses = {
     normal: "col-span-1 row-span-1",
-    wide: "col-span-1 md:col-span-2 row-span-1",
-    tall: "col-span-1 row-span-1 md:row-span-2",
-    large: "col-span-1 md:col-span-2 row-span-1 md:row-span-2",
+    wide: "col-span-1 sm:col-span-2 md:col-span-2 row-span-1",
+    tall: "col-span-1 row-span-1 sm:row-span-1 lg:row-span-2",
+    large: "col-span-1 sm:col-span-2 md:col-span-2 row-span-1 lg:row-span-2",
   };
 
   return (
     <motion.div
-      className={`${spanClasses[card.span]} relative overflow-hidden rounded-xl glass shadow-soft group`}
+      className={`${spanClasses[card.span]} relative overflow-hidden rounded-xl glass shadow-soft group touch-manipulation`}
       whileHover={{ 
         scale: 1.02,
         boxShadow: "0 12px 40px -12px hsl(158 55% 45% / 0.2)"
       }}
+      whileTap={{ scale: 0.99 }}
       transition={{ type: "spring", stiffness: 400, damping: 25 }}
     >
       {/* Gradient accent overlay */}
@@ -177,7 +178,7 @@ const Skills = () => {
 
         {/* Bento Grid */}
         <StaggerContainer 
-          className="grid grid-cols-1 md:grid-cols-3 auto-rows-[minmax(180px,auto)] gap-container"
+          className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 auto-rows-[minmax(180px,auto)] gap-container"
           staggerDelay={0.08}
         >
           {bentoCards.map((card) => (
@@ -200,6 +201,8 @@ const Skills = () => {
                   viewport={{ once: true }}
                   transition={{ delay: index * 0.05, duration: 0.3 }}
                   whileHover={{ scale: 1.1, y: -2 }}
+                  whileTap={{ scale: 0.95 }}
+                  className="touch-manipulation"
                 >
                   <Tag variant="outline" size="md" className="flex items-center gap-1.5">
                     <Icon className="w-3.5 h-3.5" />

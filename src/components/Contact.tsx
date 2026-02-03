@@ -21,7 +21,7 @@ const Contact = () => {
   return (
     <section
       id="contact"
-      className="relative py-section-sm md:py-section px-4 pb-section bg-background overflow-hidden"
+      className="relative py-section-sm md:py-section px-4 pb-[calc(theme(spacing.section)+3.5rem)] sm:pb-section bg-background overflow-hidden"
     >
       {/* Abstract background shapes with parallax */}
       <ParallaxShape speed={0.15} className="w-80 h-80 -bottom-20 -right-32">

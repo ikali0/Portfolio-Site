@@ -81,19 +81,19 @@ const Hero = () => {
             href="https://www.linkedin.com/in/ik11/"
             target="_blank"
             rel="noopener noreferrer"
-            className="flex items-center justify-center w-12 h-12 bg-primary hover:bg-primary/90 text-primary-foreground shadow-md rounded-md"
+            className="flex items-center justify-center w-12 h-12 min-w-[48px] min-h-[48px] bg-primary hover:bg-primary/90 active:bg-primary/80 text-primary-foreground shadow-md rounded-md touch-manipulation"
             aria-label="LinkedIn Profile"
             whileHover={{ scale: 1.1 }}
-            whileTap={{ scale: 0.95 }}
+            whileTap={{ scale: 0.92 }}
           >
             <FontAwesomeIcon icon={faLinkedin} className="w-5 h-5" />
           </motion.a>
           <motion.a
             href="mailto:altruisticxai@gmail.com"
-            className="flex items-center justify-center w-12 h-12 bg-secondary hover:bg-secondary/90 text-secondary-foreground shadow-md rounded-md"
+            className="flex items-center justify-center w-12 h-12 min-w-[48px] min-h-[48px] bg-secondary hover:bg-secondary/90 active:bg-secondary/80 text-secondary-foreground shadow-md rounded-md touch-manipulation"
             aria-label="Send Email"
             whileHover={{ scale: 1.1 }}
-            whileTap={{ scale: 0.95 }}
+            whileTap={{ scale: 0.92 }}
           >
             <FontAwesomeIcon icon={faEnvelope} className="w-5 h-5" />
           </motion.a>

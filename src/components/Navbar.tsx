@@ -108,12 +108,16 @@ const Navbar = () => {
         {/* Mobile Navigation */}
         <Sheet open={open} onOpenChange={setOpen}>
           <SheetTrigger asChild>
-            <button
-              className="md:hidden flex items-center justify-center w-11 h-11 min-w-[44px] min-h-[44px] rounded-md text-foreground hover:bg-muted/50 transition-colors touch-manipulation"
+            <motion.button
+              className={cn(
+                "md:hidden flex items-center justify-center w-12 h-12 min-w-[48px] min-h-[48px] rounded-lg text-foreground transition-colors touch-manipulation",
+                scrolled ? "bg-muted/50 hover:bg-muted" : "hover:bg-muted/30"
+              )}
               aria-label="Open navigation menu"
+              whileTap={{ scale: 0.95 }}
             >
-              <Menu className="w-5 h-5" />
-            </button>
+              <Menu className="w-6 h-6" />
+            </motion.button>
           </SheetTrigger>
           <SheetContent side="right" className="w-[280px] bg-background/95 backdrop-blur-md border-l border-border/50">
             <nav className="flex flex-col gap-2 mt-8">

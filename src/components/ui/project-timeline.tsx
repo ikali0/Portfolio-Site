@@ -93,18 +93,18 @@ export function ProjectTimeline() {
             </h3>
           </div>
           
-          {/* Navigation Buttons */}
+          {/* Navigation Buttons - touch-friendly */}
           <div className="hidden sm:flex items-center gap-element-sm">
             <button
               onClick={() => scroll("left")}
-              className="w-9 h-9 rounded-lg bg-muted hover:bg-muted/80 flex items-center justify-center text-foreground transition-colors"
+              className="w-11 h-11 min-w-[44px] min-h-[44px] rounded-lg bg-muted hover:bg-muted/80 active:bg-muted/60 flex items-center justify-center text-foreground transition-colors touch-manipulation"
               aria-label="Scroll left"
             >
               <FontAwesomeIcon icon={faChevronLeft} className="w-4 h-4" />
             </button>
             <button
               onClick={() => scroll("right")}
-              className="w-9 h-9 rounded-lg bg-muted hover:bg-muted/80 flex items-center justify-center text-foreground transition-colors"
+              className="w-11 h-11 min-w-[44px] min-h-[44px] rounded-lg bg-muted hover:bg-muted/80 active:bg-muted/60 flex items-center justify-center text-foreground transition-colors touch-manipulation"
               aria-label="Scroll right"
             >
               <FontAwesomeIcon icon={faChevronRight} className="w-4 h-4" />
@@ -138,8 +138,9 @@ export function ProjectTimeline() {
                 
                 {/* Card */}
                 <motion.div
-                  className={`relative p-card rounded-xl border ${typeStyles[item.type]} backdrop-blur-sm`}
+                  className={`relative p-card rounded-xl border ${typeStyles[item.type]} backdrop-blur-sm touch-manipulation`}
                   whileHover={{ y: -4, scale: 1.02 }}
+                  whileTap={{ scale: 0.98 }}
                   transition={{ type: "spring", stiffness: 400, damping: 25 }}
                 >
                   {/* Year Badge */}

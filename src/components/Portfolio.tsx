@@ -175,9 +175,9 @@ function ProjectCard({ project }: ProjectCardProps) {
               className="text-primary text-sm" 
             />
           </div>
-          {/* Metric Badge */}
+          {/* Metric Badge - responsive sizing with truncation */}
           {project.caseStudy.metric && (
-            <div className="absolute bottom-3 right-3 px-2.5 py-1 rounded-md bg-secondary/90 backdrop-blur-sm text-secondary-foreground text-caption font-semibold shadow-md">
+            <div className="absolute bottom-3 right-3 max-w-[60%] sm:max-w-none px-2 sm:px-2.5 py-1 rounded-md bg-secondary/90 backdrop-blur-sm text-secondary-foreground text-[0.6875rem] sm:text-caption font-semibold shadow-md truncate">
               {project.caseStudy.metric}
             </div>
           )}
@@ -321,9 +321,9 @@ function BlogSection() {
                 href={link.url}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="inline-flex items-center gap-element-sm px-4 py-2 rounded-md bg-muted hover:bg-muted/80 text-foreground text-body-sm font-medium transition-colors"
+                className="inline-flex items-center gap-element-sm px-4 py-3 min-h-[44px] rounded-md bg-muted hover:bg-muted/80 active:bg-muted/60 text-foreground text-body-sm font-medium transition-colors touch-manipulation"
                 whileHover={{ scale: 1.05 }}
-                whileTap={{ scale: 0.98 }}
+                whileTap={{ scale: 0.95 }}
               >
                 <FontAwesomeIcon icon={link.icon} className="w-4 h-4" />
                 <span>{link.label}</span>
