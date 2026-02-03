@@ -164,7 +164,7 @@ const RetroTaskbar = () => {
               <div className="w-2 h-2 bg-primary rounded-[2px]" />
               <div className="w-2 h-2 rounded-[2px] bg-secondary-foreground" />
             </div>
-            <span className="tracking-tight text-card-foreground">Start</span>
+            <span className="tracking-tight text-primary">Start</span>
           </motion.button>
 
           {/* Right side */}
