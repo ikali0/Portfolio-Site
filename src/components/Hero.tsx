@@ -76,7 +76,7 @@ const Hero = () => {
         </motion.p>
 
         {/* Social Actions */}
-        <motion.div className="md:justify-start mb-container-lg flex items-start justify-center gap-element" initial={{
+        <motion.div className="md:justify-start mb-container-lg flex items-start justify-center gap-3" initial={{
         opacity: 0,
         y: 30
       }} animate={{
@@ -86,19 +86,19 @@ const Hero = () => {
         duration: 0.6,
         delay: 0.6
       }}>
-          <motion.a href="https://www.linkedin.com/in/ik11/" target="_blank" rel="noopener noreferrer" className="flex items-center justify-center w-12 h-12 min-w-[48px] min-h-[48px] text-primary-foreground shadow-md rounded-md touch-manipulation bg-accent" aria-label="LinkedIn Profile" whileHover={{
-          scale: 1.1
+          <motion.a href="https://www.linkedin.com/in/ik11/" target="_blank" rel="noopener noreferrer" className="flex items-center justify-center w-11 h-11 min-w-[44px] min-h-[44px] rounded-lg shadow-sm touch-manipulation border border-[#0A66C2]/20 bg-[#0A66C2]/10 hover:bg-[#0A66C2]/20 transition-colors" aria-label="LinkedIn Profile" whileHover={{
+          scale: 1.05
         }} whileTap={{
-          scale: 0.92
+          scale: 0.95
         }}>
-            <FontAwesomeIcon icon={faLinkedin} className="w-5 h-5 bg-primary" />
+            <FontAwesomeIcon icon={faLinkedin} className="w-4 h-4 text-[#0A66C2]" />
           </motion.a>
-          <motion.a href="mailto:altruisticxai@gmail.com" className="flex items-center justify-center w-12 h-12 min-w-[48px] min-h-[48px] bg-secondary hover:bg-secondary/90 active:bg-secondary/80 text-secondary-foreground shadow-md rounded-md touch-manipulation" aria-label="Send Email" whileHover={{
-          scale: 1.1
+          <motion.a href="mailto:altruisticxai@gmail.com" className="flex items-center justify-center w-11 h-11 min-w-[44px] min-h-[44px] rounded-lg shadow-sm touch-manipulation border border-pink-300/30 bg-pink-400/10 hover:bg-pink-400/20 transition-colors" aria-label="Send Email" whileHover={{
+          scale: 1.05
         }} whileTap={{
-          scale: 0.92
+          scale: 0.95
         }}>
-            <FontAwesomeIcon icon={faEnvelope} className="w-5 h-5 border border-solid border-purple-200 bg-transparent" />
+            <FontAwesomeIcon icon={faEnvelope} className="w-4 h-4 text-pink-400" />
           </motion.a>
         </motion.div>
 

@@ -2,9 +2,11 @@
  * About Section Component
  * 
  * Personal introduction with glassmorphism cards, scroll animations, and abstract shapes.
+ * Includes integrated links to AI ethics writing on Medium and Substack.
  */
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faLaptopCode, faLightbulb, faHandshake } from "@fortawesome/free-solid-svg-icons";
+import { faLaptopCode, faLightbulb, faHandshake, faArrowRight } from "@fortawesome/free-solid-svg-icons";
+import { faMedium } from "@fortawesome/free-brands-svg-icons";
 import { motion } from "framer-motion";
 import { FlippingCard } from "./ui/flipping-card";
 import { ScrollFade } from "./ui/scroll-fade";
@@ -94,7 +96,7 @@ const About = () => {
           </div>
 
           {/* Description */}
-          <div className="text-body-sm md:text-body text-muted-foreground space-y-card-sm mb-container md:mb-container-lg leading-relaxed">
+          <div className="text-body-sm md:text-body text-muted-foreground space-y-card-sm mb-card leading-relaxed">
             <p>
               Developer and designer creating digital experiences. Background in{" "}
               <strong className="text-foreground font-semibold">
@@ -107,8 +109,43 @@ const About = () => {
               <strong className="text-foreground font-semibold">
                 technology and social impact
               </strong>
-              .
+              . I write regularly about AI ethics, governance, and responsible deployment.
             </p>
+          </div>
+
+          {/* Writing Links - Editorial Style */}
+          <div className="mb-container md:mb-container-lg">
+            <p className="text-caption text-muted-foreground mb-3">
+              Read my thoughts on AI ethics:
+            </p>
+            <div className="flex flex-wrap gap-2">
+              <motion.a
+                href="https://medium.com/@altruisticxai"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-flex items-center gap-2 px-3 py-2 min-h-[44px] rounded-lg bg-card border border-border/50 text-body-sm font-medium text-foreground hover:border-primary/30 hover:bg-primary/5 transition-colors touch-manipulation group"
+                whileHover={{ scale: 1.02 }}
+                whileTap={{ scale: 0.98 }}
+              >
+                <FontAwesomeIcon icon={faMedium} className="w-4 h-4 text-foreground" />
+                <span>Medium</span>
+                <FontAwesomeIcon icon={faArrowRight} className="w-3 h-3 text-muted-foreground group-hover:text-primary transition-colors" />
+              </motion.a>
+              <motion.a
+                href="https://ingakali.substack.com/"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-flex items-center gap-2 px-3 py-2 min-h-[44px] rounded-lg bg-card border border-border/50 text-body-sm font-medium text-foreground hover:border-[#FF6719]/30 hover:bg-[#FF6719]/5 transition-colors touch-manipulation group"
+                whileHover={{ scale: 1.02 }}
+                whileTap={{ scale: 0.98 }}
+              >
+                <svg className="w-4 h-4 text-[#FF6719]" viewBox="0 0 24 24" fill="currentColor">
+                  <path d="M22.539 8.242H1.46V5.406h21.08v2.836zM1.46 10.812V24L12 18.11 22.54 24V10.812H1.46zM22.54 0H1.46v2.836h21.08V0z"/>
+                </svg>
+                <span>Substack</span>
+                <FontAwesomeIcon icon={faArrowRight} className="w-3 h-3 text-muted-foreground group-hover:text-[#FF6719] transition-colors" />
+              </motion.a>
+            </div>
           </div>
 
           {/* Highlight Cards */}
