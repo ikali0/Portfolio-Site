@@ -1,12 +1,14 @@
 /**
  * SectionHeader Component
- * 
- * A consistent header for page sections with:
- * - Overline label (optional)
- * - Title
- * - Description (optional)
- * - Centered or left-aligned variants
+ *
+ * A consistent header for page sections:
+ * - Optional overline label
+ * - Main title
+ * - Optional description
+ * - Alignment: 'center' or 'left'
  */
+
+import { FC } from "react";
 import { cn } from "@/lib/utils";
 
 interface SectionHeaderProps {
@@ -22,37 +24,23 @@ interface SectionHeaderProps {
   className?: string;
 }
 
-export function SectionHeader({
-  overline,
-  title,
-  description,
-  align = "center",
-  className,
-}: SectionHeaderProps) {
+const SectionHeader: FC<SectionHeaderProps> = ({ overline, title, description, align = "center", className }) => {
   return (
-    <header
-      className={cn(
-        "mb-10 md:mb-14",
-        align === "center" && "text-center",
-        align === "left" && "text-left",
-        className
-      )}
-    >
-      {overline && (
-        <p className="text-overline uppercase text-accent font-semibold mb-2">
-          {overline}
-        </p>
-      )}
-      <h2 className="text-display-sm md:text-display-md font-display text-foreground mb-3">
-        {title}
-      </h2>
+    <header className={cn("mb-10 md:mb-14", align === "center" ? "text-center" : "text-left", className)}>
+      {overline && <p className="text-overline uppercase text-accent font-semibold mb-2">{overline}</p>}
+      <h2 className="text-display-sm md:text-display-md font-display text-foreground mb-3">{title}</h2>
       {description && (
-        <p className="text-body-sm md:text-body text-muted-foreground max-w-lg mx-auto">
+        <p
+          className={cn(
+            "text-body-sm md:text-body text-muted-foreground",
+            align === "center" ? "mx-auto max-w-lg" : "max-w-full",
+          )}
+        >
           {description}
         </p>
       )}
     </header>
   );
-}
+};
 
 export default SectionHeader;
