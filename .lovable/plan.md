@@ -1,124 +1,182 @@
 
+# AI/Ethics Theme Visual Enhancement Plan
 
-# Fix EmailJS "API calls are disabled for non-browser applications" Error
-
-## Problem Identified
-
-The edge function logs show this error:
-```
-EmailJS error: API calls are disabled for non-browser applications
-```
-
-**Root Cause**: The current edge function uses EmailJS's REST API with only the **Public Key** (`user_id`). However, EmailJS requires a **Private Key** (called `accessToken`) for server-side/non-browser API calls. The public key is designed exclusively for browser SDK usage.
+## Overview
+Transform the portfolio from a generic design into a distinctive AI/ethics-themed experience using deep blues for trust and technology, accents of emerald green for ethics and growth, while maintaining the existing retro Windows UI flavor.
 
 ---
 
-## Solution Overview
+## Phase 1: Color Scheme Overhaul
 
-Add the EmailJS **Private Key** to the edge function's API request. This is the correct approach because:
-- Keeps server-side rate limiting (secure)
-- Private key stays in the backend (never exposed to browser)
-- Maintains the existing secure architecture
+### New Color Palette
+**Primary Theme: "Digital Trust"**
+- **Deep Navy** (`210 50% 8%`) - Primary backgrounds and text
+- **Tech Blue** (`213 94% 40%`) - Primary actions, trust indicators
+- **Ethics Green** (`158 60% 45%`) - Accent for ethics/growth elements
+- **Soft Slate** (`215 20% 95%`) - Light backgrounds
+- **Neural Purple** (`265 50% 55%`) - Secondary accent for AI elements
 
----
+### Files to Modify
+1. **src/global.css** - Update CSS custom properties in `:root` and `.dark`:
+   - Replace pink/magenta tones with deep blues
+   - Update accent from current blue to ethics green
+   - Create new shadow colors using blue-green spectrum
+   - Update gradient definitions for AI-inspired depth
 
-## Implementation Steps
-
-### Step 1: Add EmailJS Private Key Secret
-
-You need to add your EmailJS Private Key as a secret in Lovable Cloud:
-
-1. Go to your EmailJS dashboard at [emailjs.com](https://dashboard.emailjs.com)
-2. Navigate to **Account** (top right) then **API Keys**
-3. Copy your **Private Key** (not the Public Key)
-4. In Lovable, the system will prompt you to add this secret
-
-Secret name: `EMAILJS_PRIVATE_KEY`
-
----
-
-### Step 2: Update Edge Function
-
-Modify `supabase/functions/send-contact-email/index.ts` to include the `accessToken` in the API request:
-
-**Current code (broken):**
-```typescript
-body: JSON.stringify({
-  service_id: emailjsServiceId,
-  template_id: emailjsTemplateId,
-  user_id: emailjsPublicKey,  // Only public key - won't work server-side
-  template_params: { ... },
-}),
-```
-
-**Fixed code:**
-```typescript
-body: JSON.stringify({
-  service_id: emailjsServiceId,
-  template_id: emailjsTemplateId,
-  user_id: emailjsPublicKey,
-  accessToken: emailjsPrivateKey,  // ADD: Private key for server-side auth
-  template_params: { ... },
-}),
-```
+2. **src/components/ui/entropy-background.tsx** - Update particle colors:
+   - Replace `pinkColor` with neural purple tones
+   - Replace `tealColor` with ethics green tones
+   - Update divider line gradient to blue-green spectrum
 
 ---
 
-## Files to Modify
+## Phase 2: Typography Refinement
 
-| File | Change |
-|------|--------|
-| `supabase/functions/send-contact-email/index.ts` | Add `accessToken` field with private key to EmailJS API request |
+### Font Strategy
+**Current:** Poppins (body) + Lora (display)
+**Enhanced:** Inter (body - clean, modern) + Playfair Display (headings - elegant, authoritative)
+
+### Changes
+1. **index.html** - Add preconnect links for Google Fonts performance
+2. **src/global.css** - Update font imports:
+   - Add Playfair Display with weights 500, 600, 700
+   - Keep Inter (already loaded) as primary body font
+   - Update `--font-display` and `--font-body` variables
+
+3. **tailwind.config.ts** - Update font families to reference new fonts
+
+### Typography Adjustments
+- Apply `tracking-tight` to all display headings
+- Use `leading-relaxed` (golden ratio ~1.618) for body text
+- Increase font-weight contrast between headings and body
 
 ---
 
-## Code Changes Detail
+## Phase 3: Depth & Visual Polish
 
-### Edge Function Update
+### Gradient Enhancements
+1. **src/global.css** - Add new gradient utilities:
+   - `.gradient-hero` - Subtle blue-to-transparent for Hero section
+   - `.gradient-section` - Alternating section backgrounds
+   - Update `.glass` class with blue-tinted glassmorphism
 
-1. Read the new secret:
-```typescript
-const emailjsPrivateKey = Deno.env.get("EMAILJS_PRIVATE_KEY");
-```
+2. **Component Updates**:
+   - **Hero.tsx** - Add subtle gradient overlay reinforcing AI theme
+   - **About.tsx** - Update glass card gradient to use new palette
+   - **Skills.tsx** - Update bento card accent gradients
 
-2. Validate it exists:
-```typescript
-if (!emailjsServiceId || !emailjsTemplateId || !emailjsPublicKey || !emailjsPrivateKey) {
-  console.error("Missing EmailJS configuration");
-  throw new Error("Email service configuration is missing");
+### Shadow System
+- Update `--shadow-color` to use deep blue (`210 50% 30%`)
+- Create softer, more diffuse shadows for premium feel
+- Add `--shadow-glow` for interactive elements
+
+### Border Refinements
+- Soften border colors to blend with new palette
+- Update `--border` to subtle blue-gray
+
+---
+
+## Phase 4: Component Color Updates
+
+### Hero Section (src/components/Hero.tsx)
+- Update badge background to ethics green with transparency
+- Adjust social button colors to new primary/secondary
+
+### Skills Section (src/components/Skills.tsx)
+- Update bento card accent gradients to AI-inspired color pairs:
+  - Security: Deep red to orange (warning/danger)
+  - AI/LLMs: Neural purple to tech blue (innovation)
+  - Governance: Ethics green to teal (trust/compliance)
+  - Engineering: Tech blue to cyan (technical)
+  - Data: Amber to gold (information/data)
+
+### Retro Taskbar (src/components/ui/retro-taskbar.tsx)
+- Update Windows logo colors to match new palette
+- Adjust taskbar background gradient
+
+### Glass Cards (src/components/ui/glass-card.tsx)
+- Update glass gradient to use new palette
+- Adjust hover shadow to ethics green glow
+
+### Abstract Shapes (src/components/ui/abstract-shapes.tsx)
+- Update gradient stops to use new color variables
+- Maintain animation behavior
+
+---
+
+## Technical Implementation Details
+
+### CSS Variable Updates (src/global.css)
+
+```css
+:root {
+  /* New AI/Ethics Palette */
+  --background: 215 25% 97%;
+  --foreground: 210 50% 12%;
+  --card: 210 30% 98%;
+  --card-foreground: 210 50% 15%;
+  --primary: 213 94% 35%;
+  --primary-foreground: 0 0% 100%;
+  --secondary: 158 60% 42%;
+  --secondary-foreground: 158 60% 15%;
+  --accent: 158 55% 45%;
+  --accent-foreground: 158 55% 10%;
+  --muted: 215 20% 93%;
+  --muted-foreground: 215 15% 40%;
+  --border: 215 20% 85%;
+  --input: 215 25% 92%;
+  --ring: 158 55% 50%;
+  
+  /* Typography */
+  --font-display: 'Playfair Display', Georgia, serif;
+  --font-body: 'Inter', system-ui, sans-serif;
+  
+  /* Enhanced Shadows */
+  --shadow-color: 213 50% 30%;
+  --shadow-soft: 0 4px 20px -4px hsla(213, 50%, 30%, 0.15);
+  --shadow-elevated: 0 8px 32px -8px hsla(213, 50%, 30%, 0.2);
+}
+
+.dark {
+  --background: 210 35% 8%;
+  --foreground: 210 20% 85%;
+  --card: 210 30% 12%;
+  --primary: 213 90% 60%;
+  --secondary: 158 55% 50%;
+  --accent: 158 50% 55%;
+  --border: 210 20% 20%;
+  --shadow-color: 213 50% 15%;
 }
 ```
 
-3. Include in API request body:
-```typescript
-body: JSON.stringify({
-  service_id: emailjsServiceId,
-  template_id: emailjsTemplateId,
-  user_id: emailjsPublicKey,
-  accessToken: emailjsPrivateKey,  // Required for server-side calls
-  template_params: {
-    from_name: name,
-    reply_to: email,
-    subject: subject,
-    message: message,
-  },
-}),
+### Font Import Update
+
+```css
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@500;600;700&family=Inter:wght@300;400;500;600&family=Geist+Mono&display=swap');
 ```
 
 ---
 
-## Security Notes
+## Files to be Modified
 
-- The Private Key is stored securely in Lovable Cloud secrets (encrypted)
-- It is only used in the edge function (server-side), never exposed to the browser
-- This approach maintains the secure rate-limiting architecture already in place
+| File | Changes |
+|------|---------|
+| `index.html` | Add font preconnect links for performance |
+| `src/global.css` | Full color palette overhaul, typography updates, new shadows/gradients |
+| `tailwind.config.ts` | Update font family references |
+| `src/components/Hero.tsx` | Update badge and button colors |
+| `src/components/Skills.tsx` | Update bento card accent gradients |
+| `src/components/ui/entropy-background.tsx` | Update particle/line colors |
+| `src/components/ui/glass-card.tsx` | Update glass gradient and hover effects |
+| `src/components/ui/abstract-shapes.tsx` | Update SVG gradient colors |
+| `src/components/ui/retro-taskbar.tsx` | Update Windows logo and taskbar colors |
 
 ---
 
-## After Implementation
-
-Once the private key is added and the edge function is updated:
-1. The contact form submissions will work correctly
-2. Server-side rate limiting remains active (3 submissions per hour per IP)
-3. All EmailJS credentials stay secure on the backend
-
+## Expected Outcome
+- A cohesive AI/ethics visual identity with deep blues conveying trust and technology
+- Ethics green accents highlighting growth and responsible innovation
+- Modern, premium typography with Playfair Display headings
+- Enhanced depth through refined shadows and subtle gradients
+- Maintained retro Windows aesthetic with updated color scheme
+- Improved contrast and accessibility across light/dark modes
