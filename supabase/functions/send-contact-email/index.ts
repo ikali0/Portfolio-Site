@@ -83,8 +83,9 @@ serve(async (req) => {
     const emailjsServiceId = Deno.env.get("VITE_EMAILJS_SERVICE_ID");
     const emailjsTemplateId = Deno.env.get("VITE_EMAILJS_TEMPLATE_ID");
     const emailjsPublicKey = Deno.env.get("VITE_EMAILJS_PUBLIC_KEY");
+    const emailjsPrivateKey = Deno.env.get("EMAILJS_PRIVATE_KEY");
 
-    if (!emailjsServiceId || !emailjsTemplateId || !emailjsPublicKey) {
+    if (!emailjsServiceId || !emailjsTemplateId || !emailjsPublicKey || !emailjsPrivateKey) {
       console.error("Missing EmailJS configuration");
       throw new Error("Email service configuration is missing");
     }
@@ -101,6 +102,7 @@ serve(async (req) => {
           service_id: emailjsServiceId,
           template_id: emailjsTemplateId,
           user_id: emailjsPublicKey,
+          accessToken: emailjsPrivateKey,
           template_params: {
             from_name: name,
             reply_to: email,
