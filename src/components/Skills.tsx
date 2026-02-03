@@ -144,7 +144,7 @@ const Skills = () => {
 
         {/* Secondary Stack */}
         <div className="mt-12 flex flex-wrap justify-center gap-2">
-          {secondaryTech.map(tech => <span key={tech} className="px-4 py-1.5 text-[10px] md:text-xs font-medium text-slate-500 bg-white border border-slate-200 rounded-full shadow-sm">
+          {secondaryTech.map(tech => <span key={tech} className="py-1.5 text-[10px] md:text-xs font-medium text-slate-500 bg-white border border-slate-200 rounded-full shadow-sm px-[6px] text-center">
               {tech}
             </span>)}
         </div>
