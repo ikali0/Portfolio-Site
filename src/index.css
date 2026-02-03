@@ -767,3 +767,43 @@
     transition: opacity 0.1s ease-out;
   }
 }
+
+/* ========================================
+ * REDUCED MOTION SUPPORT
+ * Respects user preference for reduced motion
+ * ======================================== */
+@media (prefers-reduced-motion: reduce) {
+  /* Disable CRT effects */
+  .crt-screen,
+  .crt-flicker,
+  .crt-scanlines,
+  .crt-rgb-shift {
+    animation: none !important;
+  }
+  
+  .crt-scanlines {
+    display: none !important;
+  }
+  
+  .crt-screen::before,
+  .crt-rgb-shift::after {
+    display: none !important;
+  }
+  
+  /* Reduce all animations */
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+  
+  /* Keep essential transforms but disable animations */
+  .portfolio-card-inner,
+  .portfolio-tag,
+  .portfolio-button {
+    transition: none !important;
+  }
+}
