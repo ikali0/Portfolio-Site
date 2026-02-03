@@ -130,13 +130,13 @@ function BentoCardComponent({
   const Icon = card.icon;
   const spanClasses = {
     normal: "col-span-1 row-span-1",
-    wide: "col-span-1 sm:col-span-2 md:col-span-2 row-span-1",
-    tall: "col-span-1 row-span-1 sm:row-span-1 lg:row-span-2",
-    large: "col-span-1 sm:col-span-2 md:col-span-2 row-span-1 lg:row-span-2"
+    wide: "col-span-1 sm:col-span-2 row-span-1",
+    tall: "col-span-1 row-span-1 lg:row-span-2",
+    large: "col-span-1 sm:col-span-2 row-span-1 lg:row-span-2"
   };
-  return <motion.div className={`${spanClasses[card.span]} relative overflow-hidden rounded-xl glass shadow-soft group touch-manipulation`} whileHover={{
-    scale: 1.02,
-    boxShadow: "0 12px 40px -12px hsl(158 55% 45% / 0.2)"
+  return <motion.div className={`${spanClasses[card.span]} relative overflow-hidden rounded-lg glass shadow-soft group touch-manipulation border border-border/30`} whileHover={{
+    scale: 1.01,
+    boxShadow: "0 8px 24px -8px hsl(158 55% 45% / 0.15)"
   }} whileTap={{
     scale: 0.99
   }} transition={{
@@ -148,19 +148,19 @@ function BentoCardComponent({
       <div className={`absolute inset-0 bg-gradient-to-br ${card.accent} opacity-0 group-hover:opacity-100 transition-opacity duration-500`} aria-hidden="true" />
       
       {/* Content */}
-      <div className="relative z-10 p-card h-full flex flex-col">
+      <div className="relative z-10 p-4 h-full flex flex-col">
         {/* Header */}
-        <div className="mb-card flex items-start justify-center gap-[6px]">
-          <div className="w-10 h-10 small-primary/10 group-hover:sm-primary/20 transition-colors rounded-sm flex items-center justify-center">
-            <Icon className="text-primary h-[14px] w-[14px]" />
+        <div className="mb-3 flex items-center gap-2">
+          <div className="w-7 h-7 bg-primary/10 group-hover:bg-primary/20 transition-colors rounded flex items-center justify-center">
+            <Icon className="text-primary h-3.5 w-3.5" />
           </div>
-          <h3 className="text-body font-display font-semibold text-foreground">
+          <h3 className="text-body-sm font-display font-semibold text-foreground">
             {card.category}
           </h3>
         </div>
 
         {/* Skills */}
-        <div className="space-y-card-sm flex-1">
+        <div className="space-y-3 flex-1">
           {card.skills.map(skill => <SkillBar key={skill.name} name={skill.name} level={skill.level} examples={skill.examples} />)}
         </div>
       </div>
@@ -189,7 +189,7 @@ const Skills = () => {
         </ScrollFade>
 
         {/* Bento Grid */}
-        <StaggerContainer className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 auto-rows-[minmax(180px,auto)] gap-container" staggerDelay={0.08}>
+        <StaggerContainer className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 auto-rows-[minmax(140px,auto)] gap-4" staggerDelay={0.08}>
           {bentoCards.map(card => <StaggerItem key={card.id}>
               <BentoCardComponent card={card} />
             </StaggerItem>)}
