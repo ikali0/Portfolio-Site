@@ -35,7 +35,7 @@ const Hero = () => {
         duration: 0.6,
         delay: 0.1
       }}>
-          <span className="inline-block py-1.5 mb-card uppercase bg-secondary/15 text-secondary-foreground rounded-full shadow-sm border border-secondary/25 backdrop-blur-sm text-xs font-normal font-serif text-center px-[6px]">
+          <span className="inline-block py-1.5 mb-card uppercase bg-secondary/15 text-secondary-foreground rounded-full shadow-sm border border-secondary/25 backdrop-blur-sm text-xs font-serif text-center px-[6px] font-light">
             Applied AI Engineer & Independent Consultant
           </span>
         </motion.div>

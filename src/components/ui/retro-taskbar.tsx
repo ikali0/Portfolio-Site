@@ -154,7 +154,7 @@ const RetroTaskbar = () => {
                       bg-card/90 backdrop-blur-xl border-t border-border/30">
         <div className="flex items-center justify-between h-full px-3">
           {/* Start Button */}
-          <motion.button ref={startButtonRef} onClick={() => setIsStartOpen(v => !v)} className="flex items-center gap-2 h-9 border font-[Segoe_UI] text-sm font-medium focus:outline-none focus:ring-2 focus:ring-primary/40 bg-secondary px-[14px] border-secondary-foreground border-solid text-center rounded-sm" whileTap={{
+          <motion.button ref={startButtonRef} onClick={() => setIsStartOpen(v => !v)} className="flex items-center gap-2 h-9 border font-[Segoe_UI] text-sm font-medium focus:outline-none focus:ring-2 focus:ring-primary/40 bg-secondary border-solid text-center rounded-sm px-[12px] border-accent" whileTap={{
           y: 1
         }}>
             {/* Windows logo tiles */}
