@@ -96,21 +96,18 @@ function ProjectCard({ project }: ProjectCardProps) {
       whileHover={{ scale: 1.02 }}
       transition={{ type: "spring", stiffness: 400, damping: 25 }}
     >
-      <div className="flex flex-col h-full overflow-hidden rounded-xl glass shadow-soft">
+      <div className="flex flex-col h-full card card--glass shadow-soft">
         {/* Image Container with hover zoom effect */}
-        <div className="card-image-shine relative aspect-[16/10] sm:aspect-[4/3] overflow-hidden bg-muted group">
+        <div className="card__image relative aspect-[16/10] sm:aspect-[4/3] group">
           <img
             src={project.image}
             alt={project.title}
             loading="lazy"
-            className="w-full h-full object-cover transition-transform duration-300 ease-out group-hover:scale-105"
+            className="card__image-zoom"
           />
           {/* Category Icon Badge */}
-          <div className="absolute top-3 left-3 w-8 h-8 rounded-lg bg-card/90 backdrop-blur-sm flex items-center justify-center shadow-md">
-            <FontAwesomeIcon 
-              icon={project.icon} 
-              className="text-primary text-sm" 
-            />
+          <div className="absolute top-3 left-3 icon-badge icon-badge--sm icon-badge--card">
+            <FontAwesomeIcon icon={project.icon} className="text-primary text-sm" />
           </div>
           <div
             className="absolute inset-0 bg-gradient-to-t from-card/40 via-transparent to-transparent opacity-65 transition-opacity duration-300 group-hover:opacity-80"
@@ -125,7 +122,7 @@ function ProjectCard({ project }: ProjectCardProps) {
         </div>
 
         {/* Content */}
-        <div className="relative flex flex-col flex-1 p-card">
+        <div className="card__content relative flex flex-col flex-1">
           <h3 className="text-subheading font-display font-semibold text-foreground leading-tight mb-element-sm line-clamp-2">
             {project.title}
           </h3>
@@ -170,7 +167,7 @@ const Portfolio = () => {
   return (
     <section
       id="portfolio"
-      className="relative py-section-sm md:py-section px-4 bg-muted/30 overflow-hidden"
+      className="section section--padded section--muted"
       aria-labelledby="portfolio-heading"
     >
       {/* Abstract background elements with parallax */}
@@ -185,7 +182,7 @@ const Portfolio = () => {
         <WavyLine className="w-full h-full opacity-50" />
       </ParallaxShape>
 
-      <div className="container relative z-10 mx-auto max-w-6xl">
+      <div className="section__container section__container--xl">
         <ScrollFade>
           <SectionHeader
             overline="Personal Projects"
@@ -195,10 +192,7 @@ const Portfolio = () => {
         </ScrollFade>
 
         {/* Responsive Grid */}
-        <StaggerContainer
-          className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-container md:gap-container-lg"
-          staggerDelay={0.08}
-        >
+        <StaggerContainer className="grid--cards" staggerDelay={0.08}>
           {projects.map((project) => (
             <StaggerItem key={project.title}>
               <ProjectCard project={project} />
