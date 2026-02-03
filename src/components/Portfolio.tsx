@@ -192,17 +192,17 @@ function ProjectCard({
     stiffness: 400,
     damping: 25
   }}>
-      <div className="flex flex-col h-full overflow-hidden rounded-xl glass shadow-soft">
+      <div className="flex flex-col h-full overflow-hidden rounded-lg glass shadow-soft border border-border/30">
         {/* Image Container with hover zoom effect */}
         <div className="card-image-shine relative aspect-[16/10] overflow-hidden bg-muted group">
           <img src={project.image} alt={project.title} loading="lazy" className="w-full h-full object-cover transition-transform duration-300 ease-out group-hover:scale-105" />
           {/* Category Icon Badge */}
-          <div className="absolute top-3 left-3 w-8 h-8 rounded-lg bg-card/90 backdrop-blur-sm flex items-center justify-center shadow-md">
-            <FontAwesomeIcon icon={project.icon} className="text-primary text-sm" />
+          <div className="absolute top-2 left-2 w-6 h-6 rounded bg-card/90 backdrop-blur-sm flex items-center justify-center shadow-sm">
+            <FontAwesomeIcon icon={project.icon} className="text-primary text-xs" />
           </div>
           {/* Primary Impact Metric Badge */}
           {project.impactMetrics[0] && (
-            <div className="absolute bottom-3 right-3 max-w-[70%] sm:max-w-none px-2 sm:px-2.5 py-1 rounded-md bg-secondary/90 backdrop-blur-sm text-secondary-foreground text-[0.6875rem] sm:text-caption font-semibold shadow-md truncate">
+            <div className="absolute bottom-2 right-2 max-w-[70%] sm:max-w-none px-1.5 py-0.5 rounded bg-secondary/90 backdrop-blur-sm text-secondary-foreground text-[0.625rem] font-medium shadow-sm truncate">
               {project.impactMetrics[0].label}: {project.impactMetrics[0].value}
             </div>
           )}
@@ -210,17 +210,17 @@ function ProjectCard({
         </div>
 
         {/* Content */}
-        <div className="relative flex flex-col flex-1 p-card">
-          <h3 className="text-subheading font-display font-semibold text-foreground leading-tight mb-element-sm">
+        <div className="relative flex flex-col flex-1 p-3">
+          <h3 className="text-body-sm font-display font-semibold text-foreground leading-tight mb-1">
             {project.title}
           </h3>
 
-          <p className="text-body-sm text-muted-foreground leading-relaxed mb-element line-clamp-2">
+          <p className="text-caption text-muted-foreground leading-relaxed mb-2 line-clamp-2">
             {project.description}
           </p>
 
           {/* Category Tags */}
-          <div className="flex flex-wrap gap-element-sm mb-element" role="list" aria-label="Categories">
+          <div className="flex flex-wrap gap-1 mb-2" role="list" aria-label="Categories">
             {project.tags.map(tag => (
               <Tag key={tag} variant="default" size="sm" role="listitem">
                 {tag}
@@ -374,7 +374,7 @@ const Portfolio = () => {
         <WavyLine className="w-full h-full opacity-50" />
       </ParallaxShape>
 
-      <div className="container relative z-10 mx-auto max-w-6xl">
+      <div className="container relative z-10 mx-auto max-w-5xl">
         <ScrollFade>
           <SectionHeader 
             overline="Case Studies" 
@@ -385,7 +385,7 @@ const Portfolio = () => {
 
         {/* Responsive Grid */}
         <StaggerContainer 
-          className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-container md:gap-container-lg" 
+          className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4" 
           staggerDelay={0.08}
         >
           {projects.map(project => (

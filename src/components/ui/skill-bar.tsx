@@ -42,15 +42,15 @@ export function SkillBar({
       onClick={handleClick}
     >
       {/* Header row */}
-      <div className="flex justify-between items-end mb-2">
-        <span className="font-semibold text-foreground text-body-sm">{name}</span>
-        <span className="text-caption font-mono text-muted-foreground">
+      <div className="flex justify-between items-end mb-1">
+        <span className="font-medium text-foreground text-caption">{name}</span>
+        <span className="text-[10px] font-mono text-muted-foreground">
           {level}%
         </span>
       </div>
 
       {/* Progress bar */}
-      <div className="h-1.5 w-full rounded-full overflow-hidden bg-muted border border-border">
+      <div className="h-1 w-full rounded-full overflow-hidden bg-muted/50">
         <motion.div
           initial={{ width: 0 }}
           whileInView={{ width: `${level}%` }}
