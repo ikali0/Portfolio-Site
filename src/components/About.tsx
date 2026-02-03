@@ -112,7 +112,7 @@ const About = () => {
           <div className="mb-container md:mb-container-lg">
             
             <TooltipProvider>
-              <div className="flex flex-wrap gap-3">
+              <div className="flex flex-wrap gap-[20px]">
                 {/* Medium Button */}
                 <Tooltip>
                   <TooltipTrigger asChild>
