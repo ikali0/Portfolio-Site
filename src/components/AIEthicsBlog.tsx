@@ -30,9 +30,8 @@ interface BlogArticle {
 
 const allArticles: BlogArticle[] = [
   {
-    title: "Building Fairness Metrics That Actually Matter",
-    excerpt:
-      "A practical guide to selecting and implementing fairness metrics that align with your organization's values and regulatory requirements.",
+    title: "Fairness Is Not a Metric",
+    excerpt: "Reframing algorithmic fairness as an epistemological and justice-based challenge.",
     readTime: "8 min read",
     publishDate: "Jan 2025",
     category: "Bias Detection",
