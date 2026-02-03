@@ -1,429 +1,182 @@
-# BEM Refactoring + Portfolio Case Study Expansion
+
+# AI/Ethics Theme Visual Enhancement Plan
 
 ## Overview
-
-This plan covers two major enhancements:
-
-1. Refactor About, Skills, and Contact sections to use the BEM utility classes already defined in `global.css`
-2. Transform the Portfolio section from basic descriptions into compelling case studies with problem/approach/outcomes structure
+Transform the portfolio from a generic design into a distinctive AI/ethics-themed experience using deep blues for trust and technology, accents of emerald green for ethics and growth, while maintaining the existing retro Windows UI flavor.
 
 ---
 
-## Part 1: BEM Refactoring for Consistency
+## Phase 1: Color Scheme Overhaul
 
-### About Section (`src/components/About.tsx`)
+### New Color Palette
+**Primary Theme: "Digital Trust"**
+- **Deep Navy** (`210 50% 8%`) - Primary backgrounds and text
+- **Tech Blue** (`213 94% 40%`) - Primary actions, trust indicators
+- **Ethics Green** (`158 60% 45%`) - Accent for ethics/growth elements
+- **Soft Slate** (`215 20% 95%`) - Light backgrounds
+- **Neural Purple** (`265 50% 55%`) - Secondary accent for AI elements
 
-**Current State:** Uses inline Tailwind classes like `py-section-sm md:py-section px-4 bg-muted/30`
+### Files to Modify
+1. **src/global.css** - Update CSS custom properties in `:root` and `.dark`:
+   - Replace pink/magenta tones with deep blues
+   - Update accent from current blue to ethics green
+   - Create new shadow colors using blue-green spectrum
+   - Update gradient definitions for AI-inspired depth
 
-**Changes:**
-
-- Replace section wrapper with `section section--padded section--muted`
-- Replace container with `section__container section__container--sm`
-- Replace header block with `header`, `header__overline`, `header__title`
-- Add `card--glass` to the main content card
-
-**Key Replacements:**
-
-```text
-"relative py-section-sm md:py-section px-4 bg-muted/30 overflow-hidden"
-  → "section section--padded section--muted"
-
-"container relative z-10 mx-auto max-w-2xl glass rounded-xl..."
-  → "section__container section__container--sm card card--glass"
-
-"mb-container md:mb-container-lg"
-  → "header"
-
-"text-overline uppercase text-accent font-semibold mb-element-sm"
-  → "header__overline"
-```
+2. **src/components/ui/entropy-background.tsx** - Update particle colors:
+   - Replace `pinkColor` with neural purple tones
+   - Replace `tealColor` with ethics green tones
+   - Update divider line gradient to blue-green spectrum
 
 ---
 
-### Skills Section (`src/components/Skills.tsx`)
+## Phase 2: Typography Refinement
 
-**Current State:** Uses inline classes for section and bento grid layout
+### Font Strategy
+**Current:** Poppins (body) + Lora (display)
+**Enhanced:** Inter (body - clean, modern) + Playfair Display (headings - elegant, authoritative)
 
-**Changes:**
+### Changes
+1. **index.html** - Add preconnect links for Google Fonts performance
+2. **src/global.css** - Update font imports:
+   - Add Playfair Display with weights 500, 600, 700
+   - Keep Inter (already loaded) as primary body font
+   - Update `--font-display` and `--font-body` variables
 
-- Replace section wrapper with `section section--padded section--background`
-- Replace container with `section__container section__container--lg`
-- Replace bento grid with `grid--bento` utility class
-- Apply `card--glass` to BentoCardComponent
-- Use `icon-badge icon-badge--md icon-badge--primary` for skill icons
+3. **tailwind.config.ts** - Update font families to reference new fonts
 
-**Key Replacements:**
-
-```text
-"relative py-section-sm md:py-section px-4 bg-background overflow-hidden"
-  → "section section--padded section--background"
-
-"grid grid-cols-1 md:grid-cols-3 auto-rows-[minmax(180px,auto)] gap-container"
-  → "grid--bento"
-
-Icon container: → "icon-badge icon-badge--md icon-badge--primary"
-```
+### Typography Adjustments
+- Apply `tracking-tight` to all display headings
+- Use `leading-relaxed` (golden ratio ~1.618) for body text
+- Increase font-weight contrast between headings and body
 
 ---
 
-### Contact Section (`src/components/Contact.tsx`)
+## Phase 3: Depth & Visual Polish
 
-**Current State:** Uses inline Tailwind for sections and retro windows
+### Gradient Enhancements
+1. **src/global.css** - Add new gradient utilities:
+   - `.gradient-hero` - Subtle blue-to-transparent for Hero section
+   - `.gradient-section` - Alternating section backgrounds
+   - Update `.glass` class with blue-tinted glassmorphism
 
-**Changes:**
+2. **Component Updates**:
+   - **Hero.tsx** - Add subtle gradient overlay reinforcing AI theme
+   - **About.tsx** - Update glass card gradient to use new palette
+   - **Skills.tsx** - Update bento card accent gradients
 
-- Replace section wrapper with `section section--padded section--background`
-- Replace container with `section__container section__container--lg`
-- Replace header with BEM classes `header`, `header__overline`, `header__description`
-- Use `grid--two-col` for the two-column layout
-- Apply `retro-window__title-bar` and `retro-window__content` BEM classes
-- Use `list`, `list__item`, `list__icon`, `list__text` for services list
+### Shadow System
+- Update `--shadow-color` to use deep blue (`210 50% 30%`)
+- Create softer, more diffuse shadows for premium feel
+- Add `--shadow-glow` for interactive elements
 
-**Key Replacements:**
-
-```text
-"relative py-section-sm md:py-section px-4 pb-section bg-background overflow-hidden"
-  → "section section--padded section--background"
-
-"grid sm:grid-cols-2 gap-container-lg"
-  → "grid--two-col"
-
-"retro-title-bar" → "retro-window__title-bar"
-"p-card bg-card/70 backdrop-blur-sm" → "retro-window__content"
-
-Service list items → "list__item" with "list__icon" and "list__text"
-```
+### Border Refinements
+- Soften border colors to blend with new palette
+- Update `--border` to subtle blue-gray
 
 ---
 
-## Part 2: Portfolio Case Study Expansion
+## Phase 4: Component Color Updates
 
-### New Data Structure
+### Hero Section (src/components/Hero.tsx)
+- Update badge background to ethics green with transparency
+- Adjust social button colors to new primary/secondary
 
-Expand `ProjectData` interface to include case study fields:
+### Skills Section (src/components/Skills.tsx)
+- Update bento card accent gradients to AI-inspired color pairs:
+  - Security: Deep red to orange (warning/danger)
+  - AI/LLMs: Neural purple to tech blue (innovation)
+  - Governance: Ethics green to teal (trust/compliance)
+  - Engineering: Tech blue to cyan (technical)
+  - Data: Amber to gold (information/data)
 
-```typescript
-interface ProjectData {
-  title: string;
-  // Case Study Fields
-  problem: string;      // The challenge (1-2 sentences)
-  approach: string;     // Methodology (1-2 sentences)
-  outcomes: string[];   // Measurable impacts (2-4 bullet points)
-  // Existing fields
-  image: string;
-  tags: string[];
-  icon: typeof faChartLine;
-  github?: string;
-  live?: string;
-  // Optional fields
-  testimonial?: {
-    quote: string;
-    author: string;
-    role: string;
-  };
-}
-```
+### Retro Taskbar (src/components/ui/retro-taskbar.tsx)
+- Update Windows logo colors to match new palette
+- Adjust taskbar background gradient
 
-### Case Study Content for Each Project
+### Glass Cards (src/components/ui/glass-card.tsx)
+- Update glass gradient to use new palette
+- Adjust hover shadow to ethics green glow
 
-**1. AI Ethics Dashboard**
-
-- **Problem:** Organizations lacked real-time visibility into AI system fairness, making bias detection reactive rather than proactive.
-- **Approach:** Built an interactive monitoring platform with automated auditing pipelines and customizable fairness thresholds.
-- **Outcomes:**
-  - Reduced bias detection time by 60%
-  - Enabled proactive intervention in 3 enterprise deployments
-  - Decreased false positive rate by 35%
-
-**2. Governance Framework**
-
-- **Problem:** Manual policy compliance checking created bottlenecks and inconsistencies in AI deployment approvals.
-- **Approach:** Developed an automated policy engine that maps governance requirements to technical controls.
-- **Outcomes:**
-  - Cut compliance review time by 45%
-  - Achieved 98% policy coverage across 12 regulatory frameworks
-  - Reduced deployment delays by 2 weeks on average
-
-**3. Stakeholder Mapping**
-
-- **Problem:** Complex tech projects failed due to unidentified stakeholder conflicts and power dynamics.
-- **Approach:** Created a force-directed graph visualization tool for mapping interests, influence, and potential friction points.
-- **Outcomes:**
-  - Identified 23 previously overlooked stakeholder conflicts
-  - Improved stakeholder buy-in by 40%
-  - Reduced project scope creep incidents by 30%
-
-**4. Bias Detection API**
-
-- **Problem:** Data scientists lacked standardized tools for measuring multiple bias types across diverse datasets.
-- **Approach:** Built a RESTful API with modular bias metrics and automated reporting for ML pipelines.
-- **Outcomes:**
-  - Reduced bias in model outputs by 25%
-  - Integrated into 5 production ML pipelines
-  - Processed 2M+ bias evaluations
-
-**5. Decision Framework**
-
-- **Problem:** Teams made inconsistent ethical decisions under time pressure without structured guidance.
-- **Approach:** Developed a mobile-first app with timed ethical frameworks and decision audit trails.
-- **Outcomes:**
-  - Improved decision consistency by 50%
-  - Reduced ethical incidents by 35%
-  - Adopted by 3 organizations
-
-**6. Tutoring & Applied Services**
-
-- **Problem:** Students needed personalized, adaptive learning experiences that traditional tutoring couldn't provide at scale.
-- **Approach:** Built an AI-powered platform with adaptive curriculum and real-time progress tracking.
-- **Outcomes:**
-  - Improved student outcomes by 30%
-  - Delivered 500+ tutoring sessions
-  - Achieved 95% satisfaction rating
+### Abstract Shapes (src/components/ui/abstract-shapes.tsx)
+- Update gradient stops to use new color variables
+- Maintain animation behavior
 
 ---
 
-### Updated ProjectCard Component
+## Technical Implementation Details
 
-The card layout will be restructured as:
-
-```text
-┌──────────────────────────────────────┐
-│  [Image with hover zoom]             │
-│  [Category Icon Badge]               │
-├──────────────────────────────────────┤
-│  Title                               │
-│                                      │
-│  THE CHALLENGE                       │
-│  Problem description...              │
-│                                      │
-│  THE APPROACH                        │
-│  Approach description...             │
-│                                      │
-│  IMPACT                              │
-│  • Outcome 1                         │
-│  • Outcome 2                         │
-│  • Outcome 3                         │
-│                                      │
-│  [Tags: React, Python, ...]          │
-│                                      │
-│  [View Case Study Button]            │
-└──────────────────────────────────────┘
-```
-
-### New BEM Classes Needed (add to global.css)
+### CSS Variable Updates (src/global.css)
 
 ```css
-/* Case Study Card */
-.case-study {
-  @apply flex flex-col h-full;
+:root {
+  /* New AI/Ethics Palette */
+  --background: 215 25% 97%;
+  --foreground: 210 50% 12%;
+  --card: 210 30% 98%;
+  --card-foreground: 210 50% 15%;
+  --primary: 213 94% 35%;
+  --primary-foreground: 0 0% 100%;
+  --secondary: 158 60% 42%;
+  --secondary-foreground: 158 60% 15%;
+  --accent: 158 55% 45%;
+  --accent-foreground: 158 55% 10%;
+  --muted: 215 20% 93%;
+  --muted-foreground: 215 15% 40%;
+  --border: 215 20% 85%;
+  --input: 215 25% 92%;
+  --ring: 158 55% 50%;
+  
+  /* Typography */
+  --font-display: 'Playfair Display', Georgia, serif;
+  --font-body: 'Inter', system-ui, sans-serif;
+  
+  /* Enhanced Shadows */
+  --shadow-color: 213 50% 30%;
+  --shadow-soft: 0 4px 20px -4px hsla(213, 50%, 30%, 0.15);
+  --shadow-elevated: 0 8px 32px -8px hsla(213, 50%, 30%, 0.2);
 }
-.case-study__section {
-  @apply mb-element;
-}
-.case-study__label {
-  @apply text-overline uppercase text-accent font-semibold mb-1 tracking-wide;
-}
-.case-study__text {
-  @apply text-body-sm text-muted-foreground leading-relaxed;
-}
-.case-study__outcomes {
-  @apply space-y-element-sm;
-}
-.case-study__outcome {
-  @apply flex items-start gap-element-sm text-body-sm text-foreground;
-}
-.case-study__outcome-marker {
-  @apply text-secondary font-bold;
-}
-```
 
----
-
-## Part 3: Optional Sections
-
-### A. Blog/Philosophy Link Section
-
-Add a compact "Thoughts" or "Writing" section between Portfolio and Experience:
-
-```typescript
-const blogLinks = [
-  {
-    title: "The Ethics of AI Automation",
-    platform: "Medium",
-    url: "https://medium.com/@...",
-    icon: faPenToSquare
-  },
-  // Add more as needed
-];
-```
-
-If no links exist yet, show a placeholder with a future link to Substack/Medium.
-
-### B. Testimonials (Optional)
-
-Add testimonial capability to project cards:
-
-```typescript
-testimonial?: {
-  quote: string;
-  author: string;
-  role: string;
+.dark {
+  --background: 210 35% 8%;
+  --foreground: 210 20% 85%;
+  --card: 210 30% 12%;
+  --primary: 213 90% 60%;
+  --secondary: 158 55% 50%;
+  --accent: 158 50% 55%;
+  --border: 210 20% 20%;
+  --shadow-color: 213 50% 15%;
 }
 ```
 
-Display as a collapsible or hover-revealed quote within the card.
+### Font Import Update
 
-### C. Visual Timeline Enhancement
-
-The Experience section already has a timeline. Optionally add a compact "Project Timeline" view showing project dates chronologically.
+```css
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@500;600;700&family=Inter:wght@300;400;500;600&family=Geist+Mono&display=swap');
+```
 
 ---
 
 ## Files to be Modified
 
-| File                           | Changes                    |
-| ------------------------------ | -------------------------- |
-| `src/global.css`               | Add case study BEM classes |
-| `src/components/About.tsx`     | Apply BEM classes          |
-| `src/components/Skills.tsx`    | Apply BEM classes          |
-| `src/components/Contact.tsx`   | Apply BEM classes          |
-| `src/components/Portfolio.tsx` | Full case study refactor   |
-
----
-
-## Technical Details
-
-### New CSS Classes (global.css)
-
-```css
-/* Case Study Component */
-.case-study {
-  @apply flex flex-col h-full;
-}
-.case-study__section {
-  @apply mb-element;
-}
-.case-study__label {
-  @apply text-overline uppercase text-accent font-semibold mb-1 tracking-wide;
-  font-size: 0.65rem;
-}
-.case-study__text {
-  @apply text-body-sm text-muted-foreground leading-relaxed;
-}
-.case-study__outcomes {
-  @apply space-y-element-sm;
-}
-.case-study__outcome {
-  @apply flex items-start gap-element-sm text-body-sm text-foreground;
-}
-.case-study__outcome-marker {
-  @apply text-secondary font-bold flex-shrink-0;
-}
-
-/* Blog/Writing Section */
-.writing-link {
-  @apply flex items-center gap-element p-card-sm rounded-lg glass;
-  @apply hover:bg-primary/5 transition-colors;
-}
-.writing-link__icon {
-  @apply text-primary;
-}
-.writing-link__title {
-  @apply text-body-sm font-medium text-foreground;
-}
-.writing-link__platform {
-  @apply text-caption text-muted-foreground;
-}
-
-/* Testimonial */
-.testimonial {
-  @apply mt-element pt-element border-t border-border/50;
-}
-.testimonial__quote {
-  @apply text-caption italic text-muted-foreground leading-relaxed;
-}
-.testimonial__author {
-  @apply text-caption font-medium text-foreground mt-element-sm;
-}
-.testimonial__role {
-  @apply text-caption text-muted-foreground;
-}
-```
-
-### Updated ProjectData Interface
-
-```typescript
-interface ProjectData {
-  title: string;
-  // Case Study
-  problem: string;
-  approach: string;
-  outcomes: string[];
-  // Media
-  image: string;
-  tags: string[];
-  icon: typeof faChartLine;
-  // Links
-  github?: string;
-  live?: string;
-  // Optional
-  testimonial?: {
-    quote: string;
-    author: string;
-    role: string;
-  };
-}
-```
-
-### Sample Case Study Card JSX Structure
-
-```tsx
-<div className="case-study card__content">
-  <h3 className="text-subheading font-display font-semibold mb-element">
-    {project.title}
-  </h3>
-
-  {/* Problem */}
-  <div className="case-study__section">
-    <p className="case-study__label">The Challenge</p>
-    <p className="case-study__text">{project.problem}</p>
-  </div>
-
-  {/* Approach */}
-  <div className="case-study__section">
-    <p className="case-study__label">The Approach</p>
-    <p className="case-study__text">{project.approach}</p>
-  </div>
-
-  {/* Outcomes */}
-  <div className="case-study__section">
-    <p className="case-study__label">Impact</p>
-    <ul className="case-study__outcomes">
-      {project.outcomes.map((outcome, i) => (
-        <li key={i} className="case-study__outcome">
-          <span className="case-study__outcome-marker">+</span>
-          <span>{outcome}</span>
-        </li>
-      ))}
-    </ul>
-  </div>
-
-  {/* Tags */}
-  <div className="flex flex-wrap gap-element-sm mt-auto pt-element">
-    {project.tags.map((tag) => (
-      <Tag key={tag} variant="default" size="sm">{tag}</Tag>
-    ))}
-  </div>
-</div>
-```
+| File | Changes |
+|------|---------|
+| `index.html` | Add font preconnect links for performance |
+| `src/global.css` | Full color palette overhaul, typography updates, new shadows/gradients |
+| `tailwind.config.ts` | Update font family references |
+| `src/components/Hero.tsx` | Update badge and button colors |
+| `src/components/Skills.tsx` | Update bento card accent gradients |
+| `src/components/ui/entropy-background.tsx` | Update particle/line colors |
+| `src/components/ui/glass-card.tsx` | Update glass gradient and hover effects |
+| `src/components/ui/abstract-shapes.tsx` | Update SVG gradient colors |
+| `src/components/ui/retro-taskbar.tsx` | Update Windows logo and taskbar colors |
 
 ---
 
 ## Expected Outcome
-
-- **Consistent BEM architecture** across all sections matching Portfolio and Experience
-- **Portfolio transformed into case studies** with clear problem/approach/outcomes structure
-- **Measurable metrics** demonstrating real impact (e.g., "Reduced bias by 25%")
-- **Professional credibility** through structured, scannable content
-- **Distinct identity** tailored to AI ethics audience, not a generic portfolio
-- **Optional extensibility** for blog links and testimonials when content is available
+- A cohesive AI/ethics visual identity with deep blues conveying trust and technology
+- Ethics green accents highlighting growth and responsible innovation
+- Modern, premium typography with Playfair Display headings
+- Enhanced depth through refined shadows and subtle gradients
+- Maintained retro Windows aesthetic with updated color scheme
+- Improved contrast and accessibility across light/dark modes

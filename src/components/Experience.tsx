@@ -109,7 +109,7 @@ const Experience = () => {
   };
 
   return (
-    <section id="experience" className="section section--padded section--muted">
+    <section id="experience" className="relative py-section-sm md:py-section px-4 bg-muted/30 overflow-hidden">
       {/* Abstract background shapes with parallax */}
       <ParallaxShape speed={0.2} rotateAmount={12} className="w-40 h-40 -top-10 right-[10%]">
         <RingShape className="w-full h-full" />
@@ -118,17 +118,21 @@ const Experience = () => {
         <DotsPattern className="w-full h-full opacity-40" />
       </ParallaxShape>
 
-      <div className="section__container section__container--md">
+      <div className="container relative z-10 mx-auto max-w-3xl">
         {/* Section Header */}
         <motion.div
-          className="header"
+          className="mb-container md:mb-container-lg"
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 0.5 }}
         >
-          <p className="header__overline">Career</p>
-          <h2 className="header__title">Professional Experience</h2>
+          <p className="text-overline uppercase text-accent font-semibold mb-element-sm">
+            Career
+          </p>
+          <h2 className="font-display text-display-sm md:text-display-md text-foreground">
+            Professional Experience
+          </h2>
         </motion.div>
 
         {/* Timeline */}
@@ -191,9 +195,9 @@ const Experience = () => {
                     <div className="p-card">
                       {/* Header Row */}
                       <div className="flex items-center justify-between gap-element-sm mb-element-sm">
-                      <div className="flex items-center gap-element-sm">
-                          <div className="icon-badge icon-badge--primary p-1 rounded">
-                            <FontAwesomeIcon icon={exp.icon} className="h-3 w-3" />
+                        <div className="flex items-center gap-element-sm">
+                          <div className="p-1 rounded bg-primary/10">
+                            <FontAwesomeIcon icon={exp.icon} className="h-3 w-3 text-primary" />
                           </div>
                           <span className="text-caption font-medium text-primary">
                             {exp.period}
