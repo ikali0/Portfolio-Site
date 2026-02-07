@@ -148,8 +148,8 @@ const Experience = () => {
       }} transition={{
         duration: reduceMotion ? 0 : 0.5
       }} className="mb-container">
-          <p className="text-overline text-accent font-semibold">Career</p>
-          <h2 className="font-display text-display-sm md:text-display-md">Professional Experience</h2>
+          <p className="text-overline text-accent font-semibold">Timeline</p>
+          <h2 className="font-display text-display-sm md:text-display-md">Career Journey </h2>
         </motion.div>
 
         {/* Filters */}

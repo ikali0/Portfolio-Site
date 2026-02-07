@@ -58,7 +58,7 @@ export function VerticalTimeline({
 }: VerticalTimelineProps) {
   if (entries.length === 0) return null;
   return <ScrollFade className="mt-12">
-      <p className="text-overline text-accent font-semibold mb-2">{overline}</p>
+      
       
 
       <div className="relative pl-6 border-l-2 border-primary/30 space-y-8">
