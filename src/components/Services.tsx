@@ -236,7 +236,7 @@ function ServicePanel({
       scale: 1.02
     }} whileTap={{
       scale: 0.98
-    }} className={cn("inline-flex items-center gap-2 px-6 py-3 rounded-lg font-semibold text-sm transition-all duration-200 shadow-md", index === 0 ? "bg-accent text-accent-foreground hover:bg-accent/90" : "bg-primary text-primary-foreground hover:bg-primary/90")}>
+    }} className={cn("inline-flex items-center gap-2 rounded-lg font-semibold text-sm transition-all duration-200 shadow-md px-[8px] py-[8px] text-secondary bg-secondary-foreground", index === 0 ? "bg-accent text-accent-foreground hover:bg-accent/90" : "bg-primary text-primary-foreground hover:bg-primary/90")}>
         {service.cta}
         <FontAwesomeIcon icon={faArrowRight} className="w-3.5 h-3.5" />
       </motion.a>
