@@ -76,9 +76,7 @@ function ArticleCard({
         {article.title}
       </h3>
       
-      <p className="text-muted-foreground leading-relaxed mb-4 text-xs">
-        {article.excerpt}
-      </p>
+      
 
       <div className="flex items-center justify-between pt-4 border-t border-border/30">
         <div className="flex items-center gap-2text-xs text-muted-foreground">
