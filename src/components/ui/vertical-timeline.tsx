@@ -87,16 +87,16 @@ export function VerticalTimeline({
               <div className="ml-4">
                 <span className="text-[11px] leading-tight mb-2 line-clamp-2 text-secondary-foreground font-normal">{yearLabel}</span>
                 <h4 className="font-semibold text-foreground px-px py-px">{entry.title}</h4>
-                <p className="text-xs font-medium text-primary whitespace-nowrap\n">
+                <p className="">
                   {entry.organization} · {entry.location}
                 </p>
-                <p className="text-[11px] py-[2px] px-0 text-secondary-foreground font-normal">{entry.description}</p>
+                <p className="text-[11px] py-[2px] text-secondary-foreground font-normal px-[2px]">{entry.description}</p>
 
                 {entry.highlights && entry.highlights.length > 0 && <ul className="">
-                    {entry.highlights.map((h, i) => <li key={i} className="text-[11px] font-medium text-primary/90 px-1 py-[2px]\n">• {h}</li>)}
+                    {entry.highlights.map((h, i) => <li key={i} className="text-[11px] font-medium text-primary/90 px-[3px] py-[3px]">• {h}</li>)}
                   </ul>}
 
-                {entry.tags && entry.tags.length > 0 && <div className="inline-flex items-center text-[8px] font-medium px-1.5 py-[1px] border border-purple-600/70 text-purple-600 whitespace-nowrap rounded-sm">
+                {entry.tags && entry.tags.length > 0 && <div className="inline-flex items-center text-[2px] font-medium px-1 border border-purple-500/70 text-purple-600 whitespace-nowrap rounded-xsm py-[3px]">
                     {entry.tags.map(tag => <Tag key={tag} size="sm" variant="muted">{tag}</Tag>)}
                   </div>}
               </div>
