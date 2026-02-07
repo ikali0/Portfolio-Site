@@ -58,9 +58,7 @@ export default function AIEthicsBlog() {
             </span>
           </div>
           
-          <p className="text-foreground/80 max-w-xl text-sm md:text-base leading-relaxed">
-            Long-form analysis on AI risk, alignment, and responsible deployment.
-          </p>
+          
         </div>
 
         <div className="grid md:grid-cols-2 gap-6">
