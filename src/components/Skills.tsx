@@ -142,7 +142,7 @@ function BentoCardComponent({
       <div className="p-5 h-full flex flex-col">
 
         {/* Header */}
-        <div className="mb-4 flex items-center gap-2">
+        <div className="mb-4 gap-2 flex items-start justify-center">
           <div className="w-8 h-8 bg-primary/10 rounded flex items-center justify-center">
             <Icon className="text-primary h-4 w-4" />
           </div>
@@ -159,13 +159,14 @@ function BentoCardComponent({
     </motion.div>;
 }
 const Skills = () => {
-  return (
-    <section id="skills" className="py-16 md:py-24 px-4 bg-background">
+  return <section id="skills" className="py-16 md:py-24 px-4 bg-background">
       <div className="max-w-5xl mx-auto">
         {/* Header */}
         <div className="mb-12">
           <div className="flex items-center gap-3 mb-4">
-            <span className="text-accent text-xl animate-spin" style={{ animationDuration: '3s' }}>✱</span>
+            <span className="text-accent text-xl animate-spin" style={{
+            animationDuration: '3s'
+          }}>✱</span>
             <span className="text-xs font-semibold tracking-widest uppercase text-muted-foreground">
               Expertise
             </span>
@@ -180,30 +181,25 @@ const Skills = () => {
 
         {/* Bento Grid */}
         <StaggerContainer className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4" staggerDelay={0.08}>
-          {bentoCards.map((card) => (
-            <StaggerItem key={card.id}>
+          {bentoCards.map(card => <StaggerItem key={card.id}>
               <BentoCardComponent card={card} />
-            </StaggerItem>
-          ))}
+            </StaggerItem>)}
         </StaggerContainer>
 
         {/* Secondary Tech */}
         <ScrollFade>
           <div className="mt-10 pt-8 border-t border-border/30">
             <p className="text-xs font-semibold tracking-widest uppercase text-muted-foreground mb-4">
-              Also Proficient In
+              Proficient In:
             </p>
-            <div className="flex flex-wrap gap-2">
-              {secondaryTech.map((tech) => (
-                <Tag key={tech.name} variant="outline" size="sm">
+            <div className="flex-wrap gap-2 flex items-start justify-center">
+              {secondaryTech.map(tech => <Tag key={tech.name} variant="outline" size="sm">
                   {tech.name}
-                </Tag>
-              ))}
+                </Tag>)}
             </div>
           </div>
         </ScrollFade>
       </div>
-    </section>
-  );
+    </section>;
 };
 export default Skills;
