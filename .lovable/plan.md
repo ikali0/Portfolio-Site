@@ -1,136 +1,88 @@
 
-
-# About Section Redesign Plan
+# Plan: Refactor Entropy Component for Fully Responsive Behavior
 
 ## Overview
-Transform the current About section to match the reference design featuring a modern, two-column editorial layout with animated text reveals, professional statistics, and a call-to-action.
 
----
+This plan refactors the `Entropy` particle background component to automatically fill and measure its parent container, eliminating the need for fixed pixel sizing. This will fix mobile rotation issues, prevent cropping, and make the component truly responsive.
 
-## Design Changes
+## Current Issues
 
-### Current State
-- Simple glassmorphism card container
-- Three highlight cards with flip animations
-- Basic paragraphs with inline links
-- Abstract background shapes with parallax
+1. **Entropy** accepts `width` and `height` props that are passed from Hero
+2. **Hero** maintains complex state (`entropySize`) with resize listeners just to calculate pixel dimensions
+3. The current approach causes layout issues on mobile rotation and edge cases
+4. Duplicate resize logic exists in both components
 
-### Target State
-- Split-panel layout: left info column + right content column
-- Animated text reveals using VerticalCutReveal component
-- Professional statistics with scroll animations
-- "Let's Collaborate" CTA button
-- Social icons integrated into header area
-- Profile image placeholder
+## Changes
 
----
+### 1. Refactor Entropy Component (`src/components/ui/entropy.tsx`)
 
-## Implementation Steps
+**Remove fixed sizing props:**
+- Remove `width` and `height` from the interface
+- Keep only `className` as an optional prop
 
-### Step 1: Create VerticalCutReveal Component
-**File:** `src/components/ui/vertical-cut-reveal.tsx`
+**Self-measuring behavior:**
+- The component already has `containerRef` and `updateSize()` logic
+- Simply remove the dependency on `[width, height]` in the useEffect
+- Ensure particles are regenerated on significant resize (optional enhancement)
 
-Create the animated text reveal component from the reference code:
-- Supports character/word/line-based splitting
-- Staggered reveal animations with blur effect
-- Configurable timing and direction
-- Framer Motion integration
-
-### Step 2: Create TimelineContent Animation Wrapper
-**File:** `src/components/ui/timeline-animation.tsx`
-
-Create the scroll-triggered animation wrapper:
-- Uses IntersectionObserver via framer-motion's whileInView
-- Supports custom animation variants
-- Handles viewport visibility for triggering
-
-### Step 3: Redesign About Component
-**File:** `src/components/About.tsx`
-
-**Layout Structure:**
+**Updated interface:**
 ```text
-+--------------------------------------------------+
-|  [Header Bar]                                     |
-|  WHO I AM label + social icons                   |
-+--------------------------------------------------+
-|                                                   |
-|  [Stats Bar]                                      |
-|  5+ years | 20+ publications | AI Ethics focus   |
-|                                                   |
-+-------------------------+-------------------------+
-|                         |                         |
-|  [Main Content]         |  [Right Panel]          |
-|                         |                         |
-|  Large animated title:  |  INGA KALII             |
-|  "Examining AI's        |  AI Ethics Researcher   |
-|   Real-World Impact"    |                         |
-|                         |  Ready to connect?      |
-|  Two columns of body    |                         |
-|  text with scroll       |  [LET'S COLLABORATE]    |
-|  reveal animations      |                         |
-|                         |                         |
-+-------------------------+-------------------------+
+interface EntropyProps {
+  className?: string;
+}
 ```
 
-**Content Mapping (adapted for AI Ethics focus):**
-- Header: "WHO I AM" with LinkedIn, Email, Substack, Ko-fi icons
-- Stats: "5+ years experience" | "20+ articles" | "AI Ethics & Governance"
-- Title: "Examining AI's Real-World Impact."
-- Body paragraphs: Reuse existing 120-word about content, split into two columns
-- Right panel: Name, title, CTA button linking to contact section
+### 2. Simplify Hero Component (`src/components/Hero.tsx`)
 
-**Animation Details:**
-- VerticalCutReveal on the main heading with staggered character reveal
-- TimelineContent wrappers on body paragraphs for scroll-triggered fade/blur
-- Framer Motion scale/opacity on stats elements
+**Remove size calculation logic:**
+- Delete the `entropySize` state and `updateSize()` function
+- Remove the `bgRef` ref (no longer needed for measurement)
+- Remove the resize/orientationchange event listeners
+
+**Simplified usage:**
+```text
+<Entropy className="w-full h-full opacity-80" />
+```
+
+### 3. Add Aggressive Mobile Font Clamping (`src/global.css`)
+
+Add ultra-tight typography control for tiny screens (320-380px):
+
+```text
+@media (max-width: 380px) {
+  h1 {
+    font-size: clamp(1.75rem, 6vw, 2.5rem);
+  }
+  p {
+    font-size: 0.875rem;
+    line-height: 1.5;
+  }
+}
+```
 
 ---
 
 ## Technical Details
 
-### Dependencies
-Already installed:
-- `framer-motion` (v12.26.1)
-- `lucide-react` (v0.462.0)
+### Entropy Component Changes
 
-### New Components
+The Entropy component will:
+1. Use `absolute inset-0` positioning to fill its parent
+2. Auto-measure container dimensions via `getBoundingClientRect()`
+3. Handle resize events internally with proper DPR scaling
+4. Re-initialize particles only when necessary (to avoid animation reset on minor resizes)
 
-**vertical-cut-reveal.tsx:**
-- Props: `children`, `splitBy`, `staggerDuration`, `staggerFrom`, `transition`, `reverse`, `autoStart`
-- Ref methods: `startAnimation()`, `reset()`
-- Uses Intl.Segmenter for proper Unicode/emoji handling
+### Hero Component Simplification
 
-**timeline-animation.tsx:**
-- Simple wrapper using framer-motion's whileInView
-- Accepts custom variants for visible/hidden states
+The Hero will:
+1. Simply render the Entropy component with class styling
+2. No longer track or pass pixel dimensions
+3. Have cleaner, more maintainable code
 
-### Style Integration
-- Use existing Tailwind config tokens (spacing, typography)
-- Apply BEM conventions from `global.css`
-- Maintain glass/card effects from current design system
-- Dark mode compatible using CSS variables
+### Benefits
 
-### Responsive Behavior
-- Mobile: Single column stacked layout
-- Tablet (md): Two-column grid begins
-- Desktop (lg): Full split-panel layout
-
----
-
-## Files Modified/Created
-
-| File | Action |
-|------|--------|
-| `src/components/ui/vertical-cut-reveal.tsx` | Create |
-| `src/components/ui/timeline-animation.tsx` | Create |
-| `src/components/About.tsx` | Rewrite |
-
----
-
-## Preserved Elements
-- Substack link: https://substack.com/@ingakali
-- Ko-fi link: https://ko-fi.com/ingakali
-- LinkedIn and Email social links from Hero
-- Core about me content (AI ethics, accountability, transparency themes)
-- Section ID `#about` for navigation
-
+- No more fixed pixel bugs
+- Fully responsive on mobile rotation
+- Single source of truth for sizing (Entropy itself)
+- Reduced code complexity in Hero
+- Better separation of concerns
