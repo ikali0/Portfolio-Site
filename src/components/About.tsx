@@ -44,9 +44,9 @@ const About = () => {
       opacity: 0
     }
   };
-  return <section id="about" className="relative py-section bg-muted/30 overflow-hidden">
+  return <section id="about" className="relative bg-muted/30 overflow-hidden py-[8px] px-[10px]">
       <div className="container mx-auto px-4 max-w-6xl">
-        <div ref={heroRef} className="glass rounded-xl p-6 md:p-10 lg:p-12 border border-border/50 shadow-soft">
+        <div ref={heroRef} className="glass rounded-xl p-6 md:p-10 lg:p-12 border border-border/50 shadow-soft py-[12px] px-[19px]">
           {/* Header with social icons */}
           <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 mb-6 md:mb-8">
             <div className="flex items-center gap-2">

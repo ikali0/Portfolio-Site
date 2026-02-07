@@ -126,7 +126,7 @@ const Experience = () => {
       };
     });
   }, [filteredExperiences]);
-  return <section id="experience" className="relative px-4 bg-muted/30 overflow-hidden py-[9px]">
+  return <section id="experience" className="relative bg-muted/30 overflow-hidden px-[10px] py-[8px]">
       {/* Background */}
       <ParallaxShape speed={0.15} className="w-40 h-40 -top-10 right-[10%]">
         <RingShape />
