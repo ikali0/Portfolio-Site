@@ -1,153 +1,232 @@
 /**
  * About Section Component
  * 
- * Personal introduction with glassmorphism cards, scroll animations, and abstract shapes.
- * Includes integrated links to AI ethics writing on Medium and Substack with editorial microcopy.
+ * Modern split-panel editorial layout with animated text reveals,
+ * professional statistics, and a call-to-action.
  */
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faLaptopCode, faLightbulb, faHandshake } from "@fortawesome/free-solid-svg-icons";
-import { faMedium } from "@fortawesome/free-brands-svg-icons";
+import { useRef } from "react";
 import { motion } from "framer-motion";
-import { FlippingCard } from "./ui/flipping-card";
-import { ScrollFade } from "./ui/scroll-fade";
-import { BlobShape, SparkleShape, ParallaxShape } from "./ui/abstract-shapes";
-import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "./ui/tooltip";
-interface HighlightData {
-  icon: typeof faLaptopCode;
-  title: string;
-  description: string;
-  backDescription: string;
-}
-const highlights: HighlightData[] = [{
-  icon: faLaptopCode,
-  title: "Technical Excellence",
-  description: "Clean, maintainable code.",
-  backDescription: "Production-ready code with testing and documentation."
-}, {
-  icon: faLightbulb,
-  title: "Creative Solutions",
-  description: "Elegant problem solving.",
-  backDescription: "Combining technical expertise with design thinking."
-}, {
-  icon: faHandshake,
-  title: "Team Player",
-  description: "Collaborative impact.",
-  backDescription: "Bridging technical and non-technical stakeholders."
-}];
-function CardFront({
-  data
-}: {
-  data: HighlightData;
-}) {
-  return <div className="flex flex-col items-center justify-center h-full w-full p-card-sm text-center">
-      <div className="w-8 h-8 rounded-full bg-primary/10 flex items-center justify-center mb-element-sm">
-        <FontAwesomeIcon icon={data.icon} className="w-4 h-4 text-primary" />
-      </div>
-      <h4 className="font-display text-body-sm font-medium text-foreground mb-1 leading-tight">
-        {data.title}
-      </h4>
-      <p className="text-caption text-muted-foreground leading-snug">
-        {data.description}
-      </p>
-    </div>;
-}
-function CardBack({
-  data
-}: {
-  data: HighlightData;
-}) {
-  return <div className="flex flex-col items-center justify-center h-full w-full p-card-sm text-center rounded-md bg-secondary/20">
-      <p className="text-caption leading-snug text-foreground">
-        {data.backDescription}
-      </p>
-    </div>;
-}
+import { ArrowRight, Linkedin, Mail, Coffee } from "lucide-react";
+import { SiSubstack } from "react-icons/si";
+import { TimelineContent, TimelineScale } from "./ui/timeline-animation";
+import { VerticalCutReveal } from "./ui/vertical-cut-reveal";
+import { Button } from "./ui/button";
+import { cn } from "@/lib/utils";
+
 const About = () => {
-  return <section id="about" className="relative py-section-sm px-4 bg-muted/30 overflow-hidden md:py-[90px]">
-      {/* Abstract background shapes with parallax */}
-      <ParallaxShape speed={0.15} className="w-64 h-64 -top-20 -right-20">
-        <BlobShape className="w-full h-full opacity-60" />
-      </ParallaxShape>
-      <ParallaxShape speed={0.25} className="w-8 h-8 top-32 left-[10%]">
-        <SparkleShape className="w-full h-full" />
-      </ParallaxShape>
-      <ParallaxShape speed={0.3} className="w-6 h-6 bottom-20 right-[15%]">
-        <SparkleShape className="w-full h-full" />
-      </ParallaxShape>
+  const heroRef = useRef(null);
 
-      <ScrollFade>
-        <div className="container relative z-10 mx-auto max-w-2xl glass p-card md:p-container px-[30px] py-[30px] rounded-md shadow-sm opacity-85 border-purple-400">
-          {/* Header */}
-          <div className="mb-container md:mb-container-lg">
-            <p className="text-overline uppercase text-accent font-semibold mb-element-sm">
-              About Me
-            </p>
-            
-          </div>
+  const revealVariants = {
+    visible: (i: number) => ({
+      y: 0,
+      opacity: 1,
+      filter: "blur(0px)",
+      transition: {
+        delay: i * 0.4,
+        duration: 0.5,
+      },
+    }),
+    hidden: {
+      filter: "blur(10px)",
+      y: -20,
+      opacity: 0,
+    },
+  };
 
-          {/* About Me Content - Exact 120 Words */}
-          <div className="text-body-sm md:text-body space-y-card-sm mb-card leading-relaxed text-primary">
-            <p>
-              I work at the intersection of{" "}
-              <strong className="text-foreground font-semibold">
-                artificial intelligence, ethics, and human impact
-              </strong>
-              —focused not on hype, but on real-world consequences. I examine how AI systems shape behavior, power, access, and trust once deployed.
-            </p>
-            <p>
-              Through long-form writing on AI ethics, alignment, and accountability, I explore where technology delivers value, where it causes subtle harm, and what responsible governance truly requires. I publish independently on{" "}
-              <a 
-                href="https://substack.com/@ingakali" 
-                target="_blank" 
+  const scaleVariants = {
+    visible: (i: number) => ({
+      opacity: 1,
+      filter: "blur(0px)",
+      transition: {
+        delay: i * 0.4,
+        duration: 0.5,
+      },
+    }),
+    hidden: {
+      filter: "blur(10px)",
+      opacity: 0,
+    },
+  };
+
+  return (
+    <section
+      id="about"
+      className="relative py-section bg-muted/30 overflow-hidden"
+    >
+      <div className="container mx-auto px-4 max-w-6xl">
+        <div
+          ref={heroRef}
+          className="glass rounded-xl p-6 md:p-10 lg:p-12 border border-border/50 shadow-soft"
+        >
+          {/* Header with social icons */}
+          <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 mb-8 md:mb-10">
+            <div className="flex items-center gap-2">
+              <span className="text-accent text-lg">✱</span>
+              <span className="text-overline uppercase tracking-widest text-accent font-semibold">
+                WHO I AM
+              </span>
+            </div>
+
+            <div className="flex items-center gap-3">
+              <a
+                href="https://linkedin.com/in/ingakaltak"
+                target="_blank"
                 rel="noopener noreferrer"
-                className="font-semibold text-accent hover:text-accent/80 underline underline-offset-2 transition-colors"
+                className="w-9 h-9 rounded-full bg-muted/50 flex items-center justify-center text-muted-foreground hover:text-[#0A66C2] hover:bg-muted transition-colors"
+                aria-label="Connect on LinkedIn"
               >
-                Substack
-              </a>{" "}
-              to think critically, openly, and without constraint.
-            </p>
-            <p>
-              I believe technology should be{" "}
-              <strong className="text-foreground font-semibold">
-                transparent, humane, and grounded in lived reality
-              </strong>
-              . This site brings together my work and serves as a point of connection for readers, researchers, collaborators, and thoughtful technologists worldwide. You can also{" "}
-              <a 
-                href="https://ko-fi.com/ingakali" 
-                target="_blank" 
-                rel="noopener noreferrer"
-                className="font-semibold text-secondary-foreground hover:text-secondary-foreground/80 underline underline-offset-2 transition-colors"
-              >
-                support my work on Ko-fi
+                <Linkedin className="w-4 h-4" />
               </a>
-              .
-            </p>
+              <a
+                href="mailto:ingakalii@outlook.com"
+                className="w-9 h-9 rounded-full bg-muted/50 flex items-center justify-center text-muted-foreground hover:text-accent hover:bg-muted transition-colors"
+                aria-label="Send email"
+              >
+                <Mail className="w-4 h-4" />
+              </a>
+              <a
+                href="https://substack.com/@ingakali"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="w-9 h-9 rounded-full bg-muted/50 flex items-center justify-center text-muted-foreground hover:text-primary hover:bg-muted transition-colors"
+                aria-label="Read on Substack"
+              >
+                <SiSubstack className="w-4 h-4" />
+              </a>
+              <a
+                href="https://ko-fi.com/ingakali"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="w-9 h-9 rounded-full bg-muted/50 flex items-center justify-center text-muted-foreground hover:text-secondary-foreground hover:bg-muted transition-colors"
+                aria-label="Support on Ko-fi"
+              >
+                <Coffee className="w-4 h-4" />
+              </a>
+            </div>
           </div>
 
-          {/* Spacer before cards */}
-          <div className="mb-container md:mb-container-lg" />
+          {/* Divider */}
+          <TimelineContent animateIn="fadeIn" custom={0}>
+            <div className="flex items-center gap-4 mb-8">
+              <div className="flex-1 h-px bg-border" />
+              <div className="w-2 h-2 rounded-full bg-accent" />
+            </div>
+          </TimelineContent>
 
-          {/* Highlight Cards */}
-          <div className="flex flex-wrap gap-container justify-center">
-            {highlights.map((item, index) => <motion.div key={item.title} initial={{
-            opacity: 0,
-            y: 20
-          }} whileInView={{
-            opacity: 1,
-            y: 0
-          }} viewport={{
-            once: true
-          }} transition={{
-            delay: index * 0.1,
-            duration: 0.5
-          }} whileHover={{
-            scale: 1.02
-          }}>
-                <FlippingCard width={110} height={120} className="sm:w-[130px] sm:h-[140px] md:w-[150px] md:h-[160px]" frontContent={<CardFront data={item} />} backContent={<CardBack data={item} />} />
-              </motion.div>)}
+          {/* Stats */}
+          <div className="mb-10 md:mb-12">
+            <div className="flex flex-wrap gap-x-6 gap-y-3 text-body-sm md:text-body">
+              <TimelineScale custom={0}>
+                <div className="flex items-baseline gap-2">
+                  <span className="font-display font-bold text-foreground">5+</span>
+                  <span className="text-muted-foreground">years experience</span>
+                  <span className="text-border mx-2">|</span>
+                </div>
+              </TimelineScale>
+              <TimelineScale custom={1}>
+                <div className="flex items-baseline gap-2">
+                  <span className="font-display font-bold text-foreground">20+</span>
+                  <span className="text-muted-foreground">articles</span>
+                </div>
+              </TimelineScale>
+            </div>
+            <div className="flex flex-wrap gap-x-6 gap-y-3 text-body-sm md:text-body mt-2">
+              <TimelineScale custom={2}>
+                <div className="flex items-baseline gap-2">
+                  <span className="text-muted-foreground">AI Ethics</span>
+                  <span className="text-border mx-2">|</span>
+                </div>
+              </TimelineScale>
+              <TimelineScale custom={3}>
+                <div className="flex items-baseline gap-2">
+                  <span className="text-muted-foreground">Policy & Governance</span>
+                </div>
+              </TimelineScale>
+            </div>
+          </div>
+
+          {/* Main Content Grid */}
+          <div className="grid lg:grid-cols-3 gap-8 lg:gap-12">
+            {/* Left Column - Title and Body */}
+            <div className="lg:col-span-2 space-y-8">
+              {/* Animated Title */}
+              <h2 className="font-display text-h2 md:text-display-sm lg:text-display font-bold text-foreground leading-tight">
+                <VerticalCutReveal
+                  splitBy="characters"
+                  staggerDuration={0.03}
+                  staggerFrom="first"
+                  transition={{
+                    type: "spring",
+                    stiffness: 200,
+                    damping: 25,
+                  }}
+                >
+                  Examining AI's Real-World Impact.
+                </VerticalCutReveal>
+              </h2>
+
+              {/* Two-column body text */}
+              <div className="grid md:grid-cols-2 gap-6 text-body-sm md:text-body text-muted-foreground leading-relaxed">
+                <TimelineContent animateIn="blurIn" custom={1}>
+                  <p>
+                    I work at the intersection of{" "}
+                    <strong className="text-foreground font-semibold">
+                      artificial intelligence, ethics, and human impact
+                    </strong>
+                    —focused not on hype, but on real-world consequences. I examine 
+                    how AI systems shape behavior, power, access, and trust once deployed.
+                  </p>
+                </TimelineContent>
+                <TimelineContent animateIn="blurIn" custom={2}>
+                  <p>
+                    Through long-form writing on AI ethics, alignment, and accountability, 
+                    I explore where technology delivers value, where it causes subtle harm, 
+                    and what responsible governance truly requires. I believe technology should be{" "}
+                    <strong className="text-foreground font-semibold">
+                      transparent, humane, and grounded in lived reality
+                    </strong>.
+                  </p>
+                </TimelineContent>
+              </div>
+            </div>
+
+            {/* Right Column - CTA Panel */}
+            <div className="lg:col-span-1">
+              <TimelineContent animateIn="slideUp" custom={3}>
+                <div className="bg-card/50 backdrop-blur-sm rounded-lg p-6 border border-border/30 h-full flex flex-col justify-center">
+                  <div className="space-y-1 mb-6">
+                    <p className="font-display text-h4 font-bold tracking-wide text-foreground uppercase">
+                      INGA KALII
+                    </p>
+                    <p className="text-body-sm text-muted-foreground">
+                      AI Ethics Researcher
+                    </p>
+                  </div>
+
+                  <div className="mb-6">
+                    <p className="text-body-sm text-muted-foreground">
+                      Ready to connect?
+                    </p>
+                  </div>
+
+                  <Button
+                    asChild
+                    className="w-full group"
+                    size="lg"
+                  >
+                    <a href="#contact">
+                      LET'S COLLABORATE
+                      <ArrowRight className="ml-2 w-4 h-4 transition-transform group-hover:translate-x-1" />
+                    </a>
+                  </Button>
+                </div>
+              </TimelineContent>
+            </div>
           </div>
         </div>
-      </ScrollFade>
-    </section>;
+      </div>
+    </section>
+  );
 };
+
 export default About;
