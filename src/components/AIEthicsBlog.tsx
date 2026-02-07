@@ -47,7 +47,7 @@ export default function AIEthicsBlog() {
   }, []);
   const featured = articles.find(a => a.featured);
   const secondary = articles.filter(a => !a.featured);
-  return <section id="blog" className="relative py-28 px-4 bg-background overflow-hidden">
+  return <section id="blog" className="relative px-4 bg-background overflow-hidden py-[90px]">
       <div className="relative mx-auto max-w-4xl space-y-16">
 
         <SectionHeader overline="Selected Writing" title="AI Ethics & Institutional Risk" description="Editorial analysis on algorithmic governance, institutional design, and systemic accountability." />
