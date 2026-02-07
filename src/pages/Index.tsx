@@ -14,11 +14,16 @@ import { Waves } from "@/components/ui/wave-background";
 const Index = () => {
   return (
     <div className="min-h-screen bg-background crt-screen crt-flicker crt-rgb-shift">
-      {/* Wave Background - fixed behind all content */}
+      {/* Wave Background layers - fixed behind all content */}
       <Waves 
         strokeColor="hsl(var(--accent) / 0.08)" 
         backgroundColor="transparent"
         className="dark:opacity-100 opacity-60"
+      />
+      <Waves 
+        strokeColor="hsl(var(--secondary) / 0.06)" 
+        backgroundColor="transparent"
+        className="dark:opacity-80 opacity-40"
       />
       
       {/* CRT Scanlines Overlay */}
