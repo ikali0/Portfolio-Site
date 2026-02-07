@@ -55,7 +55,7 @@ function ArticleCard({
   }}>
       <div className="flex items-start justify-between gap-4 mb-4">
         <div className="flex items-center gap-3">
-          <div className="w-10 h-10 rounded-md bg-muted/50 flex items-center justify-center">
+          <div className="w-10 h-10 rounded-md flex items-center justify-center bg-lime-100">
             <FontAwesomeIcon icon={article.icon} className="w-5 h-5 text-fuchsia-500" />
           </div>
           <div>
@@ -65,10 +65,7 @@ function ArticleCard({
           </div>
         </div>
         
-        <div className="flex items-center gap-1.5 text-xs text-muted-foreground">
-          <FontAwesomeIcon icon={article.platform === "medium" ? faMedium : faBookOpen} className="text-xs font-small text-primary tracking-tight" />
-          <span>{article.platform === "medium" ? "Medium" : "Substack"}</span>
-        </div>
+        
       </div>
 
       <h3 className="font-semibold text-foreground mb-2 group-hover:text-primary transition-colors text-base">
@@ -89,7 +86,7 @@ function ArticleCard({
           </span>
         </div>
 
-        <span className="text-xs font-medium text-primary tracking-tight\n">
+        <span className="text-xs font-medium tracking-tight\\n text-secondary-foreground">
           Read 
           <FontAwesomeIcon icon={faArrowRight} className="w-3 h-3" />
         </span>
