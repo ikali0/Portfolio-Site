@@ -172,42 +172,7 @@ function BentoCardComponent({
 }
 const Skills = () => {
   return <section id="skills" className="py-16 md:py-24 px-4 bg-background">
-      <div className="max-w-5xl mx-auto">
-        {/* Header */}
-        <div className="mb-12">
-          <div className="flex items-center gap-3 mb-4">
-            <span className="text-accent text-xl animate-spin" style={{
-            animationDuration: '3s'
-          }}>✱</span>
-            <span className="text-xs font-semibold tracking-widest uppercase text-muted-foreground">
-              Expertise
-            </span>
-          </div>
-          
-          
-        </div>
-
-        {/* Bento Grid */}
-        <StaggerContainer className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-2.5" staggerDelay={0.06}>
-          {bentoCards.map(card => <StaggerItem key={card.id}>
-              <BentoCardComponent card={card} />
-            </StaggerItem>)}
-        </StaggerContainer>
-
-        {/* Secondary Tech */}
-        <ScrollFade>
-          <div className="mt-10 pt-8 border-t border-border/30">
-            <p className="text-xs font-semibold tracking-widest uppercase text-muted-foreground mb-4">
-              Proficient In:
-            </p>
-            <div className="flex-wrap gap-2 flex items-start justify-center">
-              {secondaryTech.map(tech => <Tag key={tech.name} variant="outline" size="sm">
-                  {tech.name}
-                </Tag>)}
-            </div>
-          </div>
-        </ScrollFade>
-      </div>
+      
     </section>;
 };
 export default Skills;
