@@ -34,7 +34,7 @@ const Hero = () => {
         y: 0
       }} transition={{
         duration: 0.6
-      }} className="inline-block text-xs uppercase tracking-widest py-1.5 rounded-full backdrop-blur-md border border-border/50 mb-8 px-[10px] bg-secondary-foreground text-primary-foreground">
+      }} className="inline-block text-xs uppercase tracking-widest py-1.5 rounded-full backdrop-blur-md border border-border/50 mb-8 bg-secondary-foreground text-primary-foreground px-[6px] text-center">
           AI Engineer & Independent Consultant
         </motion.span>
 
@@ -112,7 +112,7 @@ const Hero = () => {
               }} whileTap={{
                 scale: 0.95
               }} className="flex items-center justify-center w-10 h-10 rounded-xl bg-background/70 backdrop-blur-md border border-border hover:border-secondary transition-all shadow-sm" aria-label="Email">
-                  <FontAwesomeIcon icon={faEnvelope} className="w-4 h-4 text-accent" />
+                  <FontAwesomeIcon icon={faEnvelope} className="w-4 h-4 text-fuchsia-500" />
                 </motion.a>
               </TooltipTrigger>
               <TooltipContent>
