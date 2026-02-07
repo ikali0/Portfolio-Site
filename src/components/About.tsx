@@ -82,9 +82,7 @@ const About = () => {
             <p className="text-overline uppercase text-accent font-semibold mb-element-sm">
               About Me
             </p>
-            <h2 className="font-display text-display-sm text-foreground mb-element-sm">
-              Building with Purpose
-            </h2>
+            
           </div>
 
           {/* About Me Content - Exact 120 Words */}
