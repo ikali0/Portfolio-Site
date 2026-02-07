@@ -1,128 +1,166 @@
 
-
-# Plan: Theme-Aware Entropy Component Colors
+# Mobile/Tablet UX Audit + React Runtime Error Fix
 
 ## Overview
-
-Update the Entropy component to dynamically read CSS variables from the document, ensuring colors adapt to both light and dark themes with complementary palettes.
-
-## Current State Analysis
-
-The Entropy component currently uses a hardcoded purple color:
-```tsx
-const particleColor = '#8b5cf6' // primary purple
-```
-
-This doesn't respond to theme changes and doesn't provide visual distinction between "order" (left side) and "chaos" (right side) particles.
-
-## Proposed Color Scheme
-
-### Light Mode (from CSS variables)
-| Element | CSS Variable | Current Value | Hex Equivalent |
-|---------|--------------|---------------|----------------|
-| Order particles | `--neural` | `263 70% 58%` | ~#8b5cf6 (violet) |
-| Chaos particles | `--accent` | `333 71% 51%` | ~#db2777 (pink) |
-| Connection lines | `--primary` | `221 83% 53%` | ~#3b82f6 (blue) |
-| Divider | `--muted-foreground` | `314 25% 37%` | Soft mauve |
-
-### Dark Mode (complementary palette)
-| Element | CSS Variable | Current Value | Hex Equivalent |
-|---------|--------------|---------------|----------------|
-| Order particles | `--neural` | `258 90% 76%` | ~#c4b5fd (light violet) |
-| Chaos particles | `--accent-foreground` | `344 57% 70%` | ~#f472b6 (light pink) |
-| Connection lines | `--primary` | `314 45% 92%` | ~#fce7f3 (pale rose) |
-| Divider | `--muted-foreground` | `134 27% 75%` | Soft sage |
+This plan addresses two critical issues: a React runtime error causing blank screens and a comprehensive mobile/tablet UX audit to ensure the portfolio feels intentional and polished on all devices.
 
 ---
 
-## Technical Implementation
+## Part 1: Fix React Runtime Error (Priority: Critical)
 
-### File: `src/components/ui/entropy.tsx`
+### Root Cause Analysis
+The error `Cannot read properties of null (reading 'useEffect')` in `@tanstack/react-query` indicates a **duplicate React instance** being bundled by Vite. While `package.json` shows aligned React versions (18.3.1), the bundler may resolve React differently for different dependencies.
 
-**Changes Required:**
+### Solution
+Add React deduplication to `vite.config.ts`:
 
-1. **Add theme detection** - Read computed CSS variables at runtime using `getComputedStyle`
+```text
+File: vite.config.ts
 
-2. **Helper function** - Convert HSL CSS variable values to hex for canvas rendering:
-   ```tsx
-   const getCSSColor = (varName: string): string => {
-     const style = getComputedStyle(document.documentElement);
-     const hslValue = style.getPropertyValue(varName).trim();
-     // Parse "263 70% 58%" format and convert to hex
-   };
-   ```
+Add resolve.dedupe configuration to force a single React instance:
 
-3. **Theme change listener** - Add a MutationObserver to detect `.dark` class changes on `<html>` and update colors accordingly
-
-4. **Dual-color particle system** - Order particles use one color (neural/violet), chaos particles use a complementary color (accent/pink)
-
-5. **Connection line coloring** - Lines between same-type particles use that particle's color; cross-type connections use the primary color
-
-6. **Divider line** - Use `--muted-foreground` for subtle contrast
-
-### Detailed Code Changes
-
-```tsx
-// Inside useEffect, after canvas setup:
-
-// Helper to parse CSS HSL variables and convert to hex
-const hslToHex = (h: number, s: number, l: number): string => {
-  s /= 100;
-  l /= 100;
-  const a = s * Math.min(l, 1 - l);
-  const f = (n: number) => {
-    const k = (n + h / 30) % 12;
-    const color = l - a * Math.max(Math.min(k - 3, 9 - k, 1), -1);
-    return Math.round(255 * color).toString(16).padStart(2, '0');
-  };
-  return `#${f(0)}${f(8)}${f(4)}`;
-};
-
-const getCSSColor = (varName: string): string => {
-  const style = getComputedStyle(document.documentElement);
-  const hslValue = style.getPropertyValue(varName).trim();
-  if (!hslValue) return '#8b5cf6'; // fallback
-  const [h, s, l] = hslValue.split(' ').map(v => parseFloat(v));
-  return hslToHex(h, s, l);
-};
-
-// Get theme colors
-const orderColor = getCSSColor('--neural');      // violet for order
-const chaosColor = getCSSColor('--accent');      // pink for chaos
-const lineColor = getCSSColor('--primary');      // blue for connections
-const dividerColor = getCSSColor('--muted-foreground'); // subtle divider
+resolve: {
+  alias: {
+    "@": path.resolve(__dirname, "./src"),
+  },
+  dedupe: ["react", "react-dom"],
+},
 ```
 
-**Particle draw method update:**
-```tsx
-draw(ctx: CanvasRenderingContext2D) {
-  const alpha = this.order ? 0.8 - this.influence * 0.5 : 0.8;
-  const color = this.order ? orderColor : chaosColor;
-  ctx.fillStyle = `${color}${Math.round(alpha * 255).toString(16).padStart(2, '0')}`;
-  // ... rest of draw logic
+This is a one-line addition that prevents Vite from bundling multiple React instances.
+
+---
+
+## Part 2: Mobile/Tablet UX Audit
+
+### Issues Identified
+
+#### A. Spacing & Typography Inconsistencies
+| Issue | Location | Fix |
+|-------|----------|-----|
+| Hero section uses `min-h-[100svh]` but `pt-20` may clip content on short screens | `Hero.tsx` | Add responsive padding adjustment |
+| Portfolio cards have inconsistent tap target sizes | `Portfolio.tsx` | Ensure all buttons meet 44px minimum |
+| Bento grid cards collapse poorly on tablet (768-1024px) | `Skills.tsx` | Add `lg:` breakpoint adjustments |
+
+#### B. Navigation & Tap Targets
+| Issue | Location | Fix |
+|-------|----------|-----|
+| Mobile nav sheet close button is 16x16px (too small) | `sheet.tsx` | Increase to 44x44px tap area |
+| Navbar hamburger icon container is 44px but visual target appears smaller | `Navbar.tsx` | Add visual padding/background |
+| Start menu items already have `min-h-[44px]` (good) | `retro-taskbar.tsx` | Verified compliant |
+
+#### C. Animation & Hover State Degradation
+| Issue | Location | Fix |
+|-------|----------|-----|
+| 3D card hover effects use `@media (hover: hover)` (good) | `index.css` | Already handled |
+| Framer Motion `whileHover` should pair with `whileTap` | Various | Add `whileTap` where missing |
+| Portfolio card `whileHover={{ scale: 1.01 }}` has no `whileTap` fallback | `Portfolio.tsx` | Add `whileTap={{ scale: 0.99 }}` |
+
+#### D. Overlapping/Clipped Elements
+| Issue | Location | Fix |
+|-------|----------|-----|
+| Metric badge on portfolio cards may overflow on small screens | `Portfolio.tsx` | Add text truncation + responsive sizing |
+| Career timeline nodes position may overlap on narrow screens | `project-timeline.tsx` | Review positioning |
+| Contact section `pb-section` may conflict with taskbar | `Contact.tsx` | Adjust bottom padding |
+
+#### E. Font Scaling Issues
+| Issue | Location | Fix |
+|-------|----------|-----|
+| Display-XL (4.5rem) may be too large on mobile | `tailwind.config.ts` | Already has responsive classes |
+| Overline text (0.6875rem) may be too small on mobile | Various | Add `sm:text-xs` fallback |
+
+---
+
+## Implementation Plan
+
+### Step 1: Fix Vite Config (Critical)
+Update `vite.config.ts` to dedupe React.
+
+### Step 2: Improve Sheet Component Tap Targets
+Update `sheet.tsx` close button from 16x16px to include a 44x44px touch target.
+
+### Step 3: Enhance Mobile Navbar
+- Add visual background to hamburger button on scroll
+- Increase touch feedback visibility
+
+### Step 4: Fix Portfolio Card Mobile Issues
+- Add `whileTap` fallback to all cards
+- Ensure metric badges truncate properly
+- Add responsive text sizing for case study content
+
+### Step 5: Improve Skills Bento Grid Tablet Layout
+- Add intermediate breakpoint handling for 768-1024px screens
+- Ensure tall cards don't create awkward gaps
+
+### Step 6: Add Reduced Motion Support
+Add `prefers-reduced-motion` media query to disable:
+- CRT scanline effects
+- Continuous flicker animations
+- Complex parallax movements
+
+### Step 7: Contact Section Spacing
+- Verify bottom padding accounts for fixed taskbar on all screen sizes
+- Add extra padding on mobile
+
+---
+
+## Files to Modify
+
+1. **vite.config.ts** - Add React deduplication
+2. **src/components/ui/sheet.tsx** - Increase close button tap target
+3. **src/components/Navbar.tsx** - Enhance mobile hamburger visibility
+4. **src/components/Portfolio.tsx** - Add whileTap, fix responsive sizing
+5. **src/components/Skills.tsx** - Improve tablet grid layout
+6. **src/index.css** - Add prefers-reduced-motion support
+7. **src/components/Contact.tsx** - Adjust mobile bottom padding
+
+---
+
+## Technical Details
+
+### Reduced Motion CSS Addition (index.css)
+```css
+@media (prefers-reduced-motion: reduce) {
+  .crt-screen,
+  .crt-flicker,
+  .crt-scanlines {
+    animation: none !important;
+  }
+  
+  * {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
 }
 ```
 
-**Connection lines update:**
+### Sheet Close Button Enhancement
 ```tsx
-// When drawing connections between particles
-const connectionLineColor = (particle.order === neighbor.order) 
-  ? (particle.order ? orderColor : chaosColor) 
-  : lineColor;
+// Current: w-4 h-4
+// Updated: Add padding wrapper for 44x44 tap target
+<SheetPrimitive.Close className="absolute right-4 top-4 p-2 -m-2 rounded-sm ...">
+  <X className="h-4 w-4" />
+</SheetPrimitive.Close>
+```
+
+### Portfolio whileTap Addition
+```tsx
+// Current
+whileHover={{ scale: 1.01 }}
+whileTap={{ scale: 0.99 }}
+
+// All motion.article and motion.a elements get matching whileTap
 ```
 
 ---
 
-## Summary
+## Success Criteria
 
-| File | Changes |
-|------|---------|
-| `src/components/ui/entropy.tsx` | Add CSS variable parsing, dual-color system, theme reactivity |
-
-## Expected Result
-
-- **Light mode**: Violet order particles + pink chaos particles with blue connection lines
-- **Dark mode**: Light violet order particles + light pink chaos particles with pale rose connections
-- **Theme switching**: Colors update automatically when dark/light mode toggles
-- **Visual clarity**: Order vs chaos now visually distinct with complementary colors
-
+1. No React runtime errors on page load
+2. All interactive elements have minimum 44x44px tap targets
+3. Smooth animations on touch devices with tap feedback
+4. No overlapping elements on screens 320px-768px
+5. Reduced motion support for accessibility
+6. Consistent spacing using semantic tokens
+7. Clean tablet (768-1024px) layouts without awkward gaps
