@@ -98,18 +98,37 @@ const bentoCards: BentoCard[] = [{
     examples: ["MLflow", "Weights & Biases", "DVC"]
   }]
 }];
-const secondaryTech = [
-  { name: "Python", icon: Terminal },
-  { name: "PyTorch", icon: Zap },
-  { name: "LangChain", icon: Brain },
-  { name: "Hugging Face", icon: Brain },
-  { name: "Docker", icon: Database },
-  { name: "Kubernetes", icon: Database },
-  { name: "Linux", icon: Terminal },
-  { name: "Burp Suite", icon: Shield },
-  { name: "Terraform", icon: Code },
-  { name: "PostgreSQL", icon: Database },
-];
+const secondaryTech = [{
+  name: "Python",
+  icon: Terminal
+}, {
+  name: "PyTorch",
+  icon: Zap
+}, {
+  name: "LangChain",
+  icon: Brain
+}, {
+  name: "Hugging Face",
+  icon: Brain
+}, {
+  name: "Docker",
+  icon: Database
+}, {
+  name: "Kubernetes",
+  icon: Database
+}, {
+  name: "Linux",
+  icon: Terminal
+}, {
+  name: "Burp Suite",
+  icon: Shield
+}, {
+  name: "Terraform",
+  icon: Code
+}, {
+  name: "PostgreSQL",
+  icon: Database
+}];
 function BentoCardComponent({
   card
 }: {
@@ -164,9 +183,7 @@ const Skills = () => {
               Expertise
             </span>
           </div>
-          <h2 className="text-3xl md:text-4xl lg:text-5xl font-display font-semibold text-foreground mb-4 leading-tight">
-            Technical Proficiency
-          </h2>
+          
           <p className="text-foreground/80 max-w-xl text-sm md:text-base leading-relaxed">
             Core competencies spanning security, AI systems, governance, and engineering.
           </p>
