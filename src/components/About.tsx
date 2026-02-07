@@ -115,19 +115,7 @@ const About = () => {
               <div className="flex flex-wrap gap-3">
                 {/* Medium Button */}
                 <Tooltip>
-                  <TooltipTrigger asChild>
-                    <motion.a href="https://medium.com/@altruisticxai" target="_blank" rel="noopener noreferrer" className="inline-flex flex-col items-start gap-0.5 px-4 py-3 min-h-[44px] rounded-lg bg-card border border-border/50 hover:border-primary/30 hover:bg-primary/5 transition-colors touch-manipulation group" whileHover={{
-                    scale: 1.02
-                  }} whileTap={{
-                    scale: 0.98
-                  }}>
-                      <span className="inline-flex items-center gap-2">
-                        <FontAwesomeIcon icon={faMedium} className="w-4 h-4 text-foreground" />
-                        <span className="text-body-sm font-medium text-foreground">Medium</span>
-                      </span>
-                      <span className="text-caption text-muted-foreground">AI ethics essays</span>
-                    </motion.a>
-                  </TooltipTrigger>
+                  
                   <TooltipContent>
                     <p>Read in-depth work on Medium</p>
                   </TooltipContent>
