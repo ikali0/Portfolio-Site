@@ -1,13 +1,12 @@
 /**
  * Entropy Background Component
  * Animated 3D particle system with ambient rotation, vibrant colors, and enhanced glow
+ * Auto-fills parent container and handles resize internally
  */
 import { useEffect, useRef } from 'react'
 
 interface EntropyProps {
   className?: string
-  width?: number
-  height?: number
 }
 
 // Refined ethereal color palette with higher saturation
@@ -21,7 +20,7 @@ const COLORS = {
 
 const COLOR_ARRAY = Object.values(COLORS)
 
-export function Entropy({ className = "", width = 800, height = 600 }: EntropyProps) {
+export function Entropy({ className = "" }: EntropyProps) {
   const canvasRef = useRef<HTMLCanvasElement>(null)
   const containerRef = useRef<HTMLDivElement>(null)
 
@@ -353,7 +352,7 @@ export function Entropy({ className = "", width = 800, height = 600 }: EntropyPr
       container.removeEventListener('mousemove', handleMouseMove)
       container.removeEventListener('mouseleave', handleMouseLeave)
     }
-  }, [width, height])
+  }, [])
 
   return (
     <div 
