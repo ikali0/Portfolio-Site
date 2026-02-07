@@ -57,10 +57,6 @@ const About = () => {
               Who I Am
             </TimelineContent>
           </div>
-          
-          <TooltipProvider>
-            
-          </TooltipProvider>
         </div>
 
         {/* Main content grid */}

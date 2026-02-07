@@ -159,6 +159,51 @@ function BentoCardComponent({
     </motion.div>;
 }
 const Skills = () => {
-  return;
+  return (
+    <section id="skills" className="py-16 md:py-24 px-4 bg-background">
+      <div className="max-w-5xl mx-auto">
+        {/* Header */}
+        <div className="mb-12">
+          <div className="flex items-center gap-3 mb-4">
+            <span className="text-accent text-xl animate-spin" style={{ animationDuration: '3s' }}>✱</span>
+            <span className="text-xs font-semibold tracking-widest uppercase text-muted-foreground">
+              Expertise
+            </span>
+          </div>
+          <h2 className="text-3xl md:text-4xl lg:text-5xl font-display font-semibold text-foreground mb-4 leading-tight">
+            Technical Proficiency
+          </h2>
+          <p className="text-foreground/80 max-w-xl text-sm md:text-base leading-relaxed">
+            Core competencies spanning security, AI systems, governance, and engineering.
+          </p>
+        </div>
+
+        {/* Bento Grid */}
+        <StaggerContainer className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4" staggerDelay={0.08}>
+          {bentoCards.map((card) => (
+            <StaggerItem key={card.id}>
+              <BentoCardComponent card={card} />
+            </StaggerItem>
+          ))}
+        </StaggerContainer>
+
+        {/* Secondary Tech */}
+        <ScrollFade>
+          <div className="mt-10 pt-8 border-t border-border/30">
+            <p className="text-xs font-semibold tracking-widest uppercase text-muted-foreground mb-4">
+              Also Proficient In
+            </p>
+            <div className="flex flex-wrap gap-2">
+              {secondaryTech.map((tech) => (
+                <Tag key={tech.name} variant="outline" size="sm">
+                  {tech.name}
+                </Tag>
+              ))}
+            </div>
+          </div>
+        </ScrollFade>
+      </div>
+    </section>
+  );
 };
 export default Skills;
