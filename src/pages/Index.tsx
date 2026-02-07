@@ -9,10 +9,17 @@ import AIEthicsBlog from "@/components/AIEthicsBlog";
 import Contact from "@/components/Contact";
 import Footer from "@/components/Footer";
 import RetroTaskbar from "@/components/ui/retro-taskbar";
+import { Waves } from "@/components/ui/wave-background";
 
 const Index = () => {
   return (
     <div className="min-h-screen bg-background crt-screen crt-flicker crt-rgb-shift">
+      {/* Wave Background - fixed behind all content */}
+      <Waves 
+        strokeColor="hsl(var(--accent) / 0.15)" 
+        backgroundColor="transparent" 
+      />
+      
       {/* CRT Scanlines Overlay */}
       <div className="crt-scanlines" aria-hidden="true" />
       
