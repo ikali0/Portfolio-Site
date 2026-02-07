@@ -259,12 +259,10 @@ function ProjectCard({
           
           {/* Tech Stack - Compact display */}
           <div className="flex-wrap mb-card-sm gap-[2px] shadow-sm rounded-sm opacity-70 flex items-center justify-center">
-            {project.techStack.slice(0, 4).map(tech => <span key={tech} className="rounded bg-muted text-xs px-[4px] py-[4px] font-medium text-secondary">
+            {project.techStack.slice(0, 4).map(tech => <span key={tech} className="rounded text-xs px-[4px] py-[4px] font-medium text-secondary bg-lime-100">
                 {tech}
               </span>)}
-            {project.techStack.length > 4 && <span className="text-[0.625rem] px-1.5 py-0.5 rounded bg-muted text-muted-foreground">
-                +{project.techStack.length - 4}
-              </span>}
+            {project.techStack.length > 4}
           </div>
 
           {/* Expandable Case Study Section - touch-friendly button */}
