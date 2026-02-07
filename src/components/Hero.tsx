@@ -142,7 +142,7 @@ const Hero = () => {
             repeat: Infinity,
             ease: "easeInOut"
           }}>
-              <FontAwesomeIcon icon={faArrowDown} className="w-5 h-5 text-accent" />
+              <FontAwesomeIcon icon={faArrowDown} className="w-4 h-4 text-accent" />
             </motion.div>
           </a>
         </motion.div>
