@@ -1,33 +1,28 @@
 /**
- * Hero Section Component (3D + Mobile First)
+ * HERO — AI LAB OS EDITION
  *
- * - Mobile-first layout
- * - Subtle 3D depth layers
- * - Parallax tilt on desktop
- * - GPU-safe animations (transform + opacity only)
- * - Updated email route
+ * - Layered 3D name shadows
+ * - Retro floating window
+ * - Depth stack with perspective
+ * - AI Lab aesthetic
+ * - Email updated
  */
 
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faLinkedin } from "@fortawesome/free-brands-svg-icons";
 import { faEnvelope, faArrowDown } from "@fortawesome/free-solid-svg-icons";
-import { motion, useMotionValue, useTransform } from "framer-motion";
-import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "./ui/tooltip";
-import EntropyBackground from "./ui/entropy-background";
+import { motion, useMotionValue } from "framer-motion";
 import { useEffect } from "react";
 
 const Hero = () => {
-  /* ---------------- 3D Tilt (Desktop Only) ---------------- */
-
   const rotateX = useMotionValue(0);
   const rotateY = useMotionValue(0);
 
   useEffect(() => {
     const handleMove = (e: MouseEvent) => {
       const { innerWidth, innerHeight } = window;
-      const x = (e.clientY / innerHeight - 0.5) * -6;
-      const y = (e.clientX / innerWidth - 0.5) * 6;
-
+      const x = (e.clientY / innerHeight - 0.5) * -8;
+      const y = (e.clientX / innerWidth - 0.5) * 8;
       rotateX.set(x);
       rotateY.set(y);
     };
@@ -38,138 +33,115 @@ const Hero = () => {
     }
   }, [rotateX, rotateY]);
 
-  /* ---------------- Component ---------------- */
-
   return (
-    <section className="relative min-h-[100svh] w-full overflow-hidden flex items-center justify-center px-4 pt-24 pb-16">
-      
-      {/* Background */}
-      <div className="absolute inset-0 z-0">
-        <EntropyBackground />
-      </div>
+    <section className="relative min-h-[100svh] w-full flex items-center justify-center overflow-hidden px-4 pt-24 pb-16 bg-background">
 
-      {/* Gradient Overlay */}
-      <div
-        className="absolute inset-0 z-10 bg-gradient-to-b from-background/10 via-transparent to-background/80 pointer-events-none"
-        aria-hidden="true"
+      {/* Subtle Grid Background */}
+      <div className="absolute inset-0 z-0 opacity-20 pointer-events-none"
+        style={{
+          backgroundImage:
+            "linear-gradient(hsl(var(--border)) 1px, transparent 1px), linear-gradient(90deg, hsl(var(--border)) 1px, transparent 1px)",
+          backgroundSize: "40px 40px",
+        }}
       />
 
-      {/* 3D Content Wrapper */}
       <motion.div
-        style={{ rotateX, rotateY }}
-        className="relative z-20 w-full max-w-5xl mx-auto flex flex-col items-center text-center md:items-start md:text-left"
+        style={{
+          rotateX,
+          rotateY,
+          transformPerspective: 1200,
+        }}
+        className="relative z-10 w-full max-w-4xl mx-auto"
       >
-        {/* Glass Surface for Depth */}
-        <div className="w-full backdrop-blur-xl bg-background/60 border border-border/40 rounded-2xl shadow-2xl p-8 sm:p-12 transform-gpu will-change-transform">
+        {/* Depth Stack Layers */}
+        <div className="absolute inset-0 translate-x-6 translate-y-6 bg-secondary/10 border border-secondary/20 rounded-none" />
+        <div className="absolute inset-0 translate-x-3 translate-y-3 bg-accent/10 border border-accent/20 rounded-none" />
 
-          {/* Badge */}
-          <motion.span
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6 }}
-            className="inline-block text-xs uppercase tracking-wider font-medium px-4 py-2 rounded-full bg-secondary/15 border border-secondary/30 text-secondary-foreground mb-6"
-          >
-            AI Engineer & Independent Consultant
-          </motion.span>
+        {/* Main Window */}
+        <div className="relative bg-card border-2 border-border shadow-2xl rounded-none overflow-hidden">
 
-          {/* Name */}
-          <motion.h1
-            initial={{ opacity: 0, y: 30 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6, delay: 0.2 }}
-            className="text-4xl sm:text-5xl md:text-6xl font-display tracking-tight mb-6 leading-tight"
-          >
-            <span className="bg-gradient-to-r from-foreground via-accent to-secondary bg-clip-text text-transparent">
-              Inga K.
-            </span>
-          </motion.h1>
+          {/* Window Title Bar */}
+          <div className="flex items-center justify-between px-4 py-2 bg-primary text-primary-foreground text-sm font-mono tracking-wide">
+            <span>AI_LAB_OS.exe</span>
+            <div className="flex gap-1">
+              <span className="w-3 h-3 bg-muted rounded-sm" />
+              <span className="w-3 h-3 bg-muted rounded-sm" />
+              <span className="w-3 h-3 bg-destructive rounded-sm" />
+            </div>
+          </div>
 
-          {/* Description */}
-          <motion.p
-            initial={{ opacity: 0, y: 30 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6, delay: 0.4 }}
-            className="text-base sm:text-lg md:text-xl text-foreground/80 max-w-2xl leading-relaxed mb-10"
-          >
-            I translate{" "}
-            <span className="font-semibold text-foreground italic">
-              policy into deployable controls
-            </span>{" "}
-            and build AI systems that hold up under compliance,
-            security, and real-world pressure.
-          </motion.p>
+          {/* Window Content */}
+          <div className="p-8 sm:p-12 text-center md:text-left">
 
-          {/* Social Buttons */}
-          <TooltipProvider>
-            <motion.div
-              initial={{ opacity: 0, y: 30 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.6, delay: 0.6 }}
-              className="flex gap-4 justify-center md:justify-start"
-            >
-              {/* LinkedIn */}
-              <Tooltip>
-                <TooltipTrigger asChild>
-                  <motion.a
-                    href="https://www.linkedin.com/in/ik11/"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    whileHover={{ scale: 1.08 }}
-                    whileTap={{ scale: 0.95 }}
-                    className="w-12 h-12 flex items-center justify-center rounded-xl border border-[#0A66C2]/30 bg-[#0A66C2]/10 hover:bg-[#0A66C2]/20 transition-colors shadow-md"
-                    aria-label="LinkedIn"
-                  >
-                    <FontAwesomeIcon icon={faLinkedin} className="w-5 h-5 text-[#0A66C2]" />
-                  </motion.a>
-                </TooltipTrigger>
-                <TooltipContent>
-                  Connect professionally
-                </TooltipContent>
-              </Tooltip>
+            {/* Status */}
+            <div className="text-xs font-mono text-muted-foreground mb-6">
+              SYSTEM STATUS: <span className="text-accent">ONLINE</span>
+            </div>
 
-              {/* Email (Updated) */}
-              <Tooltip>
-                <TooltipTrigger asChild>
-                  <motion.a
-                    href="mailto:ingakali95@gmail.com"
-                    whileHover={{ scale: 1.08 }}
-                    whileTap={{ scale: 0.95 }}
-                    className="w-12 h-12 flex items-center justify-center rounded-xl border border-accent/30 bg-accent/10 hover:bg-accent/20 transition-colors shadow-md"
-                    aria-label="Email"
-                  >
-                    <FontAwesomeIcon icon={faEnvelope} className="w-5 h-5 text-accent" />
-                  </motion.a>
-                </TooltipTrigger>
-                <TooltipContent>
-                  Email directly
-                </TooltipContent>
-              </Tooltip>
-            </motion.div>
-          </TooltipProvider>
+            {/* 3D Layered Name */}
+            <div className="relative inline-block mb-8">
+              <h1 className="relative text-5xl sm:text-6xl md:text-7xl font-display tracking-tight text-foreground z-10">
+                Inga K.
+              </h1>
+
+              {/* Shadow Layers */}
+              <h1 className="absolute inset-0 text-5xl sm:text-6xl md:text-7xl font-display tracking-tight text-accent translate-x-2 translate-y-2 -z-10">
+                Inga K.
+              </h1>
+
+              <h1 className="absolute inset-0 text-5xl sm:text-6xl md:text-7xl font-display tracking-tight text-secondary translate-x-4 translate-y-4 -z-20">
+                Inga K.
+              </h1>
+            </div>
+
+            {/* Subtext */}
+            <p className="text-base sm:text-lg md:text-xl text-foreground/80 max-w-2xl leading-relaxed mb-10">
+              Translating <span className="font-semibold italic text-foreground">
+                policy into deployable controls
+              </span>{" "}
+              and building AI systems engineered for compliance,
+              resilience, and operational reality.
+            </p>
+
+            {/* Social Actions */}
+            <div className="flex gap-4 justify-center md:justify-start">
+
+              <motion.a
+                href="https://www.linkedin.com/in/ik11/"
+                target="_blank"
+                rel="noopener noreferrer"
+                whileHover={{ scale: 1.05 }}
+                whileTap={{ scale: 0.95 }}
+                className="px-4 py-2 border border-accent bg-accent/10 hover:bg-accent/20 font-mono text-sm"
+              >
+                LINKEDIN
+              </motion.a>
+
+              <motion.a
+                href="mailto:ingakali95@gmail.com"
+                whileHover={{ scale: 1.05 }}
+                whileTap={{ scale: 0.95 }}
+                className="px-4 py-2 border border-secondary bg-secondary/10 hover:bg-secondary/20 font-mono text-sm"
+              >
+                EMAIL
+              </motion.a>
+            </div>
+
+            {/* Scroll Indicator */}
+            <div className="mt-12 flex justify-center md:justify-start">
+              <motion.a
+                href="#about"
+                animate={{ y: [0, 8, 0] }}
+                transition={{ duration: 1.5, repeat: Infinity }}
+                className="text-muted-foreground hover:text-foreground font-mono text-sm flex items-center gap-2"
+              >
+                <FontAwesomeIcon icon={faArrowDown} />
+                ENTER SYSTEM
+              </motion.a>
+            </div>
+
+          </div>
         </div>
-
-        {/* Scroll Indicator */}
-        <motion.div
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ delay: 1 }}
-          className="mt-12"
-        >
-          <a
-            href="#about"
-            className="flex flex-col items-center text-muted-foreground hover:text-foreground transition-colors"
-          >
-            <span className="text-xs uppercase tracking-widest mb-2">
-              Explore
-            </span>
-            <motion.div
-              animate={{ y: [0, 8, 0] }}
-              transition={{ duration: 1.5, repeat: Infinity }}
-            >
-              <FontAwesomeIcon icon={faArrowDown} className="w-5 h-5 text-accent" />
-            </motion.div>
-          </a>
-        </motion.div>
       </motion.div>
     </section>
   );
