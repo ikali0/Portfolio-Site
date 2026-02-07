@@ -8,6 +8,7 @@
  * - Centered or left-aligned variants
  */
 import { cn } from "@/lib/utils";
+
 interface SectionHeaderProps {
   /** Small uppercase label above the title */
   overline?: string;
@@ -20,23 +21,38 @@ interface SectionHeaderProps {
   /** Additional className for the container */
   className?: string;
 }
+
 export function SectionHeader({
   overline,
   title,
   description,
   align = "center",
-  className
+  className,
 }: SectionHeaderProps) {
-  return <header className={cn("mb-10 md:mb-14", align === "center" && "text-center", align === "left" && "text-left", className)}>
-      {overline && <p className="text-overline uppercase text-accent font-semibold mb-2">
+  return (
+    <header
+      className={cn(
+        "mb-10 md:mb-14",
+        align === "center" && "text-center",
+        align === "left" && "text-left",
+        className
+      )}
+    >
+      {overline && (
+        <p className="text-overline uppercase text-accent font-semibold mb-2">
           {overline}
-        </p>}
+        </p>
+      )}
       <h2 className="text-display-sm md:text-display-md font-display text-foreground mb-3">
         {title}
       </h2>
-      {description && <p className="text-body-sm text-muted-foreground max-w-lg mx-auto md:text-sm">
+      {description && (
+        <p className="text-body-sm md:text-body text-muted-foreground max-w-lg mx-auto">
           {description}
-        </p>}
-    </header>;
+        </p>
+      )}
+    </header>
+  );
 }
+
 export default SectionHeader;

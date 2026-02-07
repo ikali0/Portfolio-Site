@@ -241,24 +241,28 @@ function ProjectCard({
           {project.impactMetrics[0] && <div className="absolute bottom-2 right-2 max-w-[70%] sm:max-w-none px-1.5 py-0.5 rounded bg-secondary/90 backdrop-blur-sm text-secondary-foreground text-[0.625rem] font-medium shadow-sm truncate">
               {project.impactMetrics[0].label}: {project.impactMetrics[0].value}
             </div>}
-          <div className="absolute inset-0 bg-gradient-to-t from-card/50 via-transparent to-transparent transition-opacity duration-300 opacity-30" aria-hidden="true" />
+          <div className="absolute inset-0 bg-gradient-to-t from-card/50 via-transparent to-transparent transition-opacity duration-300 opacity-5" aria-hidden="true" />
         </div>
 
         {/* Content */}
-        <div className="relative flex flex-col flex-1 p-3 px-[10px] py-[10px]">
+        <div className="relative flex flex-col flex-1 p-3">
           <h3 className="text-body-sm font-display font-semibold text-foreground leading-tight mb-1">
             {project.title}
           </h3>
 
-          <p className="leading-relaxed mb-2 line-clamp-2 text-xs text-primary">
+          <p className="text-caption text-muted-foreground leading-relaxed mb-2 line-clamp-2">
             {project.description}
           </p>
 
           {/* Category Tags */}
-          
+          <div className="flex flex-wrap gap-1 mb-2" role="list" aria-label="Categories">
+            {project.tags.map(tag => <Tag key={tag} variant="default" size="sm" role="listitem">
+                {tag}
+              </Tag>)}
+          </div>
           
           {/* Tech Stack - Compact display */}
-          <div className="flex-wrap mb-card-sm flex items-start justify-center gap-[2px] shadow-sm rounded-sm opacity-70">
+          <div className="flex flex-wrap gap-1 mb-card-sm">
             {project.techStack.slice(0, 4).map(tech => <span key={tech} className="text-[0.625rem] px-1.5 py-0.5 rounded bg-muted text-muted-foreground">
                 {tech}
               </span>)}
@@ -268,7 +272,7 @@ function ProjectCard({
           </div>
 
           {/* Expandable Case Study Section - touch-friendly button */}
-          <button onClick={() => setIsExpanded(!isExpanded)} className="text-body-sm font-medium transition-colors mb-element min-h-[44px] touch-manipulation flex items-start justify-center gap-[6px] text-secondary-foreground" aria-expanded={isExpanded}>
+          <button onClick={() => setIsExpanded(!isExpanded)} className="flex items-center gap-element-sm text-body-sm font-medium text-primary hover:text-primary/80 transition-colors mb-element min-h-[44px] touch-manipulation" aria-expanded={isExpanded}>
             <span>{isExpanded ? "Hide Details" : "View Case Study"}</span>
             <motion.div animate={{
             rotate: isExpanded ? 180 : 0
@@ -382,7 +386,7 @@ const Portfolio = () => {
         <WavyLine className="w-full h-full opacity-50" />
       </ParallaxShape>
 
-      <div className="container relative z-8mx-auto max-w-2xl">
+      <div className="container relative z-10 mx-auto max-w-5xl">
         <ScrollFade>
           <SectionHeader overline="Case Studies" title="Featured Work" description="Projects designed to solve real problems in AI ethics, governance, and responsible technology deployment." />
         </ScrollFade>
