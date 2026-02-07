@@ -153,21 +153,7 @@ const Experience = () => {
         </motion.div>
 
         {/* Filters */}
-        <div className="flex flex-wrap gap-3 mb-container">
-          <select value={roleFilter} onChange={e => setRoleFilter(e.target.value)} className="rounded-md border bg-background px-3 py-2 text-sm">
-            <option value="all">All Roles</option>
-            {roles.map(role => <option key={role} value={role}>
-                {role}
-              </option>)}
-          </select>
-
-          <select value={yearFilter} onChange={e => setYearFilter(e.target.value)} className="rounded-md border bg-background px-3 py-2 text-sm">
-            <option value="all">All Years</option>
-            {years.map(year => <option key={year} value={year}>
-                {year}
-              </option>)}
-          </select>
-        </div>
+        
 
         {/* Cards */}
         
