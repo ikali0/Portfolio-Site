@@ -80,46 +80,7 @@ const Hero = () => {
 
         {/* Social Buttons */}
         <TooltipProvider>
-          <motion.div initial={{
-          opacity: 0,
-          y: 30
-        }} animate={{
-          opacity: 1,
-          y: 0
-        }} transition={{
-          duration: 0.6,
-          delay: 0.3
-        }} className="flex gap-4 mb-16">
-            <Tooltip>
-              <TooltipTrigger asChild>
-                <motion.a href="https://www.linkedin.com/in/ik11/" target="_blank" rel="noopener noreferrer" whileHover={{
-                scale: 1.08
-              }} whileTap={{
-                scale: 0.95
-              }} className="flex items-center justify-center w-10 h-10 rounded-xl bg-background/70 backdrop-blur-md border border-border hover:border-accent transition-all shadow-sm" aria-label="LinkedIn">
-                  <FontAwesomeIcon icon={faLinkedin} className="w-4 h-4 text-[#0A66C2]" />
-                </motion.a>
-              </TooltipTrigger>
-              <TooltipContent>
-                Connect professionally
-              </TooltipContent>
-            </Tooltip>
-
-            <Tooltip>
-              <TooltipTrigger asChild>
-                <motion.a href="mailto:ingakali95@gmail.com" whileHover={{
-                scale: 1.08
-              }} whileTap={{
-                scale: 0.95
-              }} className="flex items-center justify-center w-10 h-10 rounded-xl bg-background/70 backdrop-blur-md border border-border hover:border-secondary transition-all shadow-sm" aria-label="Email">
-                  <FontAwesomeIcon icon={faEnvelope} className="w-4 h-4 text-fuchsia-500" />
-                </motion.a>
-              </TooltipTrigger>
-              <TooltipContent>
-                Send email
-              </TooltipContent>
-            </Tooltip>
-          </motion.div>
+          
         </TooltipProvider>
 
         {/* Scroll Indicator */}
