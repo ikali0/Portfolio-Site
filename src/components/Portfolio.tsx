@@ -241,7 +241,7 @@ function ProjectCard({
           {project.impactMetrics[0] && <div className="absolute bottom-2 right-2 max-w-[70%] sm:max-w-none px-1.5 py-0.5 rounded bg-secondary/90 backdrop-blur-sm text-secondary-foreground text-[0.625rem] font-medium shadow-sm truncate">
               {project.impactMetrics[0].label}: {project.impactMetrics[0].value}
             </div>}
-          <div className="absolute inset-0 bg-gradient-to-t from-card/50 via-transparent to-transparent transition-opacity duration-300 opacity-5" aria-hidden="true" />
+          <div className="absolute inset-0 bg-gradient-to-t from-card/50 via-transparent to-transparent transition-opacity duration-300 opacity-30" aria-hidden="true" />
         </div>
 
         {/* Content */}
@@ -255,11 +255,7 @@ function ProjectCard({
           </p>
 
           {/* Category Tags */}
-          <div className="flex-wrap mb-2 gap-[2px] flex items-start justify-center" role="list" aria-label="Categories">
-            {project.tags.map(tag => <Tag key={tag} variant="default" size="sm" role="listitem">
-                {tag}
-              </Tag>)}
-          </div>
+          
           
           {/* Tech Stack - Compact display */}
           <div className="flex-wrap mb-card-sm flex items-start justify-center gap-[2px] shadow-sm rounded-sm opacity-70">
@@ -386,7 +382,7 @@ const Portfolio = () => {
         <WavyLine className="w-full h-full opacity-50" />
       </ParallaxShape>
 
-      <div className="container relative z-10 mx-auto max-w-5xl">
+      <div className="container relative z-8mx-auto max-w-2xl">
         <ScrollFade>
           <SectionHeader overline="Case Studies" title="Featured Work" description="Projects designed to solve real problems in AI ethics, governance, and responsible technology deployment." />
         </ScrollFade>
