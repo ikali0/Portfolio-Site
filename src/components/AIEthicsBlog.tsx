@@ -79,7 +79,7 @@ function ArticleCard({
         {article.excerpt}
       </p>
 
-      <div className="flex items-center justify-between pt-4 border-t border-border/30">
+      <div className="flex items-center justify-between pt-3 border-t border-border/22">
         <div className="text-xs font-medium text-primary tracking-tight\n">
           <span>{article.publishDate}</span>
           <span className="text-border">•</span>
