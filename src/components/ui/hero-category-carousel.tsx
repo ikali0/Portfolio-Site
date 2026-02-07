@@ -1,3 +1,114 @@
+import { useState, useCallback, useEffect } from "react";
+import useEmblaCarousel from "embla-carousel-react";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { 
+  faChevronLeft, 
+  faChevronRight, 
+  faExternalLinkAlt,
+  faRobot,
+  faGavel,
+  faChartLine,
+  faShieldAlt
+} from "@fortawesome/free-solid-svg-icons";
+import { motion, AnimatePresence } from "framer-motion";
+import { cn } from "@/lib/utils";
+import { IconDefinition } from "@fortawesome/fontawesome-svg-core";
+
+// Import portfolio images
+import biasDetectionImg from "@/assets/portfolio-bias-detection.jpg";
+import decisionFrameworkImg from "@/assets/portfolio-decision-framework.jpg";
+import ethicsDashboardImg from "@/assets/portfolio-ethics-dashboard.jpg";
+import governanceImg from "@/assets/portfolio-governance.jpg";
+
+/* ---------------- Types ---------------- */
+
+interface Category {
+  id: string;
+  label: string;
+  icon: IconDefinition;
+  color: string;
+  bgColor: string;
+}
+
+interface Project {
+  id: string;
+  title: string;
+  description: string;
+  image: string;
+  categories: string[];
+  link?: string;
+}
+
+/* ---------------- Data ---------------- */
+
+const categories: Category[] = [
+  {
+    id: "ai-systems",
+    label: "AI Systems",
+    icon: faRobot,
+    color: "text-primary",
+    bgColor: "bg-primary/10",
+  },
+  {
+    id: "ethics",
+    label: "Ethics",
+    icon: faGavel,
+    color: "text-accent",
+    bgColor: "bg-accent/10",
+  },
+  {
+    id: "analytics",
+    label: "Analytics",
+    icon: faChartLine,
+    color: "text-neural",
+    bgColor: "bg-neural/10",
+  },
+  {
+    id: "governance",
+    label: "Governance",
+    icon: faShieldAlt,
+    color: "text-secondary-foreground",
+    bgColor: "bg-secondary/20",
+  },
+];
+
+const categoryProjects: Project[] = [
+  {
+    id: "bias-detection",
+    title: "Bias Detection Framework",
+    description: "ML pipeline for detecting and mitigating algorithmic bias in hiring systems.",
+    image: biasDetectionImg,
+    categories: ["ai-systems", "ethics"],
+    link: "#portfolio",
+  },
+  {
+    id: "decision-framework",
+    title: "Ethical Decision Framework",
+    description: "Structured approach to evaluating AI system impacts on stakeholders.",
+    image: decisionFrameworkImg,
+    categories: ["ethics", "governance"],
+    link: "#portfolio",
+  },
+  {
+    id: "ethics-dashboard",
+    title: "AI Ethics Dashboard",
+    description: "Real-time monitoring and reporting for AI system compliance.",
+    image: ethicsDashboardImg,
+    categories: ["ai-systems", "analytics", "governance"],
+    link: "#portfolio",
+  },
+  {
+    id: "governance-model",
+    title: "AI Governance Model",
+    description: "Enterprise framework for responsible AI development and deployment.",
+    image: governanceImg,
+    categories: ["governance", "ethics"],
+    link: "#portfolio",
+  },
+];
+
+/* ---------------- Component ---------------- */
+
 export function HeroCategoryCarousel() {
   const [selectedCategory, setSelectedCategory] = useState<string | null>(null);
 
@@ -197,3 +308,5 @@ export function HeroCategoryCarousel() {
     </div>
   );
 }
+
+export default HeroCategoryCarousel;
