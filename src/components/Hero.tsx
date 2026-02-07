@@ -73,23 +73,14 @@ const Hero = () => {
         duration: 0.5,
         delay: 0.3
       }} className="flex flex-col sm:flex-row items-center gap-4 mb-8">
-          <a href="#contact" className="group inline-flex items-center gap-1.5 px-4 py-2 text-xs font-medium bg-gradient-to-r from-primary to-accent text-primary-foreground rounded-md shadow-[0_4px_0_0_hsl(var(--primary)/0.4)] hover:shadow-[0_2px_0_0_hsl(var(--primary)/0.4)] hover:translate-y-[2px] active:shadow-none active:translate-y-[4px] transition-all duration-150">
+          <a href="#contact" className="group inline-flex items-center gap-1.5 py-2 text-xs font-medium bg-gradient-to-r from-primary to-accent text-primary-foreground rounded-md shadow-[0_4px_0_0_hsl(var(--primary)/0.4)] hover:shadow-[0_2px_0_0_hsl(var(--primary)/0.4)] hover:translate-y-[2px] active:shadow-none active:translate-y-[4px] transition-all duration-150 px-[88px]">
             Contact Me
             <FontAwesomeIcon icon={faArrowRight} className="w-3 h-3 transition-transform group-hover:translate-x-0.5" />
           </a>
         </motion.div>
 
         {/* Secondary link */}
-        <motion.a href="#about" initial={{
-        opacity: 0
-      }} animate={{
-        opacity: 1
-      }} transition={{
-        delay: 0.5
-      }} className="inline-flex items-center gap-2 text-sm text-muted-foreground hover:text-foreground transition-colors group">
-          Learn more
-          <FontAwesomeIcon icon={faArrowRight} className="w-3 h-3 transition-transform group-hover:translate-x-1" />
-        </motion.a>
+        
 
         {/* Social icons */}
         <motion.div initial={{
