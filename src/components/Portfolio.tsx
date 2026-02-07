@@ -245,7 +245,7 @@ function ProjectCard({
         </div>
 
         {/* Content */}
-        <div className="relative flex flex-col flex-1 p-3">
+        <div className="relative flex flex-col flex-1 p-3 px-[10px] py-[10px]">
           <h3 className="text-body-sm font-display font-semibold text-foreground leading-tight mb-1">
             {project.title}
           </h3>
