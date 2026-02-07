@@ -96,7 +96,7 @@ const Hero = () => {
               }} whileTap={{
                 scale: 0.95
               }}>
-                  <FontAwesomeIcon icon={faLinkedin} className="w-4 h-4 text-[#0A66C2]" />
+                  <FontAwesomeIcon icon={faLinkedin} className="w-4 h-4 text-[#0A66C2] border border-card-foreground border-solid" />
                 </motion.a>
               </TooltipTrigger>
               <TooltipContent>
