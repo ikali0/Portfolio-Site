@@ -1,134 +1,219 @@
-# Portfolio Website
+# 🖥️ Ingakalii
 
-A retro Windows-styled portfolio website built with React, TypeScript, and Tailwind CSS.
+A retro Windows–inspired portfolio built with modern frontend architecture.
 
-## Features
+> Nostalgia in aesthetic.  
+> Precision in engineering.
 
-- 🖥️ Retro Windows UI with taskbar and Start menu
-- 📧 Contact form with EmailJS integration
-- 🎨 Responsive design with dark/light mode support
-- ⌨️ Keyboard accessible navigation
-
-## Environment Variables
-
-This project requires the following environment variables for the contact form:
-
-| Variable | Description | Required |
-|----------|-------------|----------|
-| `VITE_EMAILJS_PUBLIC_KEY` | Your EmailJS public key | Yes |
-| `VITE_EMAILJS_SERVICE_ID` | Your EmailJS service ID | Yes |
-
-### EmailJS Setup
-
-1. Create an account at [EmailJS](https://www.emailjs.com/)
-2. Create an email service and note the **Service ID**
-3. Create an email template with ID `template_p8p58qv` (or update the template ID in `ContactForm.tsx`)
-4. Get your **Public Key** from Account > API Keys
-5. Add the environment variables to your project
-
-### Template Variables
-
-Your EmailJS template should include these variables:
-- `{{from_name}}` - Sender's name
-- `{{from_email}}` - Sender's email
-- `{{subject}}` - Email subject
-- `{{message}}` - Message content
-
-## Development
-
-```bash
-# Install dependencies
-npm install
-
-# Start development server
-npm run dev
-
-# Run tests
-npm run test
-
-# Build for production
-npm run build
-```
-
-## Tech Stack
-
-- React 18
-- TypeScript
-- Tailwind CSS
-- Framer Motion
-- React Hook Form + Zod
-- EmailJS
+🌐 **Live Site:** https://ingakalii.loveable.app/
 
 ---
 
-## Project Info
+## ✨ Overview
 
-**URL**: https://lovable.dev/projects/REPLACE_WITH_PROJECT_ID
+Ingakalii is a desktop-style portfolio experience designed to feel like a lightweight operating system.
 
-## How can I edit this code?
+It blends:
 
-There are several ways of editing your application.
+- Windows 98–inspired UI patterns  
+- A token-driven design system  
+- GPU-accelerated visual effects  
+- Modern React architecture  
 
-**Use Lovable**
+This isn’t a template.  
+It’s a crafted interface.
 
-Simply visit the [Lovable Project](https://lovable.dev/projects/REPLACE_WITH_PROJECT_ID) and start prompting.
+---
 
-Changes made via Lovable will be committed automatically to this repo.
+## 🎯 Features
 
-**Use your preferred IDE**
+- 🖥️ Desktop-style layout with taskbar & Start menu  
+- 🗂️ Window-based section navigation  
+- 🎨 Light / Dark / Retro themes  
+- ⚡ GPU-optimized CRT effect (WebGL overlay)  
+- 📧 EmailJS-powered contact form  
+- ♿ Keyboard-accessible navigation  
+- 📱 Fully responsive design  
 
-If you want to work locally using your own IDE, you can clone this repo and push changes. Pushed changes will also be reflected in Lovable.
+---
 
-The only requirement is having Node.js & npm installed - [install with nvm](https://github.com/nvm-sh/nvm#installing-and-updating)
+## 🧱 Tech Stack
 
-Follow these steps:
+- React 18  
+- TypeScript  
+- Vite  
+- Tailwind CSS  
+- shadcn/ui  
+- Framer Motion  
+- React Hook Form + Zod  
+- EmailJS  
+- WebGL (custom CRT shader)  
 
-```sh
-# Step 1: Clone the repository using the project's Git URL.
-git clone <YOUR_GIT_URL>
+---
 
-# Step 2: Navigate to the project directory.
-cd <YOUR_PROJECT_NAME>
+## 🏗 Architecture
 
-# Step 3: Install the necessary dependencies.
-npm i
+The project follows a modular and scalable structure:
 
-# Step 4: Start the development server with auto-reloading and an instant preview.
+```
+src/
+├── assets/                # Static assets
+│
+├── components/
+│   ├── ui/                # Reusable UI primitives
+│   ├── layout/            # Taskbar, windows, layout shell
+│   ├── sections/          # About, Projects, Contact
+│   └── effects/           # CRT shader canvas
+│
+├── hooks/                 # Custom React hooks
+├── integrations/          # External services (EmailJS, Supabase)
+├── lib/                   # Utilities & theme logic
+├── providers/             # Context providers
+├── config/                # App configuration
+│
+├── styles/
+│   ├── tokens.css         # Design tokens
+│   ├── base.css           # Global resets & typography
+│   ├── components.css     # Component abstractions
+│   ├── utilities.css      # Utility helpers
+│   └── themes/
+│       ├── light.css
+│       ├── dark.css
+│       └── retro.css
+│
+├── types/                 # TypeScript types
+│
+├── App.tsx
+├── main.tsx
+└── index.css
+```
+
+---
+
+## 🎨 Design System
+
+This project uses a **token-driven design system**.
+
+All visual values are defined as CSS variables.
+
+Example:
+
+```css
+--color-bg: 321 34% 96%;
+--color-primary: 321 49% 11%;
+--radius: 0.75rem;
+--shadow-md: 0 6px 20px hsl(0 0% 0% / 0.08);
+```
+
+Tailwind consumes these tokens:
+
+```ts
+colors: {
+  background: "hsl(var(--color-bg) / <alpha-value>)",
+  primary: "hsl(var(--color-primary) / <alpha-value>)",
+}
+```
+
+### Why this matters
+
+- No hardcoded hex values  
+- Easy theme expansion  
+- Visual consistency  
+- Scalable architecture  
+- Zero unnecessary re-renders  
+
+---
+
+## 🌗 Theme System
+
+Themes are:
+
+- Controlled via `class="dark"` strategy  
+- Stored in `localStorage`  
+- Synced with `prefers-color-scheme`  
+- Swapped instantly via CSS variables  
+
+Theme switching does **not** trigger full React re-renders.
+
+---
+
+## ⚡ Performance Strategy
+
+- Animations use `transform` and `opacity` only  
+- CRT effect runs via WebGL (GPU only)  
+- No layout thrashing  
+- Reduced-motion compliant  
+- Optimized for Lighthouse performance  
+
+---
+
+## 📧 Environment Variables
+
+Create a `.env` file in the project root:
+
+```
+VITE_EMAILJS_PUBLIC_KEY=
+VITE_EMAILJS_SERVICE_ID=
+VITE_EMAILJS_TEMPLATE_ID=
+```
+
+Your EmailJS template should include:
+
+```
+{{from_name}}
+{{from_email}}
+{{subject}}
+{{message}}
+```
+
+---
+
+## 🚀 Development
+
+Install dependencies:
+
+```bash
+npm install
+```
+
+Run locally:
+
+```bash
 npm run dev
 ```
 
-**Edit a file directly in GitHub**
+Build for production:
 
-- Navigate to the desired file(s).
-- Click the "Edit" button (pencil icon) at the top right of the file view.
-- Make your changes and commit the changes.
+```bash
+npm run build
+```
 
-**Use GitHub Codespaces**
+---
 
-- Navigate to the main page of your repository.
-- Click on the "Code" button (green button) near the top right.
-- Select the "Codespaces" tab.
-- Click on "New codespace" to launch a new Codespace environment.
-- Edit files directly within the Codespace and commit and push your changes once you're done.
+## 🌍 Deployment
 
-## What technologies are used for this project?
+The project can be deployed to:
 
-This project is built with:
+- Vercel  
+- Netlify  
+- Lovable  
+- Any static hosting provider  
 
-- Vite
-- TypeScript
-- React
-- shadcn-ui
-- Tailwind CSS
+Production build output is generated in the `dist/` folder.
 
-## How can I deploy this project?
+---
 
-Simply open [Lovable](https://lovable.dev/projects/REPLACE_WITH_PROJECT_ID) and click on Share -> Publish.
+## 🧠 Philosophy
 
-## Can I connect a custom domain to my Lovable project?
+This portfolio is both a creative interface experiment and a structured frontend system.
 
-Yes, you can!
+It demonstrates:
 
-To connect a domain, navigate to Project > Settings > Domains and click Connect Domain.
+- Design system thinking  
+- Performance awareness  
+- Accessibility considerations  
+- Modular architecture  
+- UI craftsmanship  
 
-Read more here: [Setting up a custom domain](https://docs.lovable.dev/features/custom-domain#custom-domain)
+Retro aesthetic.  
+Modern engineering.
