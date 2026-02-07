@@ -183,18 +183,7 @@ const Skills = () => {
         </StaggerContainer>
 
         {/* Secondary Tech */}
-        <ScrollFade>
-          <div className="mt-10 pt-8 border-t border-border/30">
-            <p className="text-xs font-semibold tracking-widest uppercase text-muted-foreground mb-4">
-              Also Proficient In
-            </p>
-            <div className="flex flex-wrap gap-2">
-              {secondaryTech.map(tech => <Tag key={tech.name} variant="outline" size="sm">
-                  {tech.name}
-                </Tag>)}
-            </div>
-          </div>
-        </ScrollFade>
+        
       </div>
     </section>;
 };
