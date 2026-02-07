@@ -175,9 +175,7 @@ const Skills = () => {
         {/* Secondary Tech Tags */}
         <ScrollFade>
           <div className="mt-10 pt-8 border-t border-border/30">
-            <p className="text-xs uppercase tracking-widest text-muted-foreground mb-4">
-              Additional Tools
-            </p>
+            
             <div className="flex flex-wrap gap-2">
               {secondaryTech.map(tech => <Tag key={tech.name}>
                   {tech.name}
