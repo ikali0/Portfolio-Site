@@ -241,30 +241,34 @@ function ProjectCard({
           {project.impactMetrics[0] && <div className="absolute bottom-2 right-2 max-w-[70%] sm:max-w-none px-1.5 py-0.5 rounded bg-secondary/90 backdrop-blur-sm text-secondary-foreground text-[0.625rem] font-medium shadow-sm truncate">
               {project.impactMetrics[0].label}: {project.impactMetrics[0].value}
             </div>}
-          <div className="absolute inset-0 bg-gradient-to-t from-card/50 via-transparent to-transparent transition-opacity duration-300 opacity-65" aria-hidden="true" />
+          <div className="absolute inset-0 bg-gradient-to-t from-card/50 via-transparent to-transparent transition-opacity duration-300 opacity-30" aria-hidden="true" />
         </div>
 
         {/* Content */}
-        <div className="relative flex-col flex-1 p-3 gap-0 px-[12px] py-[12px] flex items-center justify-center">
+        <div className="relative flex flex-col flex-1 p-3 px-[10px] py-[10px]">
           <h3 className="text-body-sm font-display font-semibold text-foreground leading-tight mb-1">
             {project.title}
           </h3>
 
-          
+          <p className="leading-relaxed mb-2 line-clamp-2 text-xs text-primary">
+            {project.description}
+          </p>
 
           {/* Category Tags */}
           
           
           {/* Tech Stack - Compact display */}
-          <div className="flex-wrap mb-card-sm gap-[2px] shadow-sm rounded-sm opacity-70 flex items-center justify-center py-[4px] px-[4px]">
-            {project.techStack.slice(0, 4).map(tech => <span key={tech} className="rounded text-xs px-[4px] py-[4px] font-medium text-secondary bg-lime-100">
+          <div className="flex-wrap mb-card-sm flex items-start justify-center gap-[2px] shadow-sm rounded-sm opacity-70">
+            {project.techStack.slice(0, 4).map(tech => <span key={tech} className="text-[0.625rem] px-1.5 py-0.5 rounded bg-muted text-muted-foreground">
                 {tech}
               </span>)}
-            {project.techStack.length > 4}
+            {project.techStack.length > 4 && <span className="text-[0.625rem] px-1.5 py-0.5 rounded bg-muted text-muted-foreground">
+                +{project.techStack.length - 4}
+              </span>}
           </div>
 
           {/* Expandable Case Study Section - touch-friendly button */}
-          <button onClick={() => setIsExpanded(!isExpanded)} className="text-body-sm font-medium transition-colors mb-element min-h-[44px] touch-manipulation flex items-start justify-center text-secondary-foreground gap-[8px] px-[6px] py-[6px]" aria-expanded={isExpanded}>
+          <button onClick={() => setIsExpanded(!isExpanded)} className="text-body-sm font-medium transition-colors mb-element min-h-[44px] touch-manipulation flex items-start justify-center gap-[6px] text-secondary-foreground" aria-expanded={isExpanded}>
             <span>{isExpanded ? "Hide Details" : "View Case Study"}</span>
             <motion.div animate={{
             rotate: isExpanded ? 180 : 0
@@ -352,7 +356,7 @@ function ProjectCard({
           
 
           {/* Action Button - touch-friendly sizing */}
-          {project.live && <motion.a href={project.live} target="_blank" rel="noopener noreferrer" className="inline-flex items-center justify-center gap-element-sm w-full text-body-sm font-medium text-primary-foreground bg-primary hover:bg-primary/90 active:bg-primary/80 focus:outline-none focus:ring-2 focus:ring-primary/50 focus:ring-offset-2 focus:ring-offset-card rounded-md mt-card-sm min-h-[44px] touch-manipulation my-[10px] px-[3px] py-[3px]" aria-label={`View ${project.title} project`} whileHover={{
+          {project.live && <motion.a href={project.live} target="_blank" rel="noopener noreferrer" className="inline-flex items-center justify-center gap-element-sm w-full text-body-sm font-medium text-primary-foreground bg-primary hover:bg-primary/90 active:bg-primary/80 focus:outline-none focus:ring-2 focus:ring-primary/50 focus:ring-offset-2 focus:ring-offset-card rounded-md mt-card-sm min-h-[44px] touch-manipulation px-[6px] py-[6px] my-[10px]" aria-label={`View ${project.title} project`} whileHover={{
           scale: 1.02
         }} whileTap={{
           scale: 0.98
