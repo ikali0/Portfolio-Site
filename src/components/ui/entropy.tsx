@@ -44,6 +44,11 @@ export function Entropy({ className = "", width = 800, height = 600 }: EntropyPr
 
     updateSize()
 
+    // Mouse tracking
+    let mouseX = -1000
+    let mouseY = -1000
+    const mouseRadius = 120
+
     // Theme-aware colors
     const isDark = document.documentElement.classList.contains('dark')
     const particleColor = isDark ? '#ffffff' : '#000000'
@@ -74,7 +79,18 @@ export function Entropy({ className = "", width = 800, height = 600 }: EntropyPr
         this.neighbors = []
       }
 
-      update(width: number, height: number) {
+      update(width: number, height: number, mx: number, my: number, mRadius: number) {
+        // Mouse repulsion effect
+        const distToMouse = Math.hypot(this.x - mx, this.y - my)
+        if (distToMouse < mRadius && distToMouse > 0) {
+          const force = (mRadius - distToMouse) / mRadius
+          const angle = Math.atan2(this.y - my, this.x - mx)
+          const pushX = Math.cos(angle) * force * 8
+          const pushY = Math.sin(angle) * force * 8
+          this.x += pushX
+          this.y += pushY
+        }
+
         if (this.order) {
           const dx = this.originalX - this.x
           const dy = this.originalY - this.y
@@ -154,7 +170,7 @@ export function Entropy({ className = "", width = 800, height = 600 }: EntropyPr
       }
 
       particles.forEach(particle => {
-        particle.update(canvasWidth, canvasHeight)
+        particle.update(canvasWidth, canvasHeight, mouseX, mouseY, mouseRadius)
         particle.draw(context, particleColor)
 
         particle.neighbors.forEach(neighbor => {
@@ -189,13 +205,28 @@ export function Entropy({ className = "", width = 800, height = 600 }: EntropyPr
       updateSize()
     }
 
+    const handleMouseMove = (e: MouseEvent) => {
+      const rect = container.getBoundingClientRect()
+      mouseX = e.clientX - rect.left
+      mouseY = e.clientY - rect.top
+    }
+
+    const handleMouseLeave = () => {
+      mouseX = -1000
+      mouseY = -1000
+    }
+
     window.addEventListener('resize', handleResize)
+    container.addEventListener('mousemove', handleMouseMove)
+    container.addEventListener('mouseleave', handleMouseLeave)
 
     return () => {
       if (animationId) {
         cancelAnimationFrame(animationId)
       }
       window.removeEventListener('resize', handleResize)
+      container.removeEventListener('mousemove', handleMouseMove)
+      container.removeEventListener('mouseleave', handleMouseLeave)
     }
   }, [width, height])
 
