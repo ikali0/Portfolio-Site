@@ -159,7 +159,7 @@ const About = () => {
           </div>
 
           {/* Highlight Cards */}
-          <div className="flex flex-wrap justify-center gap-[20px]">
+          <div className="flex flex-wrap justify-center gap-[18px]">
             {highlights.map((item, index) => <motion.div key={item.title} initial={{
             opacity: 0,
             y: 20
