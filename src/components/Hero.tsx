@@ -5,7 +5,7 @@
  * Enhanced Hero with Entropy particle background (mobile-first + responsive)
  */
 
-import React, { useEffect, useRef, useState } from "react";
+import React from "react";
 import { motion, useReducedMotion } from "framer-motion";
 import type { LucideIcon } from "lucide-react";
 import { Linkedin, Mail, ArrowDown, BookOpen, Coffee } from "lucide-react";
@@ -70,35 +70,6 @@ const SOCIAL_LINKS: SocialLink[] = [
 const Hero = () => {
   const reduceMotion = useReducedMotion();
 
-  // measure container for responsive entropy size
-  const bgRef = useRef<HTMLDivElement | null>(null);
-  const [entropySize, setEntropySize] = useState<number>(800);
-
-  useEffect(() => {
-    function updateSize() {
-      if (!bgRef.current) return;
-      const rect = bgRef.current.getBoundingClientRect();
-      // choose the larger dimension to cover the container nicely
-      const larger = Math.max(rect.width, rect.height);
-      // clamp min/max for performance
-      const clamped = Math.max(400, Math.min(1600, Math.round(larger)));
-      setEntropySize(clamped);
-    }
-
-    updateSize();
-    if (typeof window !== "undefined") {
-      window.addEventListener("resize", updateSize);
-      window.addEventListener("orientationchange", updateSize);
-    }
-
-    return () => {
-      if (typeof window !== "undefined") {
-        window.removeEventListener("resize", updateSize);
-        window.removeEventListener("orientationchange", updateSize);
-      }
-    };
-  }, []);
-
   const fadeUp = (delay = 0) => ({
     initial: reduceMotion ? {} : { opacity: 0, y: 20 },
     animate: { opacity: 1, y: 0 },
@@ -116,14 +87,12 @@ const Hero = () => {
       aria-label="Hero"
       className="relative min-h-[100svh] flex items-center justify-center overflow-x-hidden px-4 sm:px-6 pt-20 sm:pt-24 pb-12 sm:pb-16"
     >
-      {/* Entropy particle background (measured & responsive) */}
+      {/* Entropy particle background (self-measuring & responsive) */}
       <div
-        ref={bgRef}
         className="absolute inset-0 z-0 bg-background pointer-events-none"
         aria-hidden
       >
-        {/* pass a pixel size so the Entropy canvas renders at an appropriate resolution */}
-        <Entropy className="w-full h-full opacity-80" width={entropySize} height={entropySize} />
+        <Entropy className="w-full h-full opacity-80" />
       </div>
 
       {/* Subtle gradient overlay for improved legibility */}
