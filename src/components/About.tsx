@@ -88,7 +88,7 @@ const About = () => {
           </div>
 
           {/* About Me Content - Exact 120 Words */}
-          <div className="text-body-sm md:text-body text-muted-foreground space-y-card-sm mb-card leading-relaxed">
+          <div className="text-body-sm md:text-body space-y-card-sm mb-card leading-relaxed text-primary">
             <p>
               I work at the intersection of{" "}
               <strong className="text-foreground font-semibold">
