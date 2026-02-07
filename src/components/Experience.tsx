@@ -1,23 +1,21 @@
-import { useMemo, useState, useRef } from "react";
-import {
-  motion,
-  useScroll,
-  useTransform,
-  useSpring,
-  AnimatePresence,
-  useReducedMotion,
-} from "framer-motion";
+/**
+ * Experience Section Component
+ *
+ * - Expandable experience cards
+ * - Filters by role and year
+ * - VerticalTimeline derived from same data (no duplication)
+ */
+import { useMemo, useState } from "react";
 import { ChevronDown } from "lucide-react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import {
-  faPersonWalkingLuggage,
-  faShieldHalved,
-  faBuilding,
-  faChartLine,
-} from "@fortawesome/free-solid-svg-icons";
+import { faLocationDot, faPersonWalkingLuggage, faBuilding, faShieldHalved, faChartLine } from "@fortawesome/free-solid-svg-icons";
+import { motion, AnimatePresence, useReducedMotion } from "framer-motion";
+import { Tag } from "./ui/tag";
+import { RingShape, DotsPattern, ParallaxShape } from "./ui/abstract-shapes";
+import { VerticalTimeline, type TimelineEntry } from "./ui/vertical-timeline";
 
 /* ------------------------------------------------------------------ */
-/* DATA                                                               */
+/* DATA — single source of truth                                       */
 /* ------------------------------------------------------------------ */
 
 interface ExperienceData {
@@ -25,259 +23,144 @@ interface ExperienceData {
   title: string;
   organization: string;
   period: string;
+  location: string;
   description: string;
   highlights: string[];
-  status: "complete" | "in-progress";
+  tags: string[];
+  status: "complete" | "in-progress" | "pending";
   icon: any;
 }
-
-const experiences: ExperienceData[] = [
-  {
-    id: "ai-policy",
-    title: "AI Policy Engineer",
-    organization: "Independent Consultant",
-    period: "2023 – Present",
-    description:
-      "Leading AI consultancy delivering automation prototypes and compliance frameworks.",
-    highlights: [
-      "NIST AI RMF assessments",
-      "Compliance dashboards",
-      "LLM governance systems",
-    ],
-    status: "in-progress",
-    icon: faPersonWalkingLuggage,
-  },
-  {
-    id: "pentest",
-    title: "Penetration Tester",
-    organization: "DIA & Lockheed Martin",
-    period: "2024 – 2025",
-    description: "Executed federal penetration testing engagements.",
-    highlights: [
-      "12+ penetration tests",
-      "47 critical vulnerabilities",
-    ],
-    status: "complete",
-    icon: faShieldHalved,
-  },
-  {
-    id: "consulting",
-    title: "Consulting Analyst",
-    organization: "Accenture Federal Services",
-    period: "2021 – 2024",
-    description: "Federal portfolio optimization & compliance design.",
-    highlights: ["30% portfolio optimization"],
-    status: "complete",
-    icon: faBuilding,
-  },
-  {
-    id: "sap",
-    title: "Business Analyst",
-    organization: "SAP SuccessFactors",
-    period: "2019 – 2021",
-    description: "Enterprise analytics systems.",
-    highlights: ["25% operational efficiency gain"],
-    status: "complete",
-    icon: faChartLine,
-  },
-];
+const experiences: ExperienceData[] = [{
+  id: "ai-policy",
+  title: "AI Policy Engineer",
+  organization: "Independent Consultant",
+  period: "Oct 2023 – Present",
+  location: "Philadelphia, PA",
+  description: "Leading AI consultancy delivering automation prototypes and compliance frameworks.",
+  highlights: ["Built FERPA/Title IX compliance dashboards", "Converted policy frameworks into deployable controls", "Conducted NIST AI RMF feasibility assessments", "Developed GPT-4 and Claude compliance tools"],
+  tags: ["NIST AI RMF", "Compliance", "LLMs"],
+  status: "in-progress",
+  icon: faPersonWalkingLuggage
+}, {
+  id: "pentest",
+  title: "Penetration Tester",
+  organization: "DIA & Lockheed Martin",
+  period: "Nov 2024 – May 2025",
+  location: "Washington, DC",
+  description: "Executed penetration tests across federal networks.",
+  highlights: ["Executed 12+ penetration tests", "Discovered 47 critical vulnerabilities", "Reduced security incidents by 30%"],
+  tags: ["Metasploit", "OSINT", "Threat Modeling"],
+  status: "complete",
+  icon: faShieldHalved
+}, {
+  id: "consulting",
+  title: "Consulting Analyst",
+  organization: "Accenture Federal Services",
+  period: "Jul 2021 – Oct 2024",
+  location: "Washington, DC",
+  description: "Optimized federal portfolios and compliance frameworks.",
+  highlights: ["30% portfolio optimization", "Developed DLA compliance frameworks", "Designed energy.gov UX interfaces"],
+  tags: ["DoD", "Policy", "UX/UI"],
+  status: "complete",
+  icon: faBuilding
+}, {
+  id: "sap",
+  title: "Business Analyst",
+  organization: "SAP SuccessFactors",
+  period: "Dec 2019 – Mar 2021",
+  location: "Newtown Square, PA",
+  description: "ROI analysis and enterprise reporting.",
+  highlights: ["25% operational efficiency improvement", "30% reduction in data retrieval time"],
+  tags: ["ROI", "Data Analysis"],
+  status: "complete",
+  icon: faChartLine
+}];
 
 /* ------------------------------------------------------------------ */
 /* COMPONENT                                                          */
 /* ------------------------------------------------------------------ */
 
-export default function Experience() {
+const Experience = () => {
   const reduceMotion = useReducedMotion();
-  const [expanded, setExpanded] = useState<string | null>(null);
-  const containerRef = useRef(null);
+  const [expandedId, setExpandedId] = useState<string | null>(null);
+  const [roleFilter, setRoleFilter] = useState("all");
+  const [yearFilter, setYearFilter] = useState("all");
 
-  /* ---------------- Scroll Progress ---------------- */
+  /* ------------------ derived filter values ------------------ */
 
-  const { scrollYProgress } = useScroll({
-    target: containerRef,
-    offset: ["start 20%", "end 80%"],
-  });
+  const roles = useMemo(() => Array.from(new Set(experiences.map(e => e.title))), []);
+  const years = useMemo(() => {
+    const allYears = experiences.flatMap(e => e.period.match(/\d{4}/g) ?? []);
+    return Array.from(new Set(allYears)).sort((a, b) => Number(b) - Number(a));
+  }, []);
 
-  const smoothProgress = useSpring(scrollYProgress, {
-    stiffness: 120,
-    damping: 30,
-  });
+  /* ------------------ filtered experiences ------------------ */
 
-  const progressHeight = useTransform(smoothProgress, [0, 1], ["0%", "100%"]);
+  const filteredExperiences = useMemo(() => {
+    return experiences.filter(exp => {
+      const roleMatch = roleFilter === "all" || exp.title === roleFilter;
+      const yearMatch = yearFilter === "all" || exp.period.includes(yearFilter);
+      return roleMatch && yearMatch;
+    });
+  }, [roleFilter, yearFilter]);
 
-  /* ---------------- Sort Data ---------------- */
+  /* ------------------ derived timeline entries ------------------ */
 
-  const sorted = useMemo(
-    () =>
-      [...experiences].sort(
-        (a, b) =>
-          Number(b.period.slice(0, 4)) -
-          Number(a.period.slice(0, 4))
-      ),
-    []
-  );
+  const timelineEntries: TimelineEntry[] = useMemo(() => {
+    return filteredExperiences.map(exp => {
+      const years = exp.period.match(/\d{4}/g) ?? [];
+      const startYear = years[0] ?? "";
+      const endYear = exp.period.includes("Present") ? undefined : years[1];
+      return {
+        year: startYear,
+        endYear,
+        title: exp.title,
+        organization: exp.organization,
+        location: exp.location,
+        description: exp.description,
+        highlights: exp.highlights,
+        tags: exp.tags,
+        type: "career",
+        icon: exp.icon,
+        isCurrent: exp.status === "in-progress"
+      };
+    });
+  }, [filteredExperiences]);
+  return <section id="experience" className="relative py-section px-4 bg-muted/30 overflow-hidden">
+      {/* Background */}
+      <ParallaxShape speed={0.15} className="w-40 h-40 -top-10 right-[10%]">
+        <RingShape />
+      </ParallaxShape>
+      <ParallaxShape speed={0.1} className="w-48 h-48 bottom-10 -left-10">
+        <DotsPattern className="opacity-40" />
+      </ParallaxShape>
 
-  return (
-    <section
-      id="experience"
-      ref={containerRef}
-      className="relative py-20 px-4 bg-muted/20 overflow-hidden"
-    >
-      <div className="mx-auto max-w-4xl">
-
+      <div className="container relative z-10 mx-auto max-w-3xl">
         {/* Header */}
-        <div className="mb-14">
-          <p className="text-[11px] uppercase tracking-widest text-muted-foreground mb-2">
-            Experience
-          </p>
-          <h2 className="font-serif text-2xl sm:text-3xl font-semibold">
-            Career Timeline
-          </h2>
-        </div>
+        <motion.div initial={{
+        opacity: 0,
+        y: 16
+      }} whileInView={{
+        opacity: 1,
+        y: 0
+      }} viewport={{
+        once: true
+      }} transition={{
+        duration: reduceMotion ? 0 : 0.5
+      }} className="mb-container">
+          <p className="text-overline text-accent font-semibold">Experience</p>
+          <h2 className="font-display text-display-sm md:text-display-sm">Career Journey</h2>
+        </motion.div>
 
-        {/* Timeline Wrapper */}
-        <div className="relative">
+        {/* Filters */}
+        
 
-          {/* Static Line */}
-          <div className="absolute left-3 sm:left-1/2 sm:-translate-x-1/2
-                          top-0 bottom-0 w-[2px] bg-border/40" />
+        {/* Cards */}
+        
 
-          {/* Animated Progress Line */}
-          <motion.div
-            style={{ height: progressHeight }}
-            className="absolute left-3 sm:left-1/2 sm:-translate-x-1/2
-                       top-0 w-[2px] bg-primary"
-          />
-
-          <div className="space-y-16">
-
-            {sorted.map((exp, index) => {
-              const isExpanded = expanded === exp.id;
-              const isCurrent = exp.status === "in-progress";
-
-              return (
-                <motion.div
-                  key={exp.id}
-                  initial={{ opacity: 0, y: 30 }}
-                  whileInView={{ opacity: 1, y: 0 }}
-                  transition={{ delay: index * 0.08 }}
-                  viewport={{ once: true }}
-                  className="relative flex flex-col sm:flex-row sm:items-start"
-                >
-                  {/* Floating Year Marker */}
-                  <motion.div
-                    initial={{ opacity: 0, y: -10 }}
-                    whileInView={{ opacity: 1, y: 0 }}
-                    transition={{ delay: 0.1 }}
-                    className="absolute -left-2 sm:left-1/2 sm:-translate-x-1/2
-                               -top-6 text-xs font-medium text-muted-foreground"
-                  >
-                    {exp.period}
-                  </motion.div>
-
-                  {/* Timeline Dot */}
-                  <motion.div
-                    animate={
-                      isCurrent
-                        ? { scale: [1, 1.2, 1] }
-                        : undefined
-                    }
-                    transition={
-                      isCurrent
-                        ? { repeat: Infinity, duration: 2 }
-                        : undefined
-                    }
-                    className="absolute left-0 sm:left-1/2 sm:-translate-x-1/2
-                               w-6 h-6 rounded-full
-                               bg-primary
-                               shadow-lg flex items-center justify-center z-10"
-                  >
-                    <FontAwesomeIcon
-                      icon={exp.icon}
-                      className="text-white text-xs"
-                    />
-                  </motion.div>
-
-                  {/* Card */}
-                  <motion.div
-                    whileHover={{
-                      rotateX: 3,
-                      rotateY: -3,
-                      scale: 1.02,
-                    }}
-                    style={{ perspective: 1200 }}
-                    className="ml-10 sm:ml-0 sm:w-1/2
-                               sm:odd:pr-10 sm:even:pl-10
-                               rounded-2xl border border-border/40
-                               bg-white/50 dark:bg-white/[0.05]
-                               backdrop-blur-xl
-                               shadow-[0_15px_40px_-15px_rgba(0,0,0,0.25)]
-                               p-6"
-                  >
-                    <div
-                      onClick={() =>
-                        setExpanded(isExpanded ? null : exp.id)
-                      }
-                      className="cursor-pointer"
-                    >
-                      <h3 className="font-medium text-base">
-                        {exp.title}
-                      </h3>
-                      <p className="text-sm text-muted-foreground">
-                        {exp.organization}
-                      </p>
-                    </div>
-
-                    <AnimatePresence>
-                      {isExpanded && (
-                        <motion.div
-                          initial={{ height: 0, opacity: 0 }}
-                          animate={{ height: "auto", opacity: 1 }}
-                          exit={{ height: 0, opacity: 0 }}
-                          transition={{ duration: 0.3 }}
-                          className="overflow-hidden mt-4"
-                        >
-                          <p className="text-sm text-muted-foreground mb-3">
-                            {exp.description}
-                          </p>
-                          <ul className="space-y-2 text-sm text-muted-foreground">
-                            {exp.highlights.map((h, i) => (
-                              <li key={i}>• {h}</li>
-                            ))}
-                          </ul>
-                        </motion.div>
-                      )}
-                    </AnimatePresence>
-
-                    <ChevronDown
-                      className={`mt-3 w-4 h-4 transition-transform ${
-                        isExpanded ? "rotate-180" : ""
-                      }`}
-                    />
-                  </motion.div>
-                </motion.div>
-              );
-            })}
-          </div>
-        </div>
-
-        {/* Mobile Horizontal Swipe */}
-        <div className="mt-16 sm:hidden overflow-x-auto flex gap-6 pb-4">
-          {sorted.map((exp) => (
-            <div
-              key={exp.id}
-              className="min-w-[250px] rounded-xl border border-border/40
-                         bg-card p-4 shadow-md"
-            >
-              <h4 className="text-sm font-medium">{exp.title}</h4>
-              <p className="text-xs text-muted-foreground">
-                {exp.period}
-              </p>
-            </div>
-          ))}
-        </div>
-
+        {/* Derived Vertical Timeline */}
+        <VerticalTimeline entries={timelineEntries} title="Career Journey" overline="Timeline" />
       </div>
-    </section>
-  );
-}
+    </section>;
+};
+export default Experience;
