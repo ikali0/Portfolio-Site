@@ -61,44 +61,44 @@ const categoryProjects: CategoryProject[] = [
   {
     id: "ethics-dashboard",
     title: "AI Ethics Dashboard",
-    description: "Real-time monitoring for AI fairness, bias detection, and accountability metrics",
+    description: "Real-time monitoring for AI fairness and accountability",
     image: ethicsDashboard,
-    categories: ["ai-ml", "governance", "ethics"],
+    categories: ["ai-ml", "governance", "ethics", "energy"],
   },
   {
     id: "governance-framework",
-    title: "Governance Framework Tool",
-    description: "Automated compliance checking for AI policies and regulatory requirements",
+    title: "Governance Framework",
+    description: "Automated compliance for AI policies and regulations",
     image: governance,
-    categories: ["governance", "security", "ethics"],
+    categories: ["governance", "security", "ethics", "quantum"],
   },
   {
     id: "stakeholder-mapping",
     title: "Stakeholder Mapping",
-    description: "Visual tool for mapping power dynamics and impact in AI deployment",
+    description: "Visual power dynamics mapping for AI deployment",
     image: stakeholder,
-    categories: ["governance", "research"],
+    categories: ["governance", "research", "energy"],
   },
   {
     id: "bias-detection",
     title: "Bias Detection API",
-    description: "RESTful API for measuring and mitigating bias in ML datasets",
+    description: "RESTful API for measuring bias in ML datasets",
     image: biasDetection,
-    categories: ["ai-ml", "security", "ethics"],
+    categories: ["ai-ml", "security", "ethics", "quantum"],
   },
   {
     id: "decision-framework",
     title: "Ethical Decision Framework",
-    description: "Mobile-first ethical decision support for AI practitioners",
+    description: "Mobile-first ethical decision support tool",
     image: decisionFramework,
-    categories: ["ai-ml", "governance", "ethics"],
+    categories: ["ai-ml", "governance", "ethics", "research"],
   },
   {
     id: "tutoring-platform",
     title: "AI Tutoring Platform",
-    description: "Personalized AI-powered learning with built-in ethical safeguards",
+    description: "AI-powered learning with ethical safeguards",
     image: tutoring,
-    categories: ["ai-ml", "education"],
+    categories: ["ai-ml", "education", "quantum"],
     link: "https://studii.lovable.app",
   },
 ];
@@ -192,33 +192,33 @@ export function HeroCategoryCarousel() {
                 <motion.button
                   key={category.id}
                   onClick={() => handleCategoryClick(category.id)}
-                  whileTap={{ scale: 0.95, y: 1 }}
-                  whileHover={{ y: -2, transition: { duration: 0.15 } }}
+                  whileTap={{ scale: 0.96, y: 1 }}
+                  whileHover={{ y: -1, transition: { duration: 0.12 } }}
                   className={cn(
-                    "flex-shrink-0 flex items-center gap-1.5 px-2.5 py-1.5 rounded-full",
-                    "border transition-all duration-200 touch-manipulation",
-                    "min-h-[36px] select-none",
+                    "flex-shrink-0 flex items-center gap-1 px-2 py-1 rounded-full",
+                    "border transition-all duration-150 touch-manipulation",
+                    "min-h-[28px] select-none",
                     // 3D depth effect
-                    "shadow-[0_2px_0_0_hsl(var(--border)/0.5),0_4px_8px_-2px_hsl(var(--foreground)/0.1)]",
-                    "hover:shadow-[0_1px_0_0_hsl(var(--border)/0.5),0_2px_4px_-1px_hsl(var(--foreground)/0.1)]",
-                    "active:shadow-none active:translate-y-[2px]",
+                    "shadow-[0_1px_0_0_hsl(var(--border)/0.4),0_2px_4px_-1px_hsl(var(--foreground)/0.08)]",
+                    "hover:shadow-[0_0.5px_0_0_hsl(var(--border)/0.4),0_1px_2px_-0.5px_hsl(var(--foreground)/0.06)]",
+                    "active:shadow-none active:translate-y-[1px]",
                     isSelected
-                      ? `${category.bgColor} ${category.color} border-current shadow-[0_2px_0_0_currentColor/30,0_4px_12px_-2px_currentColor/20]`
-                      : "bg-card/60 backdrop-blur-sm border-border/50 text-muted-foreground hover:border-border hover:bg-card/80"
+                      ? `${category.bgColor} ${category.color} border-current shadow-[0_1px_0_0_currentColor/25,0_2px_6px_-1px_currentColor/15]`
+                      : "bg-card/60 backdrop-blur-sm border-border/40 text-muted-foreground hover:border-border/60 hover:bg-card/70"
                   )}
                   aria-pressed={isSelected}
                 >
                   <FontAwesomeIcon
                     icon={category.icon}
-                    className={cn("w-3 h-3", isSelected ? category.color : "text-inherit")}
+                    className={cn("w-2.5 h-2.5", isSelected ? category.color : "text-inherit")}
                   />
-                  <span className="text-xs font-medium whitespace-nowrap">{category.label}</span>
+                  <span className="text-[11px] font-medium whitespace-nowrap">{category.label}</span>
                   <span
                     className={cn(
-                      "text-[10px] px-1 py-0.5 rounded-full leading-none",
+                      "text-[9px] px-1 py-0.5 rounded-full leading-none min-w-[14px] text-center",
                       isSelected
                         ? "bg-current/20 text-inherit"
-                        : "bg-muted text-muted-foreground"
+                        : "bg-muted/60 text-muted-foreground"
                     )}
                   >
                     {projectCount}
