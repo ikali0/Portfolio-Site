@@ -4,10 +4,9 @@
  * A flexbox-based vertical timeline for displaying career history
  * with milestone markers, dates, and detailed descriptions.
  */
-import { useState } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faBriefcase, faRocket, faAward, faGraduationCap, faChevronDown } from "@fortawesome/free-solid-svg-icons";
-import { motion, AnimatePresence } from "framer-motion";
+import { faBriefcase, faRocket, faAward, faGraduationCap, faLightbulb, faShieldHalved, faChartLine, faBuilding } from "@fortawesome/free-solid-svg-icons";
+import { motion } from "framer-motion";
 import { ScrollFade } from "./scroll-fade";
 import { Tag } from "./tag";
 export interface TimelineEntry {
@@ -52,108 +51,58 @@ interface VerticalTimelineProps {
   title?: string;
   overline?: string;
 }
-
-function HighlightsDropdown({ highlights }: { highlights: string[] }) {
-  const [isOpen, setIsOpen] = useState(false);
-  
-  if (highlights.length === 0) return null;
-  
-  return (
-    <div className="mt-1">
-      <button
-        onClick={() => setIsOpen(!isOpen)}
-        className="flex items-center gap-1 text-[10px] font-medium text-primary/80 hover:text-primary transition-colors"
-      >
-        <FontAwesomeIcon 
-          icon={faChevronDown} 
-          className={`text-[8px] transition-transform duration-200 ${isOpen ? 'rotate-180' : ''}`}
-        />
-        {isOpen ? 'Hide' : 'Show'} highlights ({highlights.length})
-      </button>
-      <AnimatePresence>
-        {isOpen && (
-          <motion.ul
-            initial={{ height: 0, opacity: 0 }}
-            animate={{ height: 'auto', opacity: 1 }}
-            exit={{ height: 0, opacity: 0 }}
-            transition={{ duration: 0.2 }}
-            className="overflow-hidden"
-          >
-            {highlights.map((h, i) => (
-              <li key={i} className="text-[10px] font-medium text-muted-foreground px-[3px] py-[2px]">
-                • {h}
-              </li>
-            ))}
-          </motion.ul>
-        )}
-      </AnimatePresence>
-    </div>
-  );
-}
-
 export function VerticalTimeline({
   entries,
   title = "Career Journey",
   overline = "Timeline"
 }: VerticalTimelineProps) {
   if (entries.length === 0) return null;
-  return (
-    <ScrollFade className="mt-12">
+  return <ScrollFade className="mt-12">
+      
+      
+
       <div className="relative pl-6 border-l-2 border-primary/30 space-y-8">
         {entries.map((entry, idx) => {
-          const Icon = entry.icon ?? defaultIcons[entry.type];
-          const styles = typeStyles[entry.type];
-          const yearLabel = entry.endYear 
-            ? `${entry.year} – ${entry.endYear}` 
-            : entry.isCurrent 
-              ? `${entry.year} – Present` 
-              : entry.year;
-          
-          return (
-            <motion.div 
-              key={idx} 
-              initial={{ opacity: 0, x: -12 }}
-              whileInView={{ opacity: 1, x: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.4, delay: idx * 0.1 }}
-              className="relative"
-            >
+        const Icon = entry.icon ?? defaultIcons[entry.type];
+        const styles = typeStyles[entry.type];
+        const yearLabel = entry.endYear ? `${entry.year} – ${entry.endYear}` : entry.isCurrent ? `${entry.year} – Present` : entry.year;
+        return <motion.div key={idx} initial={{
+          opacity: 0,
+          x: -12
+        }} whileInView={{
+          opacity: 1,
+          x: 0
+        }} viewport={{
+          once: true
+        }} transition={{
+          duration: 0.4,
+          delay: idx * 0.1
+        }} className="relative">
               {/* Node marker */}
               <div className={`absolute -left-[calc(0.75rem+1px)] top-1 w-6 h-6 rounded-full flex items-center justify-center ${styles.node} ${styles.glow}`}>
-                <FontAwesomeIcon icon={Icon} className="text-primary-foreground text-xs" />
+                <FontAwesomeIcon icon={Icon} className="text-white text-xs" />
               </div>
 
               {/* Content */}
               <div className="ml-4">
-                <span className="text-[11px] leading-tight mb-2 line-clamp-2 text-secondary-foreground font-normal">
-                  {yearLabel}
-                </span>
-                <h4 className="font-semibold text-foreground px-px py-px text-sm">{entry.title}</h4>
-                <p className="text-xs text-muted-foreground">
+                <span className="text-[11px] leading-tight mb-2 line-clamp-2 text-secondary-foreground font-normal">{yearLabel}</span>
+                <h4 className="font-semibold text-foreground px-px py-px">{entry.title}</h4>
+                <p className="">
                   {entry.organization} · {entry.location}
                 </p>
-                <p className="text-[11px] py-[2px] text-secondary-foreground font-normal px-[2px]">
-                  {entry.description}
-                </p>
+                <p className="text-[11px] py-[2px] text-secondary-foreground font-normal px-[2px]">{entry.description}</p>
 
-                {entry.highlights && entry.highlights.length > 0 && (
-                  <HighlightsDropdown highlights={entry.highlights} />
-                )}
+                {entry.highlights && entry.highlights.length > 0 && <ul className="">
+                    {entry.highlights.map((h, i) => <li key={i} className="text-[11px] font-medium text-primary/90 px-[3px] py-[3px]">• {h}</li>)}
+                  </ul>}
 
-                {entry.tags && entry.tags.length > 0 && (
-                  <div className="flex flex-wrap gap-1 mt-2">
-                    {entry.tags.map(tag => (
-                      <Tag key={tag} size="sm" variant="muted">{tag}</Tag>
-                    ))}
-                  </div>
-                )}
+                {entry.tags && entry.tags.length > 0 && <div className="inline-flex items-center text-[2px] font-medium text-purple-600 whitespace-nowrap rounded-xsm py-[3px] border-transparent px-[3px] border-0">
+                    {entry.tags.map(tag => <Tag key={tag} size="sm" variant="muted">{tag}</Tag>)}
+                  </div>}
               </div>
-            </motion.div>
-          );
-        })}
+            </motion.div>;
+      })}
       </div>
-    </ScrollFade>
-  );
+    </ScrollFade>;
 }
-
 export default VerticalTimeline;
