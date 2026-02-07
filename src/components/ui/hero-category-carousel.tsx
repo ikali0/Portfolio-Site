@@ -170,7 +170,7 @@ export function HeroCategoryCarousel() {
       {/* Category Pills Carousel */}
       <div className="relative">
         {/* Navigation Arrows - Hidden on mobile, visible on larger screens */}
-        <button onClick={scrollPrev} disabled={!canScrollPrev} className={cn("absolute left-0 top-1/2 -translate-y-1/2 z-10 w-8 h-8 rounded-full bg-card/80 backdrop-blur-sm border border-border/50 shadow-sm flex transition-all duration-200 hover:bg-card hover:border-border disabled:opacity-0 disabled:pointer-events-none hidden sm:flex items-center justify-start")} aria-label="Scroll left">
+        <button onClick={scrollPrev} disabled={!canScrollPrev} className={cn("absolute left-0 top-1/2 -translate-y-1/2 z-10 w-8 h-8 rounded-full bg-card/80 backdrop-blur-sm border border-border/50 shadow-sm flex transition-all duration-200 hover:bg-card hover:border-border disabled:opacity-0 disabled:pointer-events-none hidden sm:flex items-start justify-start px-[2px] py-[2px]")} aria-label="Scroll left">
           <FontAwesomeIcon icon={faChevronLeft} className="w-3 h-3 text-muted-foreground" />
         </button>
 
