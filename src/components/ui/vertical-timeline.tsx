@@ -53,15 +53,21 @@ interface VerticalTimelineProps {
   overline?: string;
 }
 
-function HighlightsDropdown({ highlights }: { highlights: string[] }) {
-  const [isOpen, setIsOpen] = useState(false);
-  
+function HighlightsDropdown({ 
+  highlights, 
+  isOpen, 
+  onToggle 
+}: { 
+  highlights: string[]; 
+  isOpen: boolean;
+  onToggle: () => void;
+}) {
   if (highlights.length === 0) return null;
   
   return (
-    <div className="mt-1">
+    <div className={`mt-1 rounded-md transition-colors duration-200 ${isOpen ? 'bg-primary/5 -mx-2 px-2 py-1' : ''}`}>
       <button
-        onClick={() => setIsOpen(!isOpen)}
+        onClick={onToggle}
         className="flex items-center gap-1 text-[10px] font-medium text-primary/80 hover:text-primary transition-colors"
       >
         <FontAwesomeIcon 
@@ -96,6 +102,8 @@ export function VerticalTimeline({
   title = "Career Journey",
   overline = "Timeline"
 }: VerticalTimelineProps) {
+  const [openIndex, setOpenIndex] = useState<number | null>(null);
+  
   if (entries.length === 0) return null;
   return (
     <ScrollFade className="mt-12">
@@ -103,7 +111,8 @@ export function VerticalTimeline({
         {entries.map((entry, idx) => {
           const Icon = entry.icon ?? defaultIcons[entry.type];
           const styles = typeStyles[entry.type];
-          const yearLabel = entry.endYear 
+          const isOpen = openIndex === idx;
+          const yearLabel = entry.endYear
             ? `${entry.year} – ${entry.endYear}` 
             : entry.isCurrent 
               ? `${entry.year} – Present` 
@@ -137,7 +146,11 @@ export function VerticalTimeline({
                 </p>
 
                 {entry.highlights && entry.highlights.length > 0 && (
-                  <HighlightsDropdown highlights={entry.highlights} />
+                  <HighlightsDropdown 
+                    highlights={entry.highlights} 
+                    isOpen={isOpen}
+                    onToggle={() => setOpenIndex(isOpen ? null : idx)}
+                  />
                 )}
 
                 {entry.tags && entry.tags.length > 0 && (
