@@ -255,15 +255,11 @@ function ProjectCard({
           </p>
 
           {/* Category Tags */}
-          <div className="flex flex-wrap gap-1 mb-2" role="list" aria-label="Categories">
-            {project.tags.map(tag => <Tag key={tag} variant="default" size="sm" role="listitem">
-                {tag}
-              </Tag>)}
-          </div>
+          
           
           {/* Tech Stack - Compact display */}
           <div className="flex flex-wrap gap-1 mb-card-sm">
-            {project.techStack.slice(0, 4).map(tech => <span key={tech} className="text-[0.625rem] px-1.5 py-0.5 rounded bg-muted text-muted-foreground">
+            {project.techStack.slice(0, 4).map(tech => <span key={tech} className="text-[0.625rem] px-1.5 py-0.5 rounded bg-accent-foreground text-secondary-foreground">
                 {tech}
               </span>)}
             {project.techStack.length > 4 && <span className="text-[0.625rem] px-1.5 py-0.5 rounded bg-muted text-muted-foreground">
