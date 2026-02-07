@@ -148,7 +148,7 @@ function BentoCardComponent({
       <div className={`absolute inset-0 bg-gradient-to-br ${card.accent} opacity-0 group-hover:opacity-100 transition-opacity duration-500`} aria-hidden="true" />
       
       {/* Content */}
-      <div className="relative z-10 p-4 h-full flex flex-col">
+      <div className="relative z-10 p-4 h-full flex-col flex items-start justify-start px-[12px] py-[12px]">
         {/* Header */}
         <div className="mb-3 flex items-center gap-2">
           <div className="w-7 h-7 bg-primary/10 group-hover:bg-primary/20 transition-colors rounded flex items-center justify-center">
