@@ -56,20 +56,7 @@ const About = () => {
               </span>
             </div>
 
-            <div className="flex items-center gap-2">
-              <a href="https://linkedin.com/in/ingakaltak" target="_blank" rel="noopener noreferrer" className="w-10 h-10 rounded-full bg-muted/60 flex items-center justify-center text-muted-foreground hover:text-[#0A66C2] hover:bg-muted transition-colors" aria-label="Connect on LinkedIn">
-                <Linkedin className="w-4 h-4" />
-              </a>
-              <a href="mailto:ingakalii@outlook.com" className="w-10 h-10 rounded-full bg-muted/60 flex items-center justify-center text-muted-foreground hover:text-accent hover:bg-muted transition-colors" aria-label="Send email">
-                <Mail className="w-4 h-4" />
-              </a>
-              <a href="https://substack.com/@ingakali" target="_blank" rel="noopener noreferrer" className="w-10 h-10 rounded-full bg-muted/60 flex items-center justify-center text-muted-foreground hover:text-primary hover:bg-muted transition-colors" aria-label="Read on Substack">
-                <SiSubstack className="w-4 h-4" />
-              </a>
-              <a href="https://ko-fi.com/ingakali" target="_blank" rel="noopener noreferrer" className="w-10 h-10 rounded-full bg-muted/60 flex items-center justify-center text-muted-foreground hover:text-secondary hover:bg-muted transition-colors" aria-label="Support on Ko-fi">
-                <Coffee className="w-4 h-4" />
-              </a>
-            </div>
+            
           </div>
 
           {/* Divider */}
