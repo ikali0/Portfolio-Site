@@ -1,75 +1,72 @@
 
+# Debug & Fix Plan: JavaScript, HTML, CSS, and TypeScript Errors
 
-# Wave Background Implementation Plan
+## Issues Identified
 
-## Overview
-Add an animated wave background component using simplex-noise that responds to mouse/touch movement. The background will be applied site-wide behind all content, creating an immersive, AI-native visual experience.
+### 1. Broken CSS Class in Portfolio.tsx (Line 278)
+**Problem**: Malformed class string with missing space and newline character
+```tsx
+className="w-2h-2 text-fuchsia-500\n"
+```
+**Impact**: Icon sizing broken, causes CSS parsing issues
 
-## Implementation Steps
+### 2. Missing `--neural` CSS Variables in index.css
+**Problem**: The Hero and other components use `text-neural`, `bg-neural/10`, etc., but the `--neural` CSS variable is only defined in `global.css`, not in the main `index.css` file that is actually loaded.
 
-### 1. Install Dependency
-Add the `simplex-noise` package for generating procedural wave animations.
+**Affected components**:
+- Hero.tsx (email icon styling)
+- hero-category-carousel.tsx (research category)
+- hero-floating-icons.tsx (icon colors)
 
-### 2. Create Wave Background Component
-Create `src/components/ui/wave-background.tsx` with the provided code, adapted for the project:
-- TypeScript-compatible component using React hooks
-- Canvas-based SVG rendering for smooth wave lines
-- Mouse/touch interaction for responsive deformation
-- Theme-aware stroke colors (adapts to light/dark mode)
-- Performance optimizations with `requestAnimationFrame`
-
-### 3. Update Main Layout (Index.tsx)
-Integrate the wave background at the root level:
-- Add `Waves` component as a fixed, full-screen background layer
-- Position it behind all content with `z-index: 0`
-- Ensure existing content layers above with proper z-index hierarchy
-- Configure colors to match the AI-native palette (violet/teal strokes on background)
-
-### 4. Theme Integration
-Configure the wave component to use CSS variables for theme-awareness:
-- **Light mode**: Subtle blue/violet strokes on light background
-- **Dark mode**: Softer violet/teal strokes on dark background
-- Pointer glow effect matching accent color
-
-### 5. Performance Considerations
-- Use `will-change: transform` for GPU acceleration
-- Implement proper cleanup in useEffect return
-- Reduce line density on mobile devices
-- Respect `prefers-reduced-motion` media query
+### 3. Duplicate/Conflicting CSS Base Layers
+**Problem**: Both `global.css` and `index.css` define `:root` and `.dark` CSS variables with different values, causing unpredictable styling. The `index.css` values override `global.css`.
 
 ---
 
-## Technical Details
+## Technical Implementation
 
-### File Changes
+### File 1: `src/components/Portfolio.tsx`
+**Fix**: Correct the broken class string on line 278
 
-| File | Action |
-|------|--------|
-| `package.json` | Add `simplex-noise` dependency |
-| `src/components/ui/wave-background.tsx` | Create new component |
-| `src/pages/Index.tsx` | Import and render Waves as background layer |
-| `src/global.css` | Add wave-specific utility classes if needed |
-
-### Component Props
-```text
-interface WavesProps {
-  className?: string
-  strokeColor?: string      // Line color
-  backgroundColor?: string  // Canvas background
-  pointerSize?: number      // Mouse influence radius
-}
+Change:
+```tsx
+className="w-2h-2 text-fuchsia-500\n"
+```
+To:
+```tsx
+className="w-2 h-2 text-fuchsia-500"
 ```
 
-### Z-Index Hierarchy
-```text
-Wave Background:  z-0  (fixed, behind everything)
-CRT Scanlines:    z-[9999] (overlay, above everything)
-Main Content:     z-10-20 (between)
-Navbar:           z-50 (sticky header)
+### File 2: `src/index.css`
+**Fix**: Add missing `--neural` CSS variables to both light and dark mode definitions
+
+Add to `:root` section (around line 61-62):
+```css
+--neural: 263 70% 58%;
+--neural-foreground: 0 0% 100%;
 ```
 
-### Responsive Behavior
-- Full viewport coverage on all screen sizes
-- Touch interaction support for mobile
-- Reduced animation intensity on smaller screens
+Add to `.dark` section (around line 148):
+```css
+--neural: 258 90% 76%;
+--neural-foreground: 222 54% 8%;
+```
 
+---
+
+## Summary of Changes
+
+| File | Issue | Fix |
+|------|-------|-----|
+| `src/components/Portfolio.tsx` | Broken CSS class string | Fix spacing and remove newline |
+| `src/index.css` | Missing `--neural` variable | Add variable to light/dark themes |
+
+---
+
+## Expected Outcome
+
+After these fixes:
+- The chevron icon in Portfolio cards will render correctly with proper sizing
+- Neural-themed colors will display properly throughout the Hero section and category carousel
+- No CSS variable fallback warnings or silent failures
+- Consistent color theming across all components using the `neural` color
