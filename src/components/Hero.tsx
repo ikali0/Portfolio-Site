@@ -59,9 +59,9 @@ const Hero = () => {
       }} transition={{
         duration: 0.6,
         delay: 0.2
-      }} className="text-base sm:text-lg text-muted-foreground max-w-md leading-relaxed mb-8 text-center">
-          I bridge governance and engineering — translating policy into enforceable architecture and building AI that
-          performs under institutional pressure.
+      }} className="text-base text-muted-foreground max-w-md leading-relaxed mb-8 text-center sm:text-base">
+          ​From policy to production-grade control.
+AI systems engineered for compliance, audit, and real-world pressure.
         </motion.p>
 
         {/* Category Carousel - Split Screen Feature */}
