@@ -49,7 +49,7 @@ const Hero = () => {
         duration: 0.6,
         delay: 0.1
       }} className="relative mb-6">
-          <h1 className="text-5xl sm:text-6xl font-display tracking-tight bg-gradient-to-r from-foreground via-accent to-secondary bg-clip-text text-transparent relative z-10 md:text-6xl py-px px-px">
+          <h1 className="text-5xl sm:text-6xl font-display tracking-tight bg-gradient-to-r from-foreground via-accent to-secondary bg-clip-text relative z-10 md:text-6xl py-px px-px text-secondary">
             Inga K.
           </h1>
 
@@ -69,7 +69,7 @@ const Hero = () => {
       }} transition={{
         duration: 0.6,
         delay: 0.2
-      }} className="text-base sm:text-lg text-foreground/80 max-w-lg leading-relaxed mb-12">
+      }} className="text-base sm:text-lg max-w-lg leading-relaxed mb-12 bg-primary-foreground text-primary">
           I translate{" "}
           <span className="font-semibold text-foreground italic">
             policy into deployable controls
