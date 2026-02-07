@@ -27,27 +27,10 @@ export function SectionHeader({
   align = "center",
   className
 }: SectionHeaderProps) {
-  return (
-    <div
-      className={cn(
-        "header",
-        align === "center" && "text-center",
-        className
-      )}
-    >
-      {overline && (
-        <p className="header__overline">{overline}</p>
-      )}
+  return <div className={cn("header", align === "center" && "text-center", className)}>
+      {overline && <p className="header__overline">{overline}</p>}
       <h2 className="header__title">{title}</h2>
-      {description && (
-        <p className={cn(
-          "header__description mt-element",
-          align === "center" && "mx-auto"
-        )}>
-          {description}
-        </p>
-      )}
-    </div>
-  );
+      {description}
+    </div>;
 }
 export default SectionHeader;
