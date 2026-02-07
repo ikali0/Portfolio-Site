@@ -12,7 +12,7 @@
 import { motion, useMotionValue, useTransform, PanInfo } from "framer-motion";
 import { useState, useRef, useEffect } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faRocket, faLandmark, faArrowRight, faCheck, faGripVertical } from "@fortawesome/free-solid-svg-icons";
+import { faRocket, faLandmark, faArrowRight, faCheck, faGripVertical, faComments, faGraduationCap } from "@fortawesome/free-solid-svg-icons";
 import { cn } from "@/lib/utils";
 import { ScrollFade } from "./ui/scroll-fade";
 import { useIsMobile } from "@/hooks/use-mobile";
@@ -33,6 +33,24 @@ const services = [{
   description: "Operational AI governance and adversarial security for high-stakes environments.",
   bullets: ["Operationalize NIST AI RMF", "Translate policy into deployable controls", "Build audit-ready AI workflows", "Conduct adversarial testing", "Reduce institutional risk exposure"],
   cta: "Schedule Consultation",
+  ctaHref: "#contact"
+}, {
+  id: "consulting",
+  icon: faComments,
+  title: "Strategic AI Consulting",
+  tagline: "Clarity before code.",
+  description: "Expert guidance on AI strategy, vendor evaluation, and implementation roadmaps.",
+  bullets: ["AI readiness assessments", "Vendor & tool selection", "Build vs. buy analysis", "Technical due diligence", "Executive briefings & workshops"],
+  cta: "Book a Session",
+  ctaHref: "#contact"
+}, {
+  id: "education",
+  icon: faGraduationCap,
+  title: "EDU Infrastructure",
+  tagline: "AI-native learning systems.",
+  description: "Design and deploy AI-powered educational platforms and curriculum frameworks.",
+  bullets: ["LLM-powered tutoring systems", "Adaptive learning architectures", "AI curriculum development", "EdTech compliance & privacy", "Faculty training programs"],
+  cta: "Explore Solutions",
   ctaHref: "#contact"
 }];
 export default function Services() {
@@ -105,7 +123,7 @@ export default function Services() {
                 <motion.div className="h-full overflow-hidden" style={{
               width: leftWidth
             }}>
-                  <div className="h-full p-6 sm:p-8 md:p-10 overflow-y-auto">
+                  <div className="h-full p-6 sm:p-8 md:p-10 overflow-y-auto px-[11px] py-[11px]">
                     <ServicePanel service={services[0]} index={0} />
                   </div>
                 </motion.div>
@@ -129,7 +147,7 @@ export default function Services() {
                 <motion.div className="h-full overflow-hidden" style={{
               width: rightWidth
             }}>
-                  <div className="h-full p-6 sm:p-8 md:p-10 overflow-y-auto">
+                  <div className="h-full p-6 sm:p-8 md:p-10 overflow-y-auto px-[11px] py-[11px]">
                     <ServicePanel service={services[1]} index={1} />
                   </div>
                 </motion.div>
@@ -146,10 +164,10 @@ export default function Services() {
         {isMobile && <>
             {/* Toggle Tabs */}
             <ScrollFade>
-              <div className="flex gap-2 mb-6">
-                {services.map((service, index) => <button key={service.id} onClick={() => setActive(index)} className={cn("flex items-center gap-2 px-4 py-2.5 rounded-lg text-sm font-medium transition-all duration-200", active === index ? "bg-foreground text-background shadow-md" : "bg-muted/50 text-muted-foreground hover:bg-muted hover:text-foreground")}>
-                    <FontAwesomeIcon icon={service.icon} className="w-3.5 h-3.5" />
-                    <span>{index === 0 ? "Startups" : "Regulated"}</span>
+              <div className="flex flex-wrap gap-2 mb-6">
+                {services.map((service, index) => <button key={service.id} onClick={() => setActive(index)} className={cn("flex items-center gap-1.5 px-3 py-2 rounded-lg text-xs font-medium transition-all duration-200", active === index ? "bg-foreground text-background shadow-md" : "bg-muted/50 text-muted-foreground hover:bg-muted hover:text-foreground")}>
+                    <FontAwesomeIcon icon={service.icon} className="w-3 h-3" />
+                    <span>{["Startups", "Governance", "Consulting", "Education"][index]}</span>
                   </button>)}
               </div>
             </ScrollFade>
@@ -232,13 +250,6 @@ function ServicePanel({
       </ul>
 
       {/* CTA */}
-      <motion.a href={service.ctaHref} whileHover={{
-      scale: 1.02
-    }} whileTap={{
-      scale: 0.98
-    }} className={cn("inline-flex items-center gap-2 px-6 py-3 rounded-lg font-semibold text-sm transition-all duration-200 shadow-md", index === 0 ? "bg-accent text-accent-foreground hover:bg-accent/90" : "bg-primary text-primary-foreground hover:bg-primary/90")}>
-        {service.cta}
-        <FontAwesomeIcon icon={faArrowRight} className="w-3.5 h-3.5" />
-      </motion.a>
+      
     </>;
 }

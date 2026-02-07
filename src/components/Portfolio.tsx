@@ -250,7 +250,7 @@ function ProjectCard({
             {project.title}
           </h3>
 
-          <p className=" text-[10px]\n  sm:text-xs\n  text-muted-foreground\n  leading-snug\n  mb-1\n  line-clamp-2\n  text-center">
+          <p className="text-[8px] sm:text-xs text-muted-foreground leading-snug mb-1.5 line-clamp-2 text-center">
             {project.description}
           </p>
 
@@ -275,7 +275,7 @@ function ProjectCard({
           }} transition={{
             duration: 0.2
           }}>
-              <FontAwesomeIcon icon={faChevronDown} className="w-2h-2 text-fuchsia-500\n" />
+              <FontAwesomeIcon icon={faChevronDown} className="w-2 h-2 text-fuchsia-500" />
             </motion.div>
           </button>
 
