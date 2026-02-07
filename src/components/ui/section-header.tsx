@@ -28,21 +28,17 @@ export function SectionHeader({
   className
 }: SectionHeaderProps) {
   return (
-    <div className={cn(
-      "mb-container md:mb-container-lg",
-      align === "center" && "text-center",
-      className
-    )}>
+    <div className={cn("mb-8", align === "center" && "text-center", className)}>
       {overline && (
-        <p className="text-overline uppercase text-accent font-semibold mb-element-sm">
+        <span className="text-overline uppercase tracking-widest text-accent font-semibold">
           {overline}
-        </p>
+        </span>
       )}
-      <h2 className="font-display text-display-sm text-foreground mb-element-sm">
+      <h2 className="font-display text-h2 md:text-display-sm font-bold text-foreground mt-2">
         {title}
       </h2>
       {description && (
-        <p className="text-body-sm text-muted-foreground max-w-2xl mx-auto">
+        <p className="text-body text-muted-foreground mt-4 max-w-2xl mx-auto">
           {description}
         </p>
       )}
