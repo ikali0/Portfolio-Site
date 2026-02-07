@@ -1,6 +1,5 @@
 import { motion } from "framer-motion";
 import { useEffect } from "react";
-import { SectionHeader } from "./ui/section-header";
 
 /* ---------------- Articles ---------------- */
 
@@ -51,11 +50,20 @@ export default function AIEthicsBlog() {
   return (
     <section id="writing" className="py-16 md:py-24 px-4 bg-background">
       <div className="max-w-5xl mx-auto">
-        <SectionHeader
-          overline="Writing"
-          title="AI Ethics & Governance"
-          description="Long-form analysis on AI risk, alignment, and responsible deployment."
-        />
+        <div className="mb-12">
+          <div className="flex items-center gap-3 mb-4">
+            <span className="text-accent text-xl animate-spin" style={{ animationDuration: '3s' }}>✱</span>
+            <span className="text-xs font-semibold tracking-widest uppercase text-muted-foreground">
+              Writing
+            </span>
+          </div>
+          <h2 className="text-3xl md:text-4xl lg:text-5xl font-display font-semibold text-foreground mb-4 leading-tight">
+            AI Ethics & Governance
+          </h2>
+          <p className="text-foreground/80 max-w-xl text-sm md:text-base leading-relaxed">
+            Long-form analysis on AI risk, alignment, and responsible deployment.
+          </p>
+        </div>
 
         <div className="grid md:grid-cols-2 gap-6">
           {/* Featured Article */}
