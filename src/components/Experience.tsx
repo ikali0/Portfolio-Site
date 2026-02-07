@@ -126,7 +126,7 @@ const Experience = () => {
       };
     });
   }, [filteredExperiences]);
-  return <section id="experience" className="relative bg-muted/30 overflow-hidden px-[10px] py-[8px]">
+  return <section id="experience" className="relative px-4 bg-muted/30 overflow-hidden py-[9px]">
       {/* Background */}
       <ParallaxShape speed={0.15} className="w-40 h-40 -top-10 right-[10%]">
         <RingShape />
@@ -149,7 +149,7 @@ const Experience = () => {
         duration: reduceMotion ? 0 : 0.5
       }} className="mb-container">
           <p className="text-overline text-accent font-semibold">Experience</p>
-          
+          <h2 className="font-display text-display-sm md:text-display-sm">Career Journey</h2>
         </motion.div>
 
         {/* Filters */}

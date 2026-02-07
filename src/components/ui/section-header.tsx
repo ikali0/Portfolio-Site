@@ -27,22 +27,14 @@ export function SectionHeader({
   align = "center",
   className
 }: SectionHeaderProps) {
-  return (
-    <div className={cn("mb-8", align === "center" && "text-center", className)}>
-      {overline && (
-        <span className="text-overline uppercase tracking-widest text-accent font-semibold">
+  return <header className={cn("mb-10 md:mb-14", align === "center" && "text-center", align === "left" && "text-left", className)}>
+      {overline && <p className="text-overline uppercase text-accent font-semibold mb-2">
           {overline}
-        </span>
-      )}
-      <h2 className="font-display text-h2 md:text-display-sm font-bold text-foreground mt-2">
+        </p>}
+      <h2 className="text-display-sm md:text-display-md font-display text-foreground mb-3">
         {title}
       </h2>
-      {description && (
-        <p className="text-body text-muted-foreground mt-4 max-w-2xl mx-auto">
-          {description}
-        </p>
-      )}
-    </div>
-  );
+      {description}
+    </header>;
 }
 export default SectionHeader;
