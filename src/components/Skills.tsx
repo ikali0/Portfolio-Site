@@ -150,7 +150,7 @@ function BentoCardComponent({
       {/* Content */}
       <div className="relative z-10 p-4 h-full flex flex-col">
         {/* Header */}
-        <div className="mb-3 flex items-center gap-2">
+        <div className="mb-3 flex items-center gap-2\n">
           <div className="w-7 h-7 bg-primary/10 group-hover:bg-primary/20 transition-colors rounded flex items-center justify-center">
             <Icon className="text-primary h-3.5 w-3.5" />
           </div>
