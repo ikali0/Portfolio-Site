@@ -16,8 +16,9 @@ const Index = () => {
     <div className="min-h-screen bg-background crt-screen crt-flicker crt-rgb-shift">
       {/* Wave Background - fixed behind all content */}
       <Waves 
-        strokeColor="hsl(var(--accent) / 0.15)" 
-        backgroundColor="transparent" 
+        strokeColor="hsl(var(--accent) / 0.08)" 
+        backgroundColor="transparent"
+        className="dark:opacity-100 opacity-60"
       />
       
       {/* CRT Scanlines Overlay */}
