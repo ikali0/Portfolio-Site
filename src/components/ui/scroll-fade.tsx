@@ -106,7 +106,18 @@ export const StaggerContainer = forwardRef<HTMLDivElement, StaggerContainerProps
       }
     };
   }, [shouldReduceMotion, staggerDelay]);
-  return;
+  return (
+    <motion.div
+      ref={ref}
+      variants={variants}
+      initial="hidden"
+      whileInView="visible"
+      viewport={{ once: true, amount: 0.1 }}
+      className={className}
+    >
+      {children}
+    </motion.div>
+  );
 });
 StaggerContainer.displayName = "StaggerContainer";
 
