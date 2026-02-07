@@ -1,251 +1,255 @@
-import {
-  useEffect,
-  useRef,
-  forwardRef,
-} from "react";
-import { cn } from "@/lib/utils";
-
+import { useEffect, useRef, forwardRef, useMemo } from 'react';
+import { cn } from '@/lib/utils';
 interface EntropyBackgroundProps {
   className?: string;
 }
 
-export const EntropyBackground = forwardRef<
-  HTMLDivElement,
-  EntropyBackgroundProps
->(({ className = "" }, ref) => {
+// Mobile-first: detect if mobile for reduced particle count
+const isMobile = () => typeof window !== 'undefined' && window.innerWidth < 640;
+export const EntropyBackground = forwardRef<HTMLDivElement, EntropyBackgroundProps>(({
+  className = ""
+}, ref) => {
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const containerRef = useRef<HTMLDivElement>(null);
-
   useEffect(() => {
     const canvas = canvasRef.current;
     const container = containerRef.current;
     if (!canvas || !container) return;
-
-    const ctx = canvas.getContext("2d");
+    const ctx = canvas.getContext('2d');
     if (!ctx) return;
 
-    const prefersReducedMotion =
-      window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-
-    const isMobile = window.innerWidth < 640;
-
-    /* ---------------- Config ---------------- */
-
-    const GRID = isMobile ? 14 : 26;
-    const CONNECT_DISTANCE = isMobile ? 80 : 140;
-    const LINE_DISTANCE = isMobile ? 55 : 75;
-
-    const COLORS = {
-      purple: "#8b5cf6",
-      purpleGlow: "rgba(167,139,250,",
-      green: "#10b981",
-      greenGlow: "rgba(52,211,153,",
-      blue: "#3b82f6",
-    };
-
-    /* ---------------- Resize (FIXED scaling bug) ---------------- */
-
-    function resize() {
+    // Mobile-first: reduce particles on small screens
+    const mobile = isMobile();
+    const gridSize = mobile ? 18 : 30;
+    const connectionDistance = mobile ? 100 : 150;
+    const lineDistance = mobile ? 60 : 80;
+    const resizeCanvas = () => {
       const rect = container.getBoundingClientRect();
-      const dpr = Math.min(window.devicePixelRatio || 1, 2);
-
-      canvas.width = rect.width * dpr;
-      canvas.height = rect.height * dpr;
-      canvas.style.width = rect.width + "px";
-      canvas.style.height = rect.height + "px";
-
-      ctx.setTransform(1, 0, 0, 1, 0, 0); // RESET transform
+      const dpr = Math.min(window.devicePixelRatio || 1, 2); // Cap DPR for performance
+      const width = rect.width;
+      const height = rect.height;
+      canvas.width = width * dpr;
+      canvas.height = height * dpr;
+      canvas.style.width = `${width}px`;
+      canvas.style.height = `${height}px`;
       ctx.scale(dpr, dpr);
-
       return {
-        width: rect.width,
-        height: rect.height,
+        width,
+        height
       };
-    }
-
-    let { width, height } = resize();
-
-    /* ---------------- Scroll-linked depth ---------------- */
-
-    let scrollFactor = 0;
-
-    const onScroll = () => {
-      scrollFactor =
-        window.scrollY /
-        (document.body.scrollHeight - window.innerHeight);
     };
+    let {
+      width,
+      height
+    } = resizeCanvas();
 
-    window.addEventListener("scroll", onScroll);
-
-    /* ---------------- Particle Class ---------------- */
-
+    // AI/Ethics color palette
+    const neuralPurple = '#8b5cf6';
+    const neuralGlow = '#a78bfa';
+    const ethicsGreen = '#10b981';
+    const ethicsGlow = '#34d399';
+    const techBlue = '#3b82f6';
+    const lineColor = '#0ea5e9';
     class Particle {
       x: number;
       y: number;
-      baseX: number;
-      baseY: number;
-      vx: number;
-      vy: number;
+      size: number;
+      baseSize: number;
       order: boolean;
-      pulse: number;
-
+      velocity: {
+        x: number;
+        y: number;
+      };
+      originalX: number;
+      originalY: number;
+      influence: number;
+      neighbors: Particle[];
+      pulsePhase: number;
+      glowIntensity: number;
       constructor(x: number, y: number, order: boolean) {
         this.x = x;
         this.y = y;
-        this.baseX = x;
-        this.baseY = y;
+        this.originalX = x;
+        this.originalY = y;
+        this.baseSize = mobile ? 1.5 : 2.5;
+        this.size = this.baseSize;
         this.order = order;
-        this.vx = (Math.random() - 0.5) * 1.5;
-        this.vy = (Math.random() - 0.5) * 1.5;
-        this.pulse = Math.random() * Math.PI * 2;
+        this.velocity = {
+          x: (Math.random() - 0.5) * (mobile ? 1.5 : 2.5),
+          y: (Math.random() - 0.5) * (mobile ? 1.5 : 2.5)
+        };
+        this.influence = 0;
+        this.neighbors = [];
+        this.pulsePhase = Math.random() * Math.PI * 2;
+        this.glowIntensity = 0.3 + Math.random() * 0.4;
       }
-
-      update(time: number) {
+      update(w: number, h: number, time: number) {
+        // Pulsing size effect
+        this.size = this.baseSize + Math.sin(time * 0.05 + this.pulsePhase) * 0.5;
         if (this.order) {
-          // Subtle order stabilization
-          this.x += (this.baseX - this.x) * 0.03;
-          this.y += (this.baseY - this.y) * 0.03;
+          const dx = this.originalX - this.x;
+          const dy = this.originalY - this.y;
+          const chaosInfluence = {
+            x: 0,
+            y: 0
+          };
+          this.neighbors.forEach(neighbor => {
+            if (!neighbor.order) {
+              const distance = Math.hypot(this.x - neighbor.x, this.y - neighbor.y);
+              const strength = Math.max(0, 1 - distance / connectionDistance);
+              chaosInfluence.x += neighbor.velocity.x * strength * 1.2;
+              chaosInfluence.y += neighbor.velocity.y * strength * 1.2;
+              this.influence = Math.max(this.influence, strength);
+            }
+          });
+          this.x += dx * 0.06 * (1 - this.influence) + chaosInfluence.x * this.influence;
+          this.y += dy * 0.06 * (1 - this.influence) + chaosInfluence.y * this.influence;
+          this.influence *= 0.98;
         } else {
-          // Chaos side movement
-          this.vx += (Math.random() - 0.5) * 0.1;
-          this.vy += (Math.random() - 0.5) * 0.1;
-
-          this.vx *= 0.98;
-          this.vy *= 0.98;
-
-          this.x += this.vx;
-          this.y += this.vy;
+          // More dynamic chaos movement
+          this.velocity.x += (Math.random() - 0.5) * 0.6;
+          this.velocity.y += (Math.random() - 0.5) * 0.6;
+          this.velocity.x *= 0.94;
+          this.velocity.y *= 0.94;
+          this.x += this.velocity.x;
+          this.y += this.velocity.y;
+          if (this.x < w / 2 || this.x > w) this.velocity.x *= -1;
+          if (this.y < 0 || this.y > h) this.velocity.y *= -1;
+          this.x = Math.max(w / 2, Math.min(w, this.x));
+          this.y = Math.max(0, Math.min(h, this.y));
         }
-
-        // 3D subtle depth drift
-        const drift = scrollFactor * 30;
-        this.y += drift * 0.002;
       }
-
       draw(ctx: CanvasRenderingContext2D, time: number) {
-        const pulse =
-          0.6 + Math.sin(time * 0.03 + this.pulse) * 0.4;
+        const baseAlpha = this.order ? 0.8 - this.influence * 0.3 : 0.9;
+        const pulseAlpha = baseAlpha + Math.sin(time * 0.03 + this.pulsePhase) * 0.15;
+        const color = this.order ? ethicsGreen : neuralPurple;
+        const glowColor = this.order ? ethicsGlow : neuralGlow;
 
-        const color = this.order
-          ? COLORS.green
-          : COLORS.purple;
-
-        ctx.fillStyle = color;
-        ctx.globalAlpha = pulse * 0.8;
-
+        // Outer glow
+        const glowSize = this.size * 2.5;
+        const gradient = ctx.createRadialGradient(this.x, this.y, 0, this.x, this.y, glowSize);
+        gradient.addColorStop(0, glowColor + Math.round(this.glowIntensity * pulseAlpha * 255).toString(16).padStart(2, '0'));
+        gradient.addColorStop(0.5, color + Math.round(pulseAlpha * 0.4 * 255).toString(16).padStart(2, '0'));
+        gradient.addColorStop(1, color + '00');
+        ctx.fillStyle = gradient;
         ctx.beginPath();
-        ctx.arc(this.x, this.y, 1.8, 0, Math.PI * 2);
+        ctx.arc(this.x, this.y, glowSize, 0, Math.PI * 2);
         ctx.fill();
 
-        ctx.globalAlpha = 1;
+        // Core particle
+        ctx.fillStyle = color + Math.round(pulseAlpha * 255).toString(16).padStart(2, '0');
+        ctx.beginPath();
+        ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+        ctx.fill();
       }
     }
 
-    /* ---------------- Generate Grid ---------------- */
-
+    // Create particle grid
     const particles: Particle[] = [];
-
-    const spacingX = width / GRID;
-    const spacingY = height / GRID;
-
-    for (let i = 0; i < GRID; i++) {
-      for (let j = 0; j < GRID; j++) {
+    const spacingX = width / gridSize;
+    const spacingY = height / gridSize;
+    for (let i = 0; i < gridSize; i++) {
+      for (let j = 0; j < gridSize; j++) {
         const x = spacingX * i + spacingX / 2;
         const y = spacingY * j + spacingY / 2;
-        particles.push(
-          new Particle(x, y, x < width / 2)
-        );
+        const order = x < width / 2;
+        particles.push(new Particle(x, y, order));
       }
     }
-
-    /* ---------------- Animation Loop ---------------- */
-
-    let frame: number;
+    function updateNeighbors() {
+      particles.forEach(particle => {
+        particle.neighbors = particles.filter(other => {
+          if (other === particle) return false;
+          const distance = Math.hypot(particle.x - other.x, particle.y - other.y);
+          return distance < connectionDistance;
+        });
+      });
+    }
     let time = 0;
-
+    let animationId: number;
     function animate() {
       ctx.clearRect(0, 0, width, height);
 
-      if (!prefersReducedMotion) {
-        particles.forEach((p) => p.update(time));
+      // Update neighbors less frequently on mobile
+      if (time % (mobile ? 45 : 30) === 0) {
+        updateNeighbors();
       }
 
-      // Draw connections
-      for (let i = 0; i < particles.length; i++) {
-        for (let j = i + 1; j < particles.length; j++) {
-          const dx = particles[i].x - particles[j].x;
-          const dy = particles[i].y - particles[j].y;
-          const dist = Math.sqrt(dx * dx + dy * dy);
-
-          if (dist < LINE_DISTANCE) {
-            const alpha =
-              (1 - dist / LINE_DISTANCE) * 0.15;
-
-            ctx.strokeStyle = `rgba(59,130,246,${alpha})`;
-            ctx.lineWidth = 0.6;
+      // Draw connection lines first (behind particles)
+      particles.forEach(particle => {
+        particle.neighbors.forEach(neighbor => {
+          const distance = Math.hypot(particle.x - neighbor.x, particle.y - neighbor.y);
+          if (distance < lineDistance) {
+            const alpha = 0.25 * (1 - distance / lineDistance);
+            const pulseAlpha = alpha * (0.8 + Math.sin(time * 0.02) * 0.2);
+            const connectionColor = particle.order && neighbor.order ? ethicsGreen : !particle.order && !neighbor.order ? techBlue : lineColor;
+            ctx.strokeStyle = connectionColor + Math.round(pulseAlpha * 255).toString(16).padStart(2, '0');
+            ctx.lineWidth = mobile ? 0.5 : 0.8;
             ctx.beginPath();
-            ctx.moveTo(particles[i].x, particles[i].y);
-            ctx.lineTo(particles[j].x, particles[j].y);
+            ctx.moveTo(particle.x, particle.y);
+            ctx.lineTo(neighbor.x, neighbor.y);
             ctx.stroke();
           }
-        }
-      }
+        });
+      });
 
-      // Draw particles
-      particles.forEach((p) =>
-        p.draw(ctx, time)
-      );
+      // Update and draw particles
+      particles.forEach(particle => {
+        particle.update(width, height, time);
+        particle.draw(ctx, time);
+      });
 
-      // Divider glow (smoother, layered)
-      const glow =
-        0.4 +
-        Math.sin(time * 0.02) * 0.2;
+      // Enhanced animated pulsing divider line with glow
+      const pulseAlpha = 0.4 + Math.sin(time * 0.025) * 0.2;
+      const pulseWidth = mobile ? 1.5 : 2 + Math.sin(time * 0.02) * 0.8;
 
-      ctx.strokeStyle = `rgba(139,92,246,${glow})`;
-      ctx.lineWidth = 2;
+      // Outer glow for divider
+      const glowGradient = ctx.createLinearGradient(width / 2, 0, width / 2, height);
+      glowGradient.addColorStop(0, `${ethicsGlow}00`);
+      glowGradient.addColorStop(0.3, ethicsGlow + Math.round(pulseAlpha * 0.3 * 255).toString(16).padStart(2, '0'));
+      glowGradient.addColorStop(0.5, neuralGlow + Math.round(pulseAlpha * 0.4 * 255).toString(16).padStart(2, '0'));
+      glowGradient.addColorStop(0.7, ethicsGlow + Math.round(pulseAlpha * 0.3 * 255).toString(16).padStart(2, '0'));
+      glowGradient.addColorStop(1, `${neuralGlow}00`);
+      ctx.strokeStyle = glowGradient;
+      ctx.lineWidth = pulseWidth * 4;
       ctx.beginPath();
       ctx.moveTo(width / 2, 0);
       ctx.lineTo(width / 2, height);
       ctx.stroke();
 
+      // Core divider line
+      const gradient = ctx.createLinearGradient(width / 2, 0, width / 2, height);
+      gradient.addColorStop(0, `${ethicsGreen}00`);
+      gradient.addColorStop(0.2, ethicsGreen + Math.round(pulseAlpha * 255).toString(16).padStart(2, '0'));
+      gradient.addColorStop(0.5, neuralPurple + Math.round(pulseAlpha * 255).toString(16).padStart(2, '0'));
+      gradient.addColorStop(0.8, ethicsGreen + Math.round(pulseAlpha * 255).toString(16).padStart(2, '0'));
+      gradient.addColorStop(1, `${neuralPurple}00`);
+      ctx.strokeStyle = gradient;
+      ctx.lineWidth = pulseWidth;
+      ctx.beginPath();
+      ctx.moveTo(width / 2, 0);
+      ctx.lineTo(width / 2, height);
+      ctx.stroke();
       time++;
-      frame = requestAnimationFrame(animate);
+      animationId = requestAnimationFrame(animate);
     }
-
     animate();
-
-    /* ---------------- Resize ---------------- */
-
     const handleResize = () => {
-      const dims = resize();
+      const dims = resizeCanvas();
       width = dims.width;
       height = dims.height;
     };
-
-    window.addEventListener("resize", handleResize);
-
+    window.addEventListener('resize', handleResize);
     return () => {
-      cancelAnimationFrame(frame);
-      window.removeEventListener("resize", handleResize);
-      window.removeEventListener("scroll", onScroll);
+      if (animationId) {
+        cancelAnimationFrame(animationId);
+      }
+      window.removeEventListener('resize', handleResize);
     };
   }, []);
-
-  return (
-    <div
-      ref={containerRef}
-      className={cn(
-        "absolute inset-0 bg-background overflow-hidden",
-        className
-      )}
-    >
-      <canvas
-        ref={canvasRef}
-        className="absolute inset-0 w-full h-full"
-      />
-    </div>
-  );
+  return <div ref={containerRef} className={cn("absolute inset-0 bg-background", className)}>
+      <canvas ref={canvasRef} className="absolute inset-0 w-full h-full shadow-sm" />
+    </div>;
 });
-
 EntropyBackground.displayName = "EntropyBackground";
 export default EntropyBackground;
