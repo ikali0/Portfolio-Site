@@ -31,9 +31,7 @@ export function SectionHeader({
       {overline && <p className="flex items-center gap-3">
           {overline}
         </p>}
-      <h2 className="text-display-sm md:text-display-md font-display text-foreground mb-3">
-        {title}
-      </h2>
+      
       {description}
     </header>;
 }
