@@ -159,8 +159,7 @@ function BentoCardComponent({
     </motion.div>;
 }
 const Skills = () => {
-  return (
-    <section id="skills" className="relative py-section bg-background overflow-hidden">
+  return <section id="skills" className="relative py-section bg-background overflow-hidden">
       <div className="container mx-auto px-4 max-w-6xl">
         {/* Section Header */}
         <ScrollFade>
@@ -174,39 +173,33 @@ const Skills = () => {
 
         {/* Bento Grid */}
         <StaggerContainer className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 mb-12">
-          {bentoCards.map((card) => (
-            <StaggerItem key={card.id}>
+          {bentoCards.map(card => <StaggerItem key={card.id}>
               <BentoCardComponent card={card} />
-            </StaggerItem>
-          ))}
+            </StaggerItem>)}
         </StaggerContainer>
 
         {/* Secondary Technologies */}
         <ScrollFade>
           <div className="glass rounded-lg p-6 border border-border/40">
-            <h3 className="text-body-sm font-semibold text-muted-foreground uppercase tracking-wider mb-4">
-              Tools & Technologies
-            </h3>
-            <div className="flex flex-wrap gap-3">
-              {secondaryTech.map((tech) => {
-                const Icon = tech.icon;
-                return (
-                  <motion.div
-                    key={tech.name}
-                    className="flex items-center gap-2 px-3 py-2 bg-muted/50 rounded-md border border-border/30"
-                    whileHover={{ y: -2 }}
-                    transition={{ type: "spring", stiffness: 300, damping: 25 }}
-                  >
+            
+            <div className="flex-wrap flex items-start justify-center gap-[9px]">
+              {secondaryTech.map(tech => {
+              const Icon = tech.icon;
+              return <motion.div key={tech.name} className="flex items-center gap-2 px-3 py-2 bg-muted/50 rounded-md border border-border/30" whileHover={{
+                y: -2
+              }} transition={{
+                type: "spring",
+                stiffness: 300,
+                damping: 25
+              }}>
                     <Icon className="w-4 h-4 text-primary" />
                     <span className="text-body-sm text-foreground">{tech.name}</span>
-                  </motion.div>
-                );
-              })}
+                  </motion.div>;
+            })}
             </div>
           </div>
         </ScrollFade>
       </div>
-    </section>
-  );
+    </section>;
 };
 export default Skills;
