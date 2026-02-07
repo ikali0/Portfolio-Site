@@ -54,8 +54,8 @@ const Hero = () => {
             transition={{ duration: 0.6, delay: 0.2 }}
             className="text-base text-muted-foreground max-w-md leading-relaxed mb-8"
           >
-            From policy to production-grade control.
-            AI systems engineered for compliance, audit, and real-world pressure.
+            From policy to production-grade control. AI systems engineered for compliance, audit, and real-world
+            pressure.
           </motion.p>
 
           {/* CTA Buttons - Improved sizing and layout */}
@@ -70,7 +70,10 @@ const Hero = () => {
               className="lighting-button group inline-flex items-center justify-center gap-2 px-6 py-3 rounded-lg bg-primary text-primary-foreground font-semibold text-sm shadow-lg hover:shadow-xl hover:bg-primary/90 transition-all duration-200 w-full sm:w-auto min-w-[160px]"
             >
               View Projects
-              <FontAwesomeIcon icon={faArrowRight} className="w-3.5 h-3.5 group-hover:translate-x-1 transition-transform" />
+              <FontAwesomeIcon
+                icon={faArrowRight}
+                className="w-3.5 h-3.5 group-hover:translate-x-1 transition-transform"
+              />
             </a>
             <a
               href="#contact"
