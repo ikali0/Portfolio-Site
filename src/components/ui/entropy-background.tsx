@@ -17,6 +17,9 @@ export const EntropyBackground = forwardRef<HTMLDivElement, EntropyBackgroundPro
     if (!canvas || !container) return;
     const ctx = canvas.getContext('2d');
     if (!ctx) return;
+    
+    // Store ctx in a variable that TypeScript knows is non-null
+    const context = ctx;
 
     // Mobile-first: reduce particles on small screens
     const mobile = isMobile();
@@ -32,7 +35,7 @@ export const EntropyBackground = forwardRef<HTMLDivElement, EntropyBackgroundPro
       canvas.height = height * dpr;
       canvas.style.width = `${width}px`;
       canvas.style.height = `${height}px`;
-      ctx.scale(dpr, dpr);
+      context.scale(dpr, dpr);
       return {
         width,
         height
@@ -168,7 +171,7 @@ export const EntropyBackground = forwardRef<HTMLDivElement, EntropyBackgroundPro
     let time = 0;
     let animationId: number;
     function animate() {
-      ctx.clearRect(0, 0, width, height);
+      context.clearRect(0, 0, width, height);
 
       // Update neighbors less frequently on mobile
       if (time % (mobile ? 45 : 30) === 0) {
@@ -183,12 +186,12 @@ export const EntropyBackground = forwardRef<HTMLDivElement, EntropyBackgroundPro
             const alpha = 0.25 * (1 - distance / lineDistance);
             const pulseAlpha = alpha * (0.8 + Math.sin(time * 0.02) * 0.2);
             const connectionColor = particle.order && neighbor.order ? ethicsGreen : !particle.order && !neighbor.order ? techBlue : lineColor;
-            ctx.strokeStyle = connectionColor + Math.round(pulseAlpha * 255).toString(16).padStart(2, '0');
-            ctx.lineWidth = mobile ? 0.5 : 0.8;
-            ctx.beginPath();
-            ctx.moveTo(particle.x, particle.y);
-            ctx.lineTo(neighbor.x, neighbor.y);
-            ctx.stroke();
+            context.strokeStyle = connectionColor + Math.round(pulseAlpha * 255).toString(16).padStart(2, '0');
+            context.lineWidth = mobile ? 0.5 : 0.8;
+            context.beginPath();
+            context.moveTo(particle.x, particle.y);
+            context.lineTo(neighbor.x, neighbor.y);
+            context.stroke();
           }
         });
       });
@@ -196,7 +199,7 @@ export const EntropyBackground = forwardRef<HTMLDivElement, EntropyBackgroundPro
       // Update and draw particles
       particles.forEach(particle => {
         particle.update(width, height, time);
-        particle.draw(ctx, time);
+        particle.draw(context, time);
       });
 
       // Enhanced animated pulsing divider line with glow
@@ -204,32 +207,32 @@ export const EntropyBackground = forwardRef<HTMLDivElement, EntropyBackgroundPro
       const pulseWidth = mobile ? 1.5 : 2 + Math.sin(time * 0.02) * 0.8;
 
       // Outer glow for divider
-      const glowGradient = ctx.createLinearGradient(width / 2, 0, width / 2, height);
+      const glowGradient = context.createLinearGradient(width / 2, 0, width / 2, height);
       glowGradient.addColorStop(0, `${ethicsGlow}00`);
       glowGradient.addColorStop(0.3, ethicsGlow + Math.round(pulseAlpha * 0.3 * 255).toString(16).padStart(2, '0'));
       glowGradient.addColorStop(0.5, neuralGlow + Math.round(pulseAlpha * 0.4 * 255).toString(16).padStart(2, '0'));
       glowGradient.addColorStop(0.7, ethicsGlow + Math.round(pulseAlpha * 0.3 * 255).toString(16).padStart(2, '0'));
       glowGradient.addColorStop(1, `${neuralGlow}00`);
-      ctx.strokeStyle = glowGradient;
-      ctx.lineWidth = pulseWidth * 4;
-      ctx.beginPath();
-      ctx.moveTo(width / 2, 0);
-      ctx.lineTo(width / 2, height);
-      ctx.stroke();
+      context.strokeStyle = glowGradient;
+      context.lineWidth = pulseWidth * 4;
+      context.beginPath();
+      context.moveTo(width / 2, 0);
+      context.lineTo(width / 2, height);
+      context.stroke();
 
       // Core divider line
-      const gradient = ctx.createLinearGradient(width / 2, 0, width / 2, height);
+      const gradient = context.createLinearGradient(width / 2, 0, width / 2, height);
       gradient.addColorStop(0, `${ethicsGreen}00`);
       gradient.addColorStop(0.2, ethicsGreen + Math.round(pulseAlpha * 255).toString(16).padStart(2, '0'));
       gradient.addColorStop(0.5, neuralPurple + Math.round(pulseAlpha * 255).toString(16).padStart(2, '0'));
       gradient.addColorStop(0.8, ethicsGreen + Math.round(pulseAlpha * 255).toString(16).padStart(2, '0'));
       gradient.addColorStop(1, `${neuralPurple}00`);
-      ctx.strokeStyle = gradient;
-      ctx.lineWidth = pulseWidth;
-      ctx.beginPath();
-      ctx.moveTo(width / 2, 0);
-      ctx.lineTo(width / 2, height);
-      ctx.stroke();
+      context.strokeStyle = gradient;
+      context.lineWidth = pulseWidth;
+      context.beginPath();
+      context.moveTo(width / 2, 0);
+      context.lineTo(width / 2, height);
+      context.stroke();
       time++;
       animationId = requestAnimationFrame(animate);
     }
