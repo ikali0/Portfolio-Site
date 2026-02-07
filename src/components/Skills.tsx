@@ -197,7 +197,7 @@ const Skills = () => {
 
         {/* Secondary Stack */}
         <ScrollFade delay={0.3} className="mt-container-lg">
-          <div className="flex flex-wrap justify-center gap-element">
+          <div className="flex flex-wrap justify-center gap-[10px]">
             {secondaryTech.map((tech, index) => {
             const Icon = tech.icon;
             return <motion.div key={tech.name} initial={{

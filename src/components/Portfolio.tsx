@@ -241,7 +241,7 @@ function ProjectCard({
           {project.impactMetrics[0] && <div className="absolute bottom-2 right-2 max-w-[70%] sm:max-w-none px-1.5 py-0.5 rounded bg-secondary/90 backdrop-blur-sm text-secondary-foreground text-[0.625rem] font-medium shadow-sm truncate">
               {project.impactMetrics[0].label}: {project.impactMetrics[0].value}
             </div>}
-          <div className="absolute inset-0 bg-gradient-to-t from-card/50 via-transparent to-transparent transition-opacity duration-300 opacity-5" aria-hidden="true" />
+          <div className="absolute inset-0 bg-gradient-to-t from-card/50 via-transparent to-transparent transition-opacity duration-300 opacity-40" aria-hidden="true" />
         </div>
 
         {/* Content */}
@@ -258,7 +258,7 @@ function ProjectCard({
           
           
           {/* Tech Stack - Compact display */}
-          <div className="flex flex-wrap gap-1 mb-card-sm">
+          <div className="flex-wrap gap-1 mb-card-sm flex items-start justify-center">
             {project.techStack.slice(0, 4).map(tech => <span key={tech} className="text-[0.625rem] px-1.5 py-0.5 rounded bg-accent-foreground text-secondary-foreground">
                 {tech}
               </span>)}
