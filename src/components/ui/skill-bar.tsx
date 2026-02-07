@@ -36,9 +36,7 @@ export function SkillBar({
       {/* Header row */}
       <div className="flex justify-between items-end mb-1">
         <span className="text-[11px] sm:text-xs text-muted-foreground leading-snug mb-1.5 line-clamp-2\n">{name}</span>
-        <span className="text-[10px] font-mono text-muted-foreground">
-          {level}%
-        </span>
+        
       </div>
 
       {/* Progress bar */}
