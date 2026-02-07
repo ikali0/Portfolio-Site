@@ -172,9 +172,7 @@ const Skills = () => {
             </span>
           </div>
           
-          <p className="text-foreground/80 max-w-xl text-sm md:text-base leading-relaxed">
-            Core competencies spanning security, AI systems, governance, and engineering.
-          </p>
+          
         </div>
 
         {/* Bento Grid */}
