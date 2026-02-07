@@ -369,6 +369,37 @@ function ProjectCard({
     </motion.article>;
 }
 const Portfolio = () => {
-  return;
+  return (
+    <section id="portfolio" className="relative py-section bg-muted/30 overflow-hidden">
+      {/* Background elements */}
+      <ParallaxShape className="absolute top-20 right-0 w-32 h-32 opacity-20">
+        <TriangleShape />
+      </ParallaxShape>
+      <ParallaxShape className="absolute bottom-32 left-10 w-24 h-24 opacity-15" speed={0.1}>
+        <GradientMesh className="w-full h-full" />
+      </ParallaxShape>
+      
+      <div className="container mx-auto px-4 max-w-6xl relative z-10">
+        {/* Section Header */}
+        <ScrollFade>
+          <div className="flex items-center gap-2 mb-8">
+            <span className="text-accent text-lg">✱</span>
+            <span className="text-overline uppercase tracking-widest text-accent font-semibold">
+              PORTFOLIO
+            </span>
+          </div>
+        </ScrollFade>
+
+        {/* Projects Grid */}
+        <StaggerContainer className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+          {projects.map((project) => (
+            <StaggerItem key={project.title}>
+              <ProjectCard project={project} />
+            </StaggerItem>
+          ))}
+        </StaggerContainer>
+      </div>
+    </section>
+  );
 };
 export default Portfolio;
