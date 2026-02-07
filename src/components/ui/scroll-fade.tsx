@@ -1,8 +1,8 @@
 import {
   motion,
   useReducedMotion,
-  type Variants,
 } from "framer-motion";
+import type { Variants } from "framer-motion";
 import {
   forwardRef,
   useMemo,
@@ -55,31 +55,27 @@ export const ScrollFade = forwardRef<HTMLDivElement, ScrollFadeProps>(
     ref
   ) => {
     const shouldReduceMotion = useReducedMotion();
+    const offset = DIRECTION_OFFSETS[direction];
 
     const variants = useMemo<Variants>(() => {
-      const offset = DIRECTION_OFFSETS[direction];
-
-      if (shouldReduceMotion) {
-        return {
-          hidden: { opacity: 1, x: 0, y: 0 },
-          visible: { opacity: 1, x: 0, y: 0, transition: { duration: 0 } },
-        };
-      }
-
       return {
-        hidden: { opacity: 0, x: offset.x, y: offset.y },
+        hidden: shouldReduceMotion
+          ? { opacity: 1, x: 0, y: 0 }
+          : { opacity: 0, x: offset.x, y: offset.y },
         visible: {
           opacity: 1,
           x: 0,
           y: 0,
-          transition: {
-            duration: 0.6,
-            delay,
-            ease: EASE_OUT_QUART,
-          },
+          transition: shouldReduceMotion
+            ? { duration: 0 }
+            : {
+                duration: 0.6,
+                delay,
+                ease: EASE_OUT_QUART,
+              },
         },
       };
-    }, [direction, delay, shouldReduceMotion]);
+    }, [shouldReduceMotion, offset.x, offset.y, delay]);
 
     return (
       <motion.div
@@ -109,19 +105,14 @@ export const StaggerContainer = forwardRef<
   const shouldReduceMotion = useReducedMotion();
 
   const variants = useMemo<Variants>(() => {
-    if (shouldReduceMotion) {
-      return {
-        hidden: {},
-        visible: {},
-      };
-    }
-
     return {
       hidden: {},
       visible: {
-        transition: {
-          staggerChildren: staggerDelay,
-        },
+        transition: shouldReduceMotion
+          ? undefined
+          : {
+              staggerChildren: staggerDelay,
+            },
       },
     };
   }, [shouldReduceMotion, staggerDelay]);
@@ -153,22 +144,19 @@ export const StaggerItem = forwardRef<
   const shouldReduceMotion = useReducedMotion();
 
   const variants = useMemo<Variants>(() => {
-    if (shouldReduceMotion) {
-      return {
-        hidden: { opacity: 1, y: 0 },
-        visible: { opacity: 1, y: 0, transition: { duration: 0 } },
-      };
-    }
-
     return {
-      hidden: { opacity: 0, y: 16 },
+      hidden: shouldReduceMotion
+        ? { opacity: 1, y: 0 }
+        : { opacity: 0, y: 16 },
       visible: {
         opacity: 1,
         y: 0,
-        transition: {
-          duration: 0.5,
-          ease: EASE_OUT_QUART,
-        },
+        transition: shouldReduceMotion
+          ? { duration: 0 }
+          : {
+              duration: 0.5,
+              ease: EASE_OUT_QUART,
+            },
       },
     };
   }, [shouldReduceMotion]);
