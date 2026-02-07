@@ -86,7 +86,7 @@ function TopicPillsContainer() {
 
     return () => clearInterval(interval);
   }, []);
-  return <div className="flex flex-wrap max-w-2xl gap-[6px]">
+  return <div className="px-2.5 py-1 text-[9px] bg-transparent">
       {topics.map((topic, index) => <TopicPill key={topic.label} {...topic} index={index} isActive={index === activeIndex} />)}
     </div>;
 }
@@ -147,7 +147,7 @@ export default function AIEthicsBlog() {
               Writing
             </span>
           </div>
-          <h2 className="text-3xl md:text-4xl lg:text-5xl font-display font-semibold text-foreground mb-4 leading-tight">​Ongoing Analysis</h2>
+          
           <TopicPillsContainer />
         </div>
 
