@@ -47,58 +47,5 @@ export default function AIEthicsBlog() {
   }, []);
   const featured = articles.find(a => a.featured);
   const secondary = articles.filter(a => !a.featured);
-  return <section id="blog" className="relative px-4 bg-background overflow-hidden py-[90px]">
-      <div className="relative mx-auto max-w-4xl space-y-16">
-
-        <SectionHeader overline="Selected Writing" title="AI Ethics & Institutional Risk" description="Editorial analysis on algorithmic governance, institutional design, and systemic accountability." />
-
-        {/* ---------------- Featured Banner ---------------- */}
-
-        {featured && <motion.a href={featured.url} target="_blank" rel="noopener noreferrer" initial={{
-        opacity: 0,
-        y: 40
-      }} whileInView={{
-        opacity: 1,
-        y: 0
-      }} transition={{
-        duration: 0.6
-      }} whileHover={{
-        scale: 1.01
-      }} className="relative block overflow-hidden rounded-3xl
-                       backdrop-blur-xl bg-white/5 dark:bg-white/[0.03]
-                       border border-border/40
-                       shadow-xl">
-            {/* Animated Accent Glow */}
-            <motion.div animate={{
-          opacity: [0.4, 0.7, 0.4]
-        }} transition={{
-          duration: 4,
-          repeat: Infinity
-        }} className="absolute inset-0 bg-gradient-to-br from-primary/10 via-transparent to-primary/10" />
-
-            <div className="relative p-8 space-y-4 px-[20px] py-[20px]">
-              <span className="text-xs uppercase tracking-widest text-muted-foreground">
-                Featured Essay
-              </span>
-
-              <h2 className="font-bold tracking-tight text-xl">
-                {featured.title}
-              </h2>
-
-              <p className="text-muted-foreground max-w-2xl leading-relaxed text-sm">
-                {featured.excerpt}
-              </p>
-
-              <div className="pt-3 text-sm font-small text-primary">
-                Read the full analysis →
-              </div>
-            </div>
-          </motion.a>}
-
-        {/* ---------------- Secondary Articles ---------------- */}
-
-        
-
-      </div>
-    </section>;
+  return;
 }
