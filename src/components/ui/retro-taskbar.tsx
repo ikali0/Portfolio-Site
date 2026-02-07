@@ -17,9 +17,10 @@ const menuItems: StartMenuItem[] = [{
   href: "#about",
   icon: <User className="w-4 h-4" />
 }, {
-  label: "Services",
-  href: "#services",
-  icon: <Briefcase className="w-4 h-4" />
+  label: "Resume",
+  href: "/Inga_Kaltak_Resume.docx",
+  icon: <FileText className="w-4 h-4" />,
+  isExternal: true
 }, {
   label: "Portfolio",
   href: "#portfolio",
@@ -27,12 +28,7 @@ const menuItems: StartMenuItem[] = [{
 }, {
   label: "Experience",
   href: "#experience",
-  icon: <BookOpen className="w-4 h-4" />
-}, {
-  label: "Resume",
-  href: "/Inga_Kaltak_Resume.docx",
-  icon: <FileText className="w-4 h-4" />,
-  isExternal: true
+  icon: <Briefcase className="w-4 h-4" />
 }, {
   label: "Publications",
   href: "https://ingakali.substack.com/",
