@@ -159,8 +159,6 @@ function BentoCardComponent({
     </motion.div>;
 }
 const Skills = () => {
-  return <section id="skills" className="py-16 px-4 bg-muted/30 md:py-[88px]">
-      
-    </section>;
+  return;
 };
 export default Skills;
