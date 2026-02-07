@@ -171,46 +171,8 @@ function BentoCardComponent({
     </motion.div>;
 }
 const Skills = () => {
-  return (
-    <section id="skills" className="relative py-12 px-4 overflow-hidden">
-      <div className="container relative z-10 mx-auto max-w-4xl">
-        <SectionHeader
-          overline="Technical Expertise"
-          title="Core Competencies"
-          description="Specialized capabilities in AI security, governance, and systems architecture."
-        />
-
-        {/* Bento Grid */}
-        <StaggerContainer className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-2.5 mb-6">
-          {bentoCards.map((card) => (
-            <StaggerItem key={card.id}>
-              <BentoCardComponent card={card} />
-            </StaggerItem>
-          ))}
-        </StaggerContainer>
-
-        {/* Secondary Tech */}
-        <ScrollFade>
-          <div className="pt-4 border-t border-border/30">
-            <p className="text-[10px] uppercase tracking-widest text-muted-foreground mb-3">
-              Additional Technologies
-            </p>
-            <div className="flex flex-wrap gap-1.5">
-              {secondaryTech.map((tech) => {
-                const TechIcon = tech.icon;
-                return (
-                  <Tag key={tech.name} variant="muted" size="sm">
-                    <TechIcon className="h-2.5 w-2.5 mr-1" />
-                    {tech.name}
-                  </Tag>
-                );
-              })}
-            </div>
-          </div>
-        </ScrollFade>
-      </div>
-    </section>
-  );
+  return <section id="skills" className="relative py-12 px-4 overflow-hidden">
+      
+    </section>;
 };
-
 export default Skills;
