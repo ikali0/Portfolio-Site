@@ -37,7 +37,7 @@ const articles: BlogArticle[] = [
   {
     title: `"Fairness" Is Not a Metric`,
     excerpt:
-      "A critical examination of how fairness metrics can obscure rather than reveal ethical dimensions.",
+      "Why bias detection is not a technical problem but an epistemic one.",
     readTime: "8 min read",
     publishDate: "Jan 2025",
     category: "Bias & Measurement",
